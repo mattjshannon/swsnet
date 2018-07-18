@@ -13,10 +13,10 @@ Note: Not sure yet what to do with the header.
 
 import glob
 import numpy as np
-import pandas as pd
+# import pandas as pd
 
 from helpers import fits_to_dataframe
-from ipdb import set_trace as st
+# from ipdb import set_trace as st
 
 # Location of fits/csv files.
 fits_dir = '../data/fits/'

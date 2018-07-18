@@ -7,7 +7,7 @@ Helper functions: e..g, read an SWS fits file, reformat for our uses.
 
 import pandas as pd
 from astropy.io import fits
-from ipdb import set_trace as st
+# from ipdb import set_trace as st
 
 
 def fits_to_dataframe(filename):
@@ -59,10 +59,7 @@ def main():
     print('Testing process_fits_to_ascii for...')
     print(filename)
     print('Returning dframe, header.')
-    dframe, header = process_fits_to_ascii(filename)
-
-    st()
-    return
+    dframe, header = fits_to_dataframe(filename)
 
 
 if __name__ == '__main__':
