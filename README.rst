@@ -23,6 +23,10 @@ Models
 Models are presented in Jupyter notebooks (see folder ipy_notebooks). Primary focus right now is a neural network.
 
         - Attempt 01: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v01.ipynb
+        - Attempt 02: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v02.ipynb
+                
+                - Accuracy improvement by normalizing the spectra prior to training.
+        
 
 Dataset
 -------
