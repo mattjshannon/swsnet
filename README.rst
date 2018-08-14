@@ -26,6 +26,11 @@ Models are presented in Jupyter notebooks (see folder ipy_notebooks). Primary fo
         - Attempt 02: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v02.ipynb
                 
                 - Accuracy improvement by normalizing the spectra prior to training.
+                
+        - Attempt 03: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v03.ipynb
+        
+                - Reduced overfitting by keras.callback.EarlyStopping (based on no accuracy improvement over 4 consecutive NN iterations)
+                - Much more thorough SGD attempt. Improved but stil no match for a neural network here. Will likely drop in seubsequent notebooks.
         
 
 Dataset
