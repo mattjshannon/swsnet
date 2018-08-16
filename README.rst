@@ -20,18 +20,25 @@ Premise
 
 Models
 ------
-Models are presented in Jupyter notebooks (see folder ipy_notebooks). Primary focus right now is a neural network.
+Models are presented in Jupyter notebooks (see folder ipy_notebooks). Primary focus right now is a neural network. *Please examine most recent notebook first!*
 
-        - Attempt 01: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v01.ipynb
-        - Attempt 02: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v02.ipynb
+        - Attempt 04: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v04.ipynb
                 
-                - Accuracy improvement by normalizing the spectra prior to training.
-                
+                - Important bug-fix on the TF nueral network (accidentally trainined on full dataset instead of just training set!)
+                - Updated SGD for k-nearest neighbours and logistic regression attempts in scikit-learn.
+        
         - Attempt 03: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v03.ipynb
         
                 - Reduced overfitting by keras.callback.EarlyStopping (based on no accuracy improvement over 4 consecutive NN iterations)
                 - Much more thorough SGD attempt. Improved but stil no match for a neural network here. Will likely drop in seubsequent notebooks.
-        
+
+        - Attempt 02: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v02.ipynb
+                
+                - Accuracy improvement by normalizing the spectra prior to training.
+
+        - Attempt 01: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v01.ipynb        
+
+
 
 Dataset
 -------
