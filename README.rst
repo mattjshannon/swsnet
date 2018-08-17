@@ -22,6 +22,11 @@ Models
 ------
 Models are presented in Jupyter notebooks (see folder ipy_notebooks). Primary focus right now is a neural network. *Please examine most recent notebook first!*
 
+        - Attempt 05: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v05.ipynb
+        
+                - Improved the downsampling of the SWS (high res) data to the Spitzer (low res) wavelength array via https://github.com/ACCarnall/SpectRes. These changes are incorporated into the data pickles contained within unzip_me.zip
+                - Added a cleaning step that excludes the group=7 classified SWS data (flux-free or fatally flawed); may in time wish to skip this, as it may be useful for our neural network to be able to identify these data types. However, as present, this improves the accuracy of logistic regression for this task.
+
         - Attempt 04: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v04.ipynb
                 
                 - Important bug-fix on the TF nueral network (accidentally trainined on full dataset instead of just training set!)
