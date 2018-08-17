@@ -46,5 +46,3 @@ for index, fname in enumerate(fits_files):
     # Maybe hold onto the dframes and headers...
     hold_dframes.append(dframe)
     hold_header.append(header)
-
-

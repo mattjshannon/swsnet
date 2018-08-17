@@ -36,7 +36,8 @@ setup(
     name='swsnet',
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
-    description="Applying neural networks to the Sloan SWS astronomical dataset.",
+    description="Applying neural networks to the \
+                 Sloan SWS astronomical dataset.",
     long_description=readme,
     author="Matt Shannon",
     author_email='matthew.j.shannon@gmail.com',
