@@ -6,6 +6,12 @@ cache:
     - $HOME/.cache/pip
     - $HOME/.ccache  # https://github.com/travis-ci/travis-ci/issues/5853
 
+env:
+  global:
+    # Doctr deploy key for mattjshannon/swsnet
+    - secure: "hHDhuSU5Pa1nO6fqEU6Uggqy6v0/QrET86l7yOXKs0JwYcpJfZA+tuTYGBTI0Pxhb6ZkBYkNPC8ufIG2rHD6bM2XkOcZy4UmP7uHNjE7OpWexUulOQ+/zMZ+pOWcYmOl9i66Xrx+QYdalyUXRai7C+WdOaXvr7UOfiF2ibnOVy3RmgTmROiWE3+wQrdH6wwCfCVlXbRr1hGf9sxI9HfLmX496AKRKzQwdbTIHFyzvS4+XMM6xkAe0Nxqp22wKec4hZ9DrkKfxivGXovWVZk5aZjpf7JkU4A9zwekLyRHvjHyfqh0/X0hrzLU2oHHk0RnF0/9Jpq3ThpyWhowwXlRy1ityPJrIvKAGArHpHDQFVgHGXe6FYfN6U5CQUJp4VwSt5akQJAPjTk+9lGA8u3gmPSvU2U27y6V4BUq40+btp87s1bJMGxJuvoa9Mph7vw/5v0OqRTxi2cMBpkiFNtFqHunuxve5KjDkhfOES+9mtxtG8bf6B0M6pJ6UQI35mJamByb6DhRx93Mwq1PnFJUVL9AtVLkoVBFx3tjWAJ8VeVLRw8s59Xe7fWchO+MkMNnt+h0Ohj21GzF7QvdjAur08j71dreVNdr1yf5Jg66VpBjeGdUg+Z01+EZXZK2CiRcoqchOBoJD43qX0oi72ofv9h8gncHDbnapwVeBoq5IMI="
+
+
 install:
   # Install this package and the packages listed in requirements.txt.
   - pip install .
@@ -18,3 +24,5 @@ script:
   - codecov  # Upload the report to codecov.
   - flake8 --max-line-length=115  # Enforce code style (but relax line length limit a bit).
   - make -C docs html  # Build the documentation.
+  - pip install doctr
+  - doctr deploy --built-docs docs/build/html .  # Publish the documentation.
