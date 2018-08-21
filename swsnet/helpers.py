@@ -5,9 +5,76 @@ helpers.py
 Helper functions: e..g, read an SWS fits file, reformat for our uses.
 """
 
+import numpy as np
 import pandas as pd
+
 from astropy.io import fits
-# from ipdb import set_trace as st
+
+
+def load_spectrum(path):
+    """Extract the normalized flux vector from a pickled dataframe."""
+
+    df = pd.read_pickle(path)
+    flux = df['flux']
+
+    return flux / np.nanmax(flux)
+
+
+def load_data(base_dir='', metadata='metadata.pkl', clean=False,
+              verbose=False):
+    """Load a pickled metadata file and extract features, labels.
+
+    Args:
+        base_dir (str): Path to the ISO data-containin directory.
+        metadata (str): Path to the metadata.pkl file.
+        clean (bool): Whether to remove group=7 data from ISO.
+        verbose (bool): Whether to plot/print diagnostics.
+
+    Returns:
+        features (ndarray): Array containing the spectra (just fluxes).
+        labels (ndarray): Array containing the group classifier.
+    """
+
+    # Load the metadata pickle.
+    try:
+        meta = pd.read_pickle(metadata)
+    except Exception as e:
+        raise(e)
+
+    if clean:
+        meta = meta.query('group != "7"')
+
+    # Simple classifier first.
+    labels = meta['group'].values.astype(int)
+    np.unique(labels)
+
+    # SHIFTING TO START AT ZERO!
+    labels = labels - 1
+
+    if verbose:
+        # See how the labels are distributed.
+        # plt.plot(labels, 'o');
+
+        # Label type, length
+        print(type(labels[0]), len(labels))
+
+    # Make sure each sample has a valid label.
+    if not np.sum(np.isfinite(labels)) == len(labels):
+        raise IndexError
+
+    # Feature vector, knowing that each sample has a 359-point vector/spectrum.
+    features = np.zeros((len(labels), 359))
+
+    # Fill feature vector.
+    index = 0
+
+    # Fill the 'spectra' variable with the astronomical data.
+    for row in meta.itertuples(index=True, name='Pandas'):
+        flux = load_spectrum(base_dir + row.file_path)
+        features[index] = flux
+        index += 1
+
+    return features, labels
 
 
 def fits_to_dataframe(filename):
