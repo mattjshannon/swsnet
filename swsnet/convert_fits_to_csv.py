@@ -3,20 +3,13 @@
 convert_fits_to_csv.py
 
 Convert (batch) SWS .fits files to csv.
-
-Note: I think dframe['wave'] is duplicated (identically) for all dframes,
-      may want to remove later.
-Note: CSV dframes use a lot more space than FITS. Not sure what format we
-      want the data in for the neural network...?
-Note: Not sure yet what to do with the header.
 """
 
 import glob
 import numpy as np
-# import pandas as pd
 
-from helpers import fits_to_dataframe
-# from ipdb import set_trace as st
+from swsnet.helpers import fits_to_dataframe
+
 
 # Location of fits/csv files.
 fits_dir = '../data/fits/'
