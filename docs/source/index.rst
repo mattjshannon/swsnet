@@ -12,3 +12,12 @@ swsnet Documentation
    installation
    usage
    release-history
+   swsnet
+   modules
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
