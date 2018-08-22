@@ -11,31 +11,37 @@ import numpy as np
 from swsnet.helpers import fits_to_dataframe
 
 
-# Location of fits/csv files.
-fits_dir = '../data/fits/'
-fits_files = np.sort(glob.glob(fits_dir + '*.fit'))
-csv_dir = '../data/csv/'
+def main():
 
-# Maybe save the dframes and headers.
-hold_dframes = []
-hold_header = []
+    # Location of fits/csv files.
+    fits_dir = '../data/fits/'
+    fits_files = np.sort(glob.glob(fits_dir + '*.fit'))
+    csv_dir = '../data/csv/'
 
-# Iterate over all .fits files in 'data/fits/':
-for index, fname in enumerate(fits_files):
+    # Maybe save the dframes and headers.
+    hold_dframes = []
+    hold_header = []
 
-    # Pull out base filename (minus extension and directory).
-    base_fname = fname.split('/')[-1].split('.fit')[0]
+    # Iterate over all .fits files in 'data/fits/':
+    for index, fname in enumerate(fits_files):
 
-    try:
-        dframe, header = fits_to_dataframe(fname)
-    except Exception as e:
-        raise(e)
-    else:
-        csv_fname = base_fname + '.csv'
+        # Pull out base filename (minus extension and directory).
+        base_fname = fname.split('/')[-1].split('.fit')[0]
 
-    # Save dataframe to a csv file; may want to leave as FITS later?
-    dframe.to_csv(csv_dir + csv_fname)
+        try:
+            dframe, header = fits_to_dataframe(fname)
+        except Exception as e:
+            raise(e)
+        else:
+            csv_fname = base_fname + '.csv'
 
-    # Maybe hold onto the dframes and headers...
-    hold_dframes.append(dframe)
-    hold_header.append(header)
+        # Save dataframe to a csv file; may want to leave as FITS later?
+        dframe.to_csv(csv_dir + csv_fname)
+
+        # Maybe hold onto the dframes and headers...
+        hold_dframes.append(dframe)
+        hold_header.append(header)
+
+
+if __name__ == '__main__':
+    main()
