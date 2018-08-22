@@ -12,10 +12,10 @@ swsnet.tests.conftest module
     :undoc-members:
     :show-inheritance:
 
-swsnet.tests.test\_examples module
-----------------------------------
+swsnet.tests.test\_helpers module
+---------------------------------
 
-.. automodule:: swsnet.tests.test_examples
+.. automodule:: swsnet.tests.test_helpers
     :members:
     :undoc-members:
     :show-inheritance:
