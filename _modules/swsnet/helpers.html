@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>swsnet.helpers &mdash; swsnet 0.post41+gc65da35 documentation</title>
+  <title>swsnet.helpers &mdash; swsnet 0.post45+g8d70d11 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.post41+gc65da35
+                0.post45+g8d70d11
               </div>
             
           
@@ -178,7 +178,7 @@
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
     <span class="n">flux</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;flux&#39;</span><span class="p">]</span>
@@ -206,7 +206,7 @@
     <span class="c1"># Load the metadata pickle.</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">clean</span><span class="p">:</span>
@@ -224,11 +224,12 @@
         <span class="c1"># plt.plot(labels, &#39;o&#39;);</span>
 
         <span class="c1"># Label type, length</span>
+        <span class="c1"># print(&#39;VERBOSE.&#39;)</span>
         <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
 
-    <span class="c1"># Make sure each sample has a valid label.</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">IndexError</span>
+    <span class="n">group_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">max</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">group_max</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unexpected label: &quot;</span><span class="p">,</span> <span class="n">group_max</span><span class="p">)</span>
 
     <span class="c1"># Feature vector, knowing that each sample has a 359-point vector/spectrum.</span>
     <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="n">n_samples</span><span class="p">))</span>
@@ -269,12 +270,11 @@
     <span class="n">header</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
     <span class="n">dat</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span>
 
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">wave</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span> <span class="n">spec_error</span><span class="p">,</span> <span class="n">norm_error</span> <span class="o">=</span> <span class="n">dat</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Unexpected .fits file dimensions.&#39;</span><span class="p">)</span>
-        <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="c1"># Should be wave, flux, spec_error, norm_error</span>
+    <span class="k">if</span> <span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;Unexpected .fits file dimensions.&#39;</span><span class="p">)</span>
 
+    <span class="n">wave</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span> <span class="n">spec_error</span><span class="p">,</span> <span class="n">norm_error</span> <span class="o">=</span> <span class="n">dat</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Column format of hdu[0].data.T:</span>
 <span class="sd">    COMMENT Column 1 = wavelength (micron)</span>
@@ -291,18 +291,6 @@
     <span class="n">dframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">hdu_dict</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">dframe</span><span class="p">,</span> <span class="n">header</span></div>
-
-
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../swsnet.html#swsnet.helpers.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../data/fits/02400714_sws.fit&#39;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Testing process_fits_to_ascii for...&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Returning dframe, header.&#39;</span><span class="p">)</span>
-    <span class="n">dframe</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="n">fits_to_dataframe</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span></div>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
            </div>
@@ -337,7 +325,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.post41+gc65da35',
+            VERSION:'0.post45+g8d70d11',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
