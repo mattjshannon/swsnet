@@ -77,10 +77,6 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
     if group_max > 6:
         raise ValueError("Unexpected label: ", group_max)
 
-    # Make sure each sample has a valid label.
-    if not np.sum(np.isfinite(labels)) == len(labels):
-        raise IndexError
-
     # Feature vector, knowing that each sample has a 359-point vector/spectrum.
     features = np.zeros((len(labels), n_samples))
 
