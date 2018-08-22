@@ -24,7 +24,7 @@ def load_spectrum(path, normalize=True):
 
     try:
         df = pd.read_pickle(path)
-    except IOError as e:
+    except OSError as e:
         raise(e)
 
     flux = df['flux']
@@ -52,7 +52,7 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
     # Load the metadata pickle.
     try:
         meta = pd.read_pickle(metadata)
-    except Exception as e:
+    except OSError as e:
         raise(e)
 
     if clean:
@@ -70,11 +70,12 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
         # plt.plot(labels, 'o');
 
         # Label type, length
+        # print('VERBOSE.')
         print(type(labels[0]), len(labels))
 
-    # Make sure each sample has a valid label.
-    if not np.sum(np.isfinite(labels)) == len(labels):
-        raise IndexError
+    group_max = max([max(6, x) for x in labels])
+    if group_max > 6:
+        raise ValueError("Unexpected label: ", group_max)
 
     # Feature vector, knowing that each sample has a 359-point vector/spectrum.
     features = np.zeros((len(labels), n_samples))
@@ -115,12 +116,11 @@ def fits_to_dataframe(filename):
     header = hdu[0].header
     dat = hdu[0].data.T
 
-    try:
-        wave, flux, spec_error, norm_error = dat
-    except Exception as e:
-        print('Unexpected .fits file dimensions.')
-        raise(e)
+    # Should be wave, flux, spec_error, norm_error
+    if dat.shape[0] != 4:
+        raise IndexError('Unexpected .fits file dimensions.')
 
+    wave, flux, spec_error, norm_error = dat
     """
     Column format of hdu[0].data.T:
     COMMENT Column 1 = wavelength (micron)
@@ -137,15 +137,3 @@ def fits_to_dataframe(filename):
     dframe = pd.DataFrame(hdu_dict)
 
     return dframe, header
-
-
-def main():
-    filename = '../data/fits/02400714_sws.fit'
-    print('Testing process_fits_to_ascii for...')
-    print(filename)
-    print('Returning dframe, header.')
-    dframe, header = fits_to_dataframe(filename)
-
-
-if __name__ == '__main__':
-    main()
