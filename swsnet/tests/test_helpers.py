@@ -47,14 +47,14 @@ def meta_file2(tmpdir_factory, pickle_file):
 
 @pytest.fixture(scope="module")
 def meta_file_inf(tmpdir_factory, pickle_file):
-    meta_path_inf = tmpdir_factory.mktemp("").join("metadata_inf.pkl")
-    mock_dict_inf = {
+    meta_path = tmpdir_factory.mktemp("").join("metadata_inf.pkl")
+    mock_dict = {
         'group': [1, np.nan, 8],
         'file_path': [str(pickle_file)] * 3
         }
-    mock_df_inf = pd.DataFrame(mock_dict_inf)
-    mock_df_inf.to_pickle(meta_path_inf)
-    return meta_path_inf
+    mock_df = pd.DataFrame(mock_dict)
+    mock_df.to_pickle(meta_path)
+    return meta_path
 
 
 def test_load_spectrum(pickle_file):
@@ -106,6 +106,8 @@ def test_load_data(meta_file, meta_file2, meta_file_inf):
 
 def test_fits_to_dataframe():
     """Test that we can read a .FITS file and return a DataFrame."""
+
+    # First using real, well-formed data.
     fname = os.path.join(os.path.dirname(__file__), 'data',
                          '02400714_sws.fit')
     df, header = fits_to_dataframe(fname)
@@ -115,5 +117,12 @@ def test_fits_to_dataframe():
     assert dict_keys == ['wave', 'flux', 'spec_error', 'norm_error']
     assert len(header) == 52
 
+    # Next using a non-existent file.
     with pytest.raises(OSError):
         df, header = fits_to_dataframe(fname + 'zzzz')
+
+    # And now using real, ill-formed data.
+    with pytest.raises(IndexError):
+        fname = os.path.join(os.path.dirname(__file__), 'data',
+                             '02400714_sws_err.fit')
+        df, header = fits_to_dataframe(fname)
