@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>swsnet.helpers &mdash; swsnet 0.post36+g2440463 documentation</title>
+  <title>swsnet.helpers &mdash; swsnet 0.post39+g685744a documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.post36+g2440463
+                0.post39+g685744a
               </div>
             
           
@@ -165,21 +165,35 @@
 <span class="kn">from</span> <span class="nn">astropy.io</span> <span class="k">import</span> <span class="n">fits</span>
 
 
-<div class="viewcode-block" id="load_spectrum"><a class="viewcode-back" href="../../swsnet.html#swsnet.helpers.load_spectrum">[docs]</a><span class="k">def</span> <span class="nf">load_spectrum</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extract the normalized flux vector from a pickled dataframe.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="load_spectrum"><a class="viewcode-back" href="../../swsnet.html#swsnet.helpers.load_spectrum">[docs]</a><span class="k">def</span> <span class="nf">load_spectrum</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extract the normalized flux vector from a pickled dataframe.</span>
 
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="sd">    Args:</span>
+<span class="sd">        path (str): Path to the pickle file.</span>
+<span class="sd">        normalize (bool): Whether to normalize the spectrum to its nanmax.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        flux (ndarray): The flux array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
     <span class="n">flux</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;flux&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">flux</span> <span class="o">=</span> <span class="n">flux</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">flux</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">flux</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">flux</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">flux</span></div>
 
 
 <div class="viewcode-block" id="load_data"><a class="viewcode-back" href="../../swsnet.html#swsnet.helpers.load_data">[docs]</a><span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">base_dir</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="s1">&#39;metadata.pkl&#39;</span><span class="p">,</span> <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-              <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+              <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">359</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load a pickled metadata file and extract features, labels.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        base_dir (str): Path to the ISO data-containin directory.</span>
+<span class="sd">        base_dir (str): Path to the directory containing ISO data.</span>
 <span class="sd">        metadata (str): Path to the metadata.pkl file.</span>
 <span class="sd">        clean (bool): Whether to remove group=7 data from ISO.</span>
 <span class="sd">        verbose (bool): Whether to plot/print diagnostics.</span>
@@ -217,14 +231,18 @@
         <span class="k">raise</span> <span class="ne">IndexError</span>
 
     <span class="c1"># Feature vector, knowing that each sample has a 359-point vector/spectrum.</span>
-    <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="mi">359</span><span class="p">))</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="n">n_samples</span><span class="p">))</span>
 
     <span class="c1"># Fill feature vector.</span>
     <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="c1"># Fill the &#39;spectra&#39; variable with the astronomical data.</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">meta</span><span class="o">.</span><span class="n">itertuples</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Pandas&#39;</span><span class="p">):</span>
-        <span class="n">flux</span> <span class="o">=</span> <span class="n">load_spectrum</span><span class="p">(</span><span class="n">base_dir</span> <span class="o">+</span> <span class="n">row</span><span class="o">.</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">flux</span> <span class="o">=</span> <span class="n">load_spectrum</span><span class="p">(</span><span class="n">base_dir</span> <span class="o">+</span> <span class="n">row</span><span class="o">.</span><span class="n">file_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
         <span class="n">features</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">flux</span>
         <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
 
@@ -245,7 +263,7 @@
     <span class="c1"># Read the FITS file, assign variables.</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">hdu</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
     <span class="n">header</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
@@ -319,7 +337,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.post36+g2440463',
+            VERSION:'0.post39+g685744a',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

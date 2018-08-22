@@ -1,6 +1,7 @@
 ./_modules/index.html
+./_modules/swsnet/convert_fits_to_csv.html
 ./_modules/swsnet/helpers.html
-./_modules/swsnet/tests/test_examples.html
+./_modules/swsnet/tests/test_helpers.html
 ./_sources/index.rst.txt
 ./_sources/installation.rst.txt
 ./_sources/modules.rst.txt

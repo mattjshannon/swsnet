@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>swsnet package &mdash; swsnet 0.post36+g2440463 documentation</title>
+  <title>swsnet package &mdash; swsnet 0.post39+g685744a documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.post36+g2440463
+                0.post39+g685744a
               </div>
             
           
@@ -187,7 +187,7 @@
 <li class="toctree-l1"><a class="reference internal" href="swsnet.tests.html">swsnet.tests package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="swsnet.tests.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="swsnet.tests.html#module-swsnet.tests.conftest">swsnet.tests.conftest module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="swsnet.tests.html#module-swsnet.tests.test_examples">swsnet.tests.test_examples module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="swsnet.tests.html#module-swsnet.tests.test_helpers">swsnet.tests.test_helpers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="swsnet.tests.html#module-swsnet.tests">Module contents</a></li>
 </ul>
 </li>
@@ -201,6 +201,11 @@
 <span id="swsnet-convert-fits-to-csv-module"></span><h2>swsnet.convert_fits_to_csv module<a class="headerlink" href="#module-swsnet.convert_fits_to_csv" title="Permalink to this headline">¶</a></h2>
 <p>convert_fits_to_csv.py</p>
 <p>Convert (batch) SWS .fits files to csv.</p>
+<dl class="function">
+<dt id="swsnet.convert_fits_to_csv.main">
+<code class="descclassname">swsnet.convert_fits_to_csv.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/swsnet/convert_fits_to_csv.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#swsnet.convert_fits_to_csv.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-swsnet.helpers">
 <span id="swsnet-helpers-module"></span><h2>swsnet.helpers module<a class="headerlink" href="#module-swsnet.helpers" title="Permalink to this headline">¶</a></h2>
@@ -221,11 +226,11 @@ header (fits.header): astropy header.</dd>
 
 <dl class="function">
 <dt id="swsnet.helpers.load_data">
-<code class="descclassname">swsnet.helpers.</code><code class="descname">load_data</code><span class="sig-paren">(</span><em>base_dir=''</em>, <em>metadata='metadata.pkl'</em>, <em>clean=False</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/swsnet/helpers.html#load_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#swsnet.helpers.load_data" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">swsnet.helpers.</code><code class="descname">load_data</code><span class="sig-paren">(</span><em>base_dir=''</em>, <em>metadata='metadata.pkl'</em>, <em>clean=False</em>, <em>verbose=False</em>, <em>n_samples=359</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/swsnet/helpers.html#load_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#swsnet.helpers.load_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a pickled metadata file and extract features, labels.</p>
 <dl class="docutils">
 <dt>Args:</dt>
-<dd>base_dir (str): Path to the ISO data-containin directory.
+<dd>base_dir (str): Path to the directory containing ISO data.
 metadata (str): Path to the metadata.pkl file.
 clean (bool): Whether to remove group=7 data from ISO.
 verbose (bool): Whether to plot/print diagnostics.</dd>
@@ -237,8 +242,15 @@ labels (ndarray): Array containing the group classifier.</dd>
 
 <dl class="function">
 <dt id="swsnet.helpers.load_spectrum">
-<code class="descclassname">swsnet.helpers.</code><code class="descname">load_spectrum</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/swsnet/helpers.html#load_spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#swsnet.helpers.load_spectrum" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">swsnet.helpers.</code><code class="descname">load_spectrum</code><span class="sig-paren">(</span><em>path</em>, <em>normalize=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/swsnet/helpers.html#load_spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#swsnet.helpers.load_spectrum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract the normalized flux vector from a pickled dataframe.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>path (str): Path to the pickle file.
+normalize (bool): Whether to normalize the spectrum to its nanmax.</dd>
+<dt>Returns:</dt>
+<dd>flux (ndarray): The flux array.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -294,7 +306,7 @@ labels (ndarray): Array containing the group classifier.</dd>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.post36+g2440463',
+            VERSION:'0.post39+g685744a',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
