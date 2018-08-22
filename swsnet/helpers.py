@@ -11,21 +11,35 @@ import pandas as pd
 from astropy.io import fits
 
 
-def load_spectrum(path):
-    """Extract the normalized flux vector from a pickled dataframe."""
+def load_spectrum(path, normalize=True):
+    """Extract the normalized flux vector from a pickled dataframe.
 
-    df = pd.read_pickle(path)
+    Args:
+        path (str): Path to the pickle file.
+        normalize (bool): Whether to normalize the spectrum to its nanmax.
+
+    Returns:
+        flux (ndarray): The flux array.
+    """
+
+    try:
+        df = pd.read_pickle(path)
+    except IOError as e:
+        raise(e)
+
     flux = df['flux']
+    if normalize:
+        flux = flux / np.nanmax(flux)
 
-    return flux / np.nanmax(flux)
+    return flux
 
 
 def load_data(base_dir='', metadata='metadata.pkl', clean=False,
-              verbose=False):
+              verbose=False, n_samples=359, **kwargs):
     """Load a pickled metadata file and extract features, labels.
 
     Args:
-        base_dir (str): Path to the ISO data-containin directory.
+        base_dir (str): Path to the directory containing ISO data.
         metadata (str): Path to the metadata.pkl file.
         clean (bool): Whether to remove group=7 data from ISO.
         verbose (bool): Whether to plot/print diagnostics.
@@ -63,14 +77,18 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
         raise IndexError
 
     # Feature vector, knowing that each sample has a 359-point vector/spectrum.
-    features = np.zeros((len(labels), 359))
+    features = np.zeros((len(labels), n_samples))
 
     # Fill feature vector.
     index = 0
 
     # Fill the 'spectra' variable with the astronomical data.
     for row in meta.itertuples(index=True, name='Pandas'):
-        flux = load_spectrum(base_dir + row.file_path)
+        try:
+            flux = load_spectrum(base_dir + row.file_path, **kwargs)
+        except OSError as e:
+            raise(e)
+
         features[index] = flux
         index += 1
 
@@ -91,7 +109,7 @@ def fits_to_dataframe(filename):
     # Read the FITS file, assign variables.
     try:
         hdu = fits.open(filename)
-    except Exception as e:
+    except OSError as e:
         raise(e)
 
     header = hdu[0].header
