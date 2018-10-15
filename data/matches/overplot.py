@@ -9,8 +9,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from ipdb import set_trace as st
-
 
 def load_matches():
     """Returns the matches text file."""

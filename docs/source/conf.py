@@ -21,6 +21,9 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+import sphinx_rtd_theme
+
+import swsnet
 
 # -- General configuration ------------------------------------------------
 
@@ -75,7 +78,7 @@ author = 'Matt Shannon'
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
-import swsnet
+
 # The short X.Y version.
 version = swsnet.__version__
 # The full version, including alpha/beta/rc tags.
@@ -106,7 +109,6 @@ todo_include_todos = False
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
-import sphinx_rtd_theme
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # Theme options are theme-specific and customize the look and feel of a theme
@@ -183,13 +185,12 @@ man_pages = [
 # Grouping the document tree into Texinfo files. List of tuples
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
+description = 'Applying neural networks to the Sloan SWS astronomical dataset.'
 texinfo_documents = [
     (master_doc, 'swsnet', 'swsnet Documentation',
-     author, 'swsnet', 'Applying neural networks to the Sloan SWS astronomical dataset.',
+     author, 'swsnet', description,
      'Miscellaneous'),
 ]
-
-
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
