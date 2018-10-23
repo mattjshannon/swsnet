@@ -28,38 +28,56 @@ def create_plots():
     #         break
 
 
-# In[2]:
-
-
-meta = pd.read_pickle('metadata.pkl')
-
-
 # In[3]:
 
 
-meta.describe()
+meta = pd.read_pickle('../metadata.pkl')
 
 
 # In[4]:
 
 
+meta.describe()
+
+
+# In[5]:
+
+
 meta.head()
 
 
-# In[16]:
+# In[6]:
 
 
 meta['tdt'] = meta['tdt'].astype(int)
 
 
-# In[19]:
+# In[9]:
 
 
-meta.sort_values(by=['tdt'], ascending=True)
+meta = meta.sort_values(by=['tdt'], ascending=True)
 
 
-# In[20]:
+# In[10]:
 
 
-meta.to_pickle('metadata_sorted.pkl')
+meta
+
+
+# In[14]:
+
+
+meta = meta.reset_index(drop=True)
+
+
+# In[15]:
+
+
+meta
+
+
+# In[16]:
+
+
+meta.to_pickle('metadata_step1_sorted.pkl')
 
