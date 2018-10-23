@@ -133,6 +133,64 @@ for l2norm in (0.1, 0.01, 0.001, 0.0001, 0.00001):
     model, accuracy = neural(features_clean, labels_clean, l2norm=l2norm)
 
 
+# ***
+
+# In[38]:
+
+
+def neural2(features, labels, l2norm=0.01):
+
+    X_train, X_test, y_train, y_test =         train_test_split(features, labels, test_size=0.25, random_state = 22)
+
+    # Sequential model, 7 classes of output.
+    model = keras.Sequential()
+    model.add(keras.layers.Dense(128, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm), input_dim=359))
+    model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))    
+    model.add(keras.layers.Dense(6, activation='softmax'))
+
+    # Early stopping condition.
+    callback = [tf.keras.callbacks.EarlyStopping(monitor='acc', patience=3, verbose=0)]
+
+    # Recompile model and fit.
+    model.compile(optimizer=keras.optimizers.Adam(0.0005),
+                  loss='sparse_categorical_crossentropy',
+                  metrics=['accuracy'])
+    #     model.fit(X_train, y_train, epochs=50, batch_size=32, verbose=False)
+    model.fit(X_train, y_train, epochs=50, batch_size=32, callbacks=callback, verbose=False)
+
+    # Check accuracy.
+    score = model.evaluate(X_test, y_test, verbose=0)
+    accuracy = score[1]
+    print("L2 norm, accuracy: ", l2norm, accuracy)
+    
+    return model, accuracy
+
+
+# In[30]:
+
+
+for l2norm in (0.1, 0.01, 0.001, 0.0001, 0.00001):
+    model, accuracy = neural2(features, labels, l2norm=l2norm)
+
+
+# In[39]:
+
+
+# using... 128, 64, 6. test_size=0.20, epoch=50, patience=5.
+for l2norm in (0.1, 0.01, 0.001, 0.0001, 0.00001):
+    model, accuracy = neural2(features_clean, labels_clean, l2norm=l2norm)
+
+
+# In[37]:
+
+
+# using... 128, 64, 6. test_size=0.15, epoch=50, patience=5.
+for l2norm in (0.1, 0.01, 0.001, 0.0001, 0.00001):
+    model, accuracy = neural2(features_clean, labels_clean, l2norm=l2norm)
+
+
+# ***
+
 # Based on the above, probably need to do more data preprocessing:
 # - e.g., remove untrustworthy data
 
