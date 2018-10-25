@@ -1,49 +1,80 @@
 
 # coding: utf-8
 
-# In[7]:
+# In[15]:
 
 
 get_ipython().run_line_magic('matplotlib', 'inline')
 
 import matplotlib.pyplot as plt
-import numpy
+import numpy as np
 import pandas as pd
 
 
-# In[8]:
+# In[2]:
 
 
-meta = pd.read_pickle('metadata_step1_sorted.pkl')
+meta = pd.read_pickle('step3_renorm/metadata_sorted_normalized.pkl')
 
 
-# In[9]:
+# In[3]:
 
 
 meta
 
 
-# In[ ]:
+# 
+# First let's cull based on the uncertainty flag, and if it's group 7. i.e., for those data, let's set the ``data_ok`` flag to ``False``.
+
+# ### Exclude group 7 and uncertain data
+
+# In[32]:
 
 
-# Make a list of the entries for which data_ok should == False.
-# Based on a multipage PDF of all the spectra (starting at page=1).
-# Confirm the TDTs match afterward.
-pdf_pages_for_bad_data = [
-    9, 11, 14, 15, 22, 23,
-    26, 29, 30, 33, 46, 50,
-    51, 58, 59, 62, 66, 67,
-    71, 83, 84, 88, 89, 90,
-    93, 94, 95, 122, 124, 132,
-    136, 148, 152, 155, 160, 161,
-    162, 163, 165, 170, 184, 191,
-    194, 197, 206, 209, 211, 253
+updated_data_ok = []
+
+for row in meta.itertuples():
+    index = row[0]
+    group_num = getattr(row, "group")
+    flag = getattr(row, "uncertainty_flag")
     
-]
+    if (int(group_num) == 7) or (flag != ''):
+#         print('bad! bad! ', index, group_num, flag)
+        updated_data_ok.append(False)
+    else:
+        updated_data_ok.append(True)
+        
+print('Number still OK: ', sum(updated_data_ok))
 
-# maybes...
-# 19, 32, 34, 54, 74,
-# 76, 80, 92, 105, 131,
-# 190, 195, 200, 203, 213,
-# 229, 
+
+# ### Save to disk as a new pickle file
+
+# In[33]:
+
+
+meta2 = meta.copy()
+
+
+# In[34]:
+
+
+meta2.head()
+
+
+# In[36]:
+
+
+meta2['data_ok'] = updated_data_ok
+
+
+# In[38]:
+
+
+meta2
+
+
+# In[39]:
+
+
+meta2.to_pickle('step4_cull/metadata_sorted_normalized_culled.pkl')
 

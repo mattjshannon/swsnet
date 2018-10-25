@@ -13,12 +13,11 @@ import pandas as pd
 from mattpy.utils import smooth
 
 
-# In[200]:
+# In[10]:
 
 
-def save_shift_figure(plot_dir, iso_filename, wave, flux,
-                      smooth_flux, smooth_flux_shift,
-                      verbose=True):
+def save_shift_figure(plot_dir, classifier, iso_filename, wave, flux,
+                      smooth_flux, smooth_flux_shift, verbose=True):
     """Saves a .PDF figure of the raw spectrum and shifted smoothed spectrum."""
     
     # Plot the raw spectrum and smoothed spectrum.
@@ -29,7 +28,7 @@ def save_shift_figure(plot_dir, iso_filename, wave, flux,
                 zorder=-10, color='k')
     
     # Save to disk.
-    plt.title(iso_filename)
+    plt.title(iso_filename + ' - classifier: ' + classifier)
     savepath = plot_dir + iso_filename + '_A.pdf'
     plt.savefig(savepath, format='pdf', bbox_inches='tight')
     plt.close()
@@ -40,19 +39,19 @@ def save_shift_figure(plot_dir, iso_filename, wave, flux,
     return
 
 
-def save_renorm_figure(plot_dir, iso_filename, renorm_wave,
+def save_renorm_figure(plot_dir, classifier, iso_filename, renorm_wave,
                        renorm_flux_shift, smooth_flux_shift,
                        verbose=True):
     """Saves a .PDF figure of the renormalized spectrum."""
     
     # Plot the renormalized/shifted spectrum.
     plt.plot(renorm_wave, renorm_flux_shift)
-    plt.plot(wave, smooth_flux_shift)
+    plt.plot(renorm_wave, smooth_flux_shift)
     plt.axhline(y=0, color='red', ls='--', lw=1)
     plt.axhline(y=1, ls='--', lw=1, zorder=-10, color='red')
     
     # Save to disk.
-    plt.title(iso_filename)
+    plt.title(iso_filename + ' - classifier: ' + classifier)
     savepath = plot_dir + iso_filename + '_B.pdf'
     plt.savefig(savepath, format='pdf', bbox_inches='tight')
     plt.close()
@@ -63,7 +62,7 @@ def save_renorm_figure(plot_dir, iso_filename, renorm_wave,
     return
 
 
-# In[201]:
+# In[11]:
 
 
 def read_spectrum(file_path):
@@ -97,7 +96,7 @@ def smooth_spectrum(flux, **kwargs):
     return spec_min, spec_max, smooth_flux, smooth_flux_shift, norm_factor
 
 
-def normalize_spectrum(file_path, plot=True, verbose=True):
+def normalize_spectrum(file_path, classifier, plot=True, verbose=True):
     """Normalizes an ISO spectrum to span 0-1 (the main curvature)."""
     wave, flux, fluxerr = read_spectrum('../' + file_path)
     
@@ -110,38 +109,40 @@ def normalize_spectrum(file_path, plot=True, verbose=True):
     renorm_flux_shift = (flux - spec_min) / norm_factor
     
     # Plotting directory
-    plot_dir = '../plots/normalize/'
+    plot_dir = 'step2_norm/plots/'
     
     # Save file name.
     iso_filename = file_path.split('/')[-1].split('.pkl')[0]
     
     if plot:
         # Save a figure showing the initial smooth/shift.
-        save_shift_figure(plot_dir, iso_filename, wave, flux, smooth_flux,
-                          smooth_flux_shift, verbose=False)
+        save_shift_figure(plot_dir, classifier, iso_filename,
+                          wave, flux, smooth_flux, smooth_flux_shift,
+                          verbose=False)
 
         # Save a figure of the final renormalized spectrum.
-        save_renorm_figure(plot_dir, iso_filename, renorm_wave,
-                           renorm_flux_shift, smooth_flux_shift/norm_factor,
+        save_renorm_figure(plot_dir, classifier, iso_filename,
+                           renorm_wave, renorm_flux_shift,
+                           smooth_flux_shift/norm_factor,
                            verbose=False)
     
     return spec_min, spec_max, norm_factor
 
 
-# In[202]:
+# In[12]:
 
 
-meta = pd.read_pickle('metadata_step1_sorted.pkl')
+meta = pd.read_pickle('step1_sort/metadata_step1_sorted.pkl')
 
 
-# In[203]:
+# In[13]:
 
 
 nrows = meta.shape[0]
 meta;
 
 
-# In[241]:
+# In[18]:
 
 
 def norm_and_plot(meta):
@@ -151,8 +152,12 @@ def norm_and_plot(meta):
         if index % 200 == 0:
             print(index, ' / ', nrows)
 
+        # Full classifier
+        classifier = meta['full_classifier'][index]
+            
         # Perform shift/renormalization
-        parameters = normalize_spectrum(filename, plot=False, verbose=False)
+        parameters = normalize_spectrum(filename, classifier,
+                                        plot=True, verbose=False)
         
         # Save parameters to a list
         spec_min, spec_max, norm_factor = parameters
@@ -161,15 +166,15 @@ def norm_and_plot(meta):
     return param_list
 
 
-# In[242]:
+# In[19]:
 
 
 par_list = norm_and_plot(meta)
 
 
-# In[246]:
+# In[20]:
 
 
-np.savetxt('step2_norm_params.txt', par_list, delimiter=',', fmt='%s',
+np.savetxt('step2_norm/step2_norm_params.txt', par_list, delimiter=',', fmt='%s',
            header='iso_filename, spec_min, spec_max, norm_factor (shift first, then norm!!)')
 

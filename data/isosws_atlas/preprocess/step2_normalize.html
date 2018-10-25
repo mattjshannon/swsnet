@@ -11792,12 +11792,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[200]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">save_shift_figure</span><span class="p">(</span><span class="n">plot_dir</span><span class="p">,</span> <span class="n">iso_filename</span><span class="p">,</span> <span class="n">wave</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span>
-                      <span class="n">smooth_flux</span><span class="p">,</span> <span class="n">smooth_flux_shift</span><span class="p">,</span>
-                      <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">save_shift_figure</span><span class="p">(</span><span class="n">plot_dir</span><span class="p">,</span> <span class="n">classifier</span><span class="p">,</span> <span class="n">iso_filename</span><span class="p">,</span> <span class="n">wave</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span>
+                      <span class="n">smooth_flux</span><span class="p">,</span> <span class="n">smooth_flux_shift</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Saves a .PDF figure of the raw spectrum and shifted smoothed spectrum.&quot;&quot;&quot;</span>
     
     <span class="c1"># Plot the raw spectrum and smoothed spectrum.</span>
@@ -11808,7 +11807,7 @@ div#notebook {
                 <span class="n">zorder</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
     
     <span class="c1"># Save to disk.</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">iso_filename</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">iso_filename</span> <span class="o">+</span> <span class="s1">&#39; - classifier: &#39;</span> <span class="o">+</span> <span class="n">classifier</span><span class="p">)</span>
     <span class="n">savepath</span> <span class="o">=</span> <span class="n">plot_dir</span> <span class="o">+</span> <span class="n">iso_filename</span> <span class="o">+</span> <span class="s1">&#39;_A.pdf&#39;</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">savepath</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -11819,19 +11818,19 @@ div#notebook {
     <span class="k">return</span>
 
 
-<span class="k">def</span> <span class="nf">save_renorm_figure</span><span class="p">(</span><span class="n">plot_dir</span><span class="p">,</span> <span class="n">iso_filename</span><span class="p">,</span> <span class="n">renorm_wave</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">save_renorm_figure</span><span class="p">(</span><span class="n">plot_dir</span><span class="p">,</span> <span class="n">classifier</span><span class="p">,</span> <span class="n">iso_filename</span><span class="p">,</span> <span class="n">renorm_wave</span><span class="p">,</span>
                        <span class="n">renorm_flux_shift</span><span class="p">,</span> <span class="n">smooth_flux_shift</span><span class="p">,</span>
                        <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Saves a .PDF figure of the renormalized spectrum.&quot;&quot;&quot;</span>
     
     <span class="c1"># Plot the renormalized/shifted spectrum.</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">renorm_wave</span><span class="p">,</span> <span class="n">renorm_flux_shift</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wave</span><span class="p">,</span> <span class="n">smooth_flux_shift</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">renorm_wave</span><span class="p">,</span> <span class="n">smooth_flux_shift</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
     
     <span class="c1"># Save to disk.</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">iso_filename</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">iso_filename</span> <span class="o">+</span> <span class="s1">&#39; - classifier: &#39;</span> <span class="o">+</span> <span class="n">classifier</span><span class="p">)</span>
     <span class="n">savepath</span> <span class="o">=</span> <span class="n">plot_dir</span> <span class="o">+</span> <span class="n">iso_filename</span> <span class="o">+</span> <span class="s1">&#39;_B.pdf&#39;</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">savepath</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -11849,7 +11848,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[201]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">read_spectrum</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
@@ -11883,7 +11882,7 @@ div#notebook {
     <span class="k">return</span> <span class="n">spec_min</span><span class="p">,</span> <span class="n">spec_max</span><span class="p">,</span> <span class="n">smooth_flux</span><span class="p">,</span> <span class="n">smooth_flux_shift</span><span class="p">,</span> <span class="n">norm_factor</span>
 
 
-<span class="k">def</span> <span class="nf">normalize_spectrum</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">normalize_spectrum</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">classifier</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Normalizes an ISO spectrum to span 0-1 (the main curvature).&quot;&quot;&quot;</span>
     <span class="n">wave</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span> <span class="n">fluxerr</span> <span class="o">=</span> <span class="n">read_spectrum</span><span class="p">(</span><span class="s1">&#39;../&#39;</span> <span class="o">+</span> <span class="n">file_path</span><span class="p">)</span>
     
@@ -11897,19 +11896,21 @@ div#notebook {
     <span class="n">renorm_flux_shift</span> <span class="o">=</span> <span class="p">(</span><span class="n">flux</span> <span class="o">-</span> <span class="n">spec_min</span><span class="p">)</span> <span class="o">/</span> <span class="n">norm_factor</span>
     
     <span class="c1"># Plotting directory</span>
-    <span class="n">plot_dir</span> <span class="o">=</span> <span class="s1">&#39;../plots/normalize/&#39;</span>
+    <span class="n">plot_dir</span> <span class="o">=</span> <span class="s1">&#39;step2_norm/plots/&#39;</span>
     
     <span class="c1"># Save file name.</span>
     <span class="n">iso_filename</span> <span class="o">=</span> <span class="n">file_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.pkl&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     
     <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
         <span class="c1"># Save a figure showing the initial smooth/shift.</span>
-        <span class="n">save_shift_figure</span><span class="p">(</span><span class="n">plot_dir</span><span class="p">,</span> <span class="n">iso_filename</span><span class="p">,</span> <span class="n">wave</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span> <span class="n">smooth_flux</span><span class="p">,</span>
-                          <span class="n">smooth_flux_shift</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">save_shift_figure</span><span class="p">(</span><span class="n">plot_dir</span><span class="p">,</span> <span class="n">classifier</span><span class="p">,</span> <span class="n">iso_filename</span><span class="p">,</span>
+                          <span class="n">wave</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span> <span class="n">smooth_flux</span><span class="p">,</span> <span class="n">smooth_flux_shift</span><span class="p">,</span>
+                          <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="c1"># Save a figure of the final renormalized spectrum.</span>
-        <span class="n">save_renorm_figure</span><span class="p">(</span><span class="n">plot_dir</span><span class="p">,</span> <span class="n">iso_filename</span><span class="p">,</span> <span class="n">renorm_wave</span><span class="p">,</span>
-                           <span class="n">renorm_flux_shift</span><span class="p">,</span> <span class="n">smooth_flux_shift</span><span class="o">/</span><span class="n">norm_factor</span><span class="p">,</span>
+        <span class="n">save_renorm_figure</span><span class="p">(</span><span class="n">plot_dir</span><span class="p">,</span> <span class="n">classifier</span><span class="p">,</span> <span class="n">iso_filename</span><span class="p">,</span>
+                           <span class="n">renorm_wave</span><span class="p">,</span> <span class="n">renorm_flux_shift</span><span class="p">,</span>
+                           <span class="n">smooth_flux_shift</span><span class="o">/</span><span class="n">norm_factor</span><span class="p">,</span>
                            <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">spec_min</span><span class="p">,</span> <span class="n">spec_max</span><span class="p">,</span> <span class="n">norm_factor</span>
@@ -11922,10 +11923,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[202]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;metadata_step1_sorted.pkl&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;step1_sort/metadata_step1_sorted.pkl&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11935,7 +11936,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[203]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">nrows</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -11949,7 +11950,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[241]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">norm_and_plot</span><span class="p">(</span><span class="n">meta</span><span class="p">):</span>
@@ -11959,8 +11960,12 @@ div#notebook {
         <span class="k">if</span> <span class="n">index</span> <span class="o">%</span> <span class="mi">200</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39; / &#39;</span><span class="p">,</span> <span class="n">nrows</span><span class="p">)</span>
 
+        <span class="c1"># Full classifier</span>
+        <span class="n">classifier</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;full_classifier&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+            
         <span class="c1"># Perform shift/renormalization</span>
-        <span class="n">parameters</span> <span class="o">=</span> <span class="n">normalize_spectrum</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">normalize_spectrum</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">classifier</span><span class="p">,</span>
+                                        <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         
         <span class="c1"># Save parameters to a list</span>
         <span class="n">spec_min</span><span class="p">,</span> <span class="n">spec_max</span><span class="p">,</span> <span class="n">norm_factor</span> <span class="o">=</span> <span class="n">parameters</span>
@@ -11976,7 +11981,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[242]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">par_list</span> <span class="o">=</span> <span class="n">norm_and_plot</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
@@ -12013,10 +12018,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[246]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;step2_norm_params.txt&#39;</span><span class="p">,</span> <span class="n">par_list</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;step2_norm/step2_norm_params.txt&#39;</span><span class="p">,</span> <span class="n">par_list</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
            <span class="n">header</span><span class="o">=</span><span class="s1">&#39;iso_filename, spec_min, spec_max, norm_factor (shift first, then norm!!)&#39;</span><span class="p">)</span>
 </pre></div>
 
