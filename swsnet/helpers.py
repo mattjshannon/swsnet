@@ -35,13 +35,14 @@ def load_spectrum(path, normalize=True):
 
 
 def load_data(base_dir='', metadata='metadata.pkl', clean=False,
-              verbose=False, n_samples=359, **kwargs):
+              only_ok_data=False, verbose=False, n_samples=359, **kwargs):
     """Load a pickled metadata file and extract features, labels.
 
     Args:
         base_dir (str): Path to the directory containing ISO data.
         metadata (str): Path to the metadata.pkl file.
         clean (bool): Whether to remove group=7 data from ISO.
+        only_ok_data (bool): Whether to only include rows with data_ok == True.
         verbose (bool): Whether to plot/print diagnostics.
 
     Returns:
@@ -57,6 +58,8 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
 
     if clean:
         meta = meta.query('group != "7"')
+    if only_ok_data:
+        meta = meta.query('data_ok == True')
 
     # Simple classifier first.
     labels = meta['group'].values.astype(int)
