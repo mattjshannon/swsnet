@@ -93,7 +93,7 @@ features_certain, labels_certain =     helpers.load_data(base_dir=base_dir, meta
                       only_ok_data=True, clean=False, verbose=False)
 
 
-# In[9]:
+# In[8]:
 
 
 print(features_certain.shape)
@@ -169,7 +169,7 @@ def neural(features, labels, test_size=0.3, l2norm=0.01):
 
 # Model:
 
-# In[31]:
+# In[9]:
 
 
 def run_NN(input_tuple):
@@ -216,13 +216,13 @@ def run_NN(input_tuple):
     return test_size, accuracy
 
 
-# In[36]:
+# In[16]:
 
 
 def run_networks(search_map):
     # Run the networks in parallel.
     start = time()
-    pool = ProcessPoolExecutor(max_workers=3)
+    pool = ProcessPoolExecutor(max_workers=14)
     results = list(pool.map(run_NN, search_map))
     end = time()
     print('Took %.3f seconds' % (end - start))
@@ -242,15 +242,15 @@ def plot_results(run_matrix):
 
 # Search space (training size):
 
-# In[41]:
+# In[23]:
 
 
 # Values of test_size to probe.
-search_space = np.arange(0.20, 0.50, 0.02)
+search_space = np.arange(0.14, 0.60, 0.02)
 print('Size of test set considered: ', search_space)
 
 # Number of iterations for each test_size value.
-n_iterations = 2
+n_iterations = 20
 
 # Create a vector to iterate over.
 rx = np.array([search_space] * n_iterations).T
@@ -260,7 +260,7 @@ print('Number of iterations per test_size: ', n_iterations)
 print('Total number of NN iterations required: ', n_iterations * len(search_space))
 
 
-# In[42]:
+# In[24]:
 
 
 # Wrap up tuple inputs for running in parallel.
@@ -269,30 +269,35 @@ search_map_clean = [(features_clean, labels_clean, x) for x in search_space_full
 search_map_certain = [(features_certain, labels_certain, x) for x in search_space_full]
 
 
-# ## Full set:
-
-# In[43]:
+# In[25]:
 
 
 run_matrix = run_networks(search_map)
+run_matrix_clean = run_networks(search_map_clean)
+run_matrix_certain = run_networks(search_map_certain)
+
+
+# ## Full set:
+
+# In[26]:
+
+
 plot_results(run_matrix)
 
 
 # ## Clean set:
 
-# In[39]:
+# In[27]:
 
 
-run_matrix_clean = run_networks(search_map_clean)
 plot_results(run_matrix_clean)
 
 
 # ## Certain set:
 
-# In[40]:
+# In[28]:
 
 
-run_matrix_certain = run_networks(search_map_certain)
 plot_results(run_matrix_certain)
 
 
@@ -304,7 +309,7 @@ plot_results(run_matrix_certain)
 # In[21]:
 
 
-save_path = '../models/neural_net.h5'
+# save_path = '../models/nn_sorted_normalized_culled.h5'
 
 
 # In[22]:
