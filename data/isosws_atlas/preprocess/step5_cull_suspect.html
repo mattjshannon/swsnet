@@ -11775,7 +11775,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Manual-cull-of-untrustworthy-sources,-classes?">Manual cull of untrustworthy sources, classes?<a class="anchor-link" href="#Manual-cull-of-untrustworthy-sources,-classes?">&#182;</a></h1>
+<h1 id="Preprocessing-notebook-5:-extra-manual-culling-of-untrustworthy-sources">Preprocessing notebook 5: extra manual culling of untrustworthy sources<a class="anchor-link" href="#Preprocessing-notebook-5:-extra-manual-culling-of-untrustworthy-sources">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -11783,14 +11783,32 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Applied after step 4, which removes group 7 and any with the : or :: flags, i.e. uncertain classification.</p>
+<p>This is applied after step 4, which removes group 7 and any with the : or :: flags, i.e. uncertain classification.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Necessary modules...</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -11798,6 +11816,12 @@ div#notebook {
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib.backends.backend_pdf</span> <span class="k">import</span> <span class="n">PdfPages</span>
+
+<span class="kn">from</span> <span class="nn">swsnet.dataframe_utils</span> <span class="k">import</span> \
+    <span class="n">ensure_exists</span><span class="p">,</span> <span class="n">read_spectrum</span><span class="p">,</span> <span class="n">read_metadata</span><span class="p">,</span> \
+    <span class="n">plot_spectrum</span><span class="p">,</span> <span class="n">plot_dataframe</span>
 </pre></div>
 
 </div>
@@ -11805,9 +11829,35 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.-Load-metadata">1. Load metadata<a class="anchor-link" href="#1.-Load-metadata">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that we start by using the metadata pickle which has set group 7 sources to data_ok=False, as well as any with uncertainty flags.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;step4_cull_uncertain/metadata_sorted_normalized_culled.pkl&#39;</span><span class="p">)</span>
@@ -11820,10 +11870,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -11836,7 +11886,7 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[3]:</div>
+<div class="prompt output_prompt">Out[5]:</div>
 
 
 
@@ -11955,910 +12005,329 @@ div#notebook {
       <td></td>
       <td>True</td>
     </tr>
-    <tr>
-      <th>5</th>
-      <td>{gamma} Dra</td>
-      <td>2402105</td>
-      <td>269.151667</td>
-      <td>51.488972</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/02402105_sws_renorm.pkl</td>
-      <td></td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>AFGL 2591</td>
-      <td>2800433</td>
-      <td>307.352750</td>
-      <td>40.188583</td>
-      <td>5.SA</td>
-      <td>5</td>
-      <td>SA</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/02800433_sws_renorm.pkl</td>
-      <td>YSO</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>NGC 6543</td>
-      <td>2800908</td>
-      <td>269.639167</td>
-      <td>66.633194</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/02800908_sws_renorm.pkl</td>
-      <td>PN</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>P Cyg</td>
-      <td>3201129</td>
-      <td>304.446667</td>
-      <td>38.032861</td>
-      <td>2.E</td>
-      <td>2</td>
-      <td>E</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/03201129_sws_renorm.pkl</td>
-      <td>BlueSG*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>NGC 6543</td>
-      <td>3201202</td>
-      <td>269.639167</td>
-      <td>66.633194</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/03201202_sws_renorm.pkl</td>
-      <td>PN</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>Cyg OB2 No. 12</td>
-      <td>3602226</td>
-      <td>308.170833</td>
-      <td>41.241472</td>
-      <td>1.NMp</td>
-      <td>1</td>
-      <td>NMp</td>
-      <td></td>
-      <td>F</td>
-      <td></td>
-      <td>spectra_normalized/03602226_sws_renorm.pkl</td>
-      <td></td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>HR 4049</td>
-      <td>4000458</td>
-      <td>154.531667</td>
-      <td>-28.992028</td>
-      <td>2.U</td>
-      <td>2</td>
-      <td>U</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/04000458_sws_renorm.pkl</td>
-      <td>post-AGB*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>AG Car</td>
-      <td>4000652</td>
-      <td>164.048333</td>
-      <td>-60.453722</td>
-      <td>4.Me</td>
-      <td>4</td>
-      <td>Me</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/04000652_sws_renorm.pkl</td>
-      <td>BlueSG*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>V778 Cyg</td>
-      <td>4001456</td>
-      <td>309.044167</td>
-      <td>60.088889</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td>W</td>
-      <td></td>
-      <td>spectra_normalized/04001456_sws_renorm.pkl</td>
-      <td>C*</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>{beta} Leo</td>
-      <td>4001710</td>
-      <td>177.263667</td>
-      <td>14.572194</td>
-      <td>1.N</td>
-      <td>1</td>
-      <td>N</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/04001710_sws_renorm.pkl</td>
-      <td></td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>{gamma} Dra</td>
-      <td>4002405</td>
-      <td>269.151708</td>
-      <td>51.488972</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/04002405_sws_renorm.pkl</td>
-      <td></td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>NML Cyg</td>
-      <td>5200726</td>
-      <td>311.606250</td>
-      <td>40.116500</td>
-      <td>3.SB</td>
-      <td>3</td>
-      <td>SB</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/05200726_sws_renorm.pkl</td>
-      <td>V*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>{alpha} Boo +0.04, +1.0</td>
-      <td>5601291</td>
-      <td>213.916708</td>
-      <td>19.184611</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td>Offset</td>
-      <td></td>
-      <td>spectra_normalized/05601291_sws_renorm.pkl</td>
-      <td>RGB*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>IRAS 21282+5050</td>
-      <td>5602477</td>
-      <td>322.493417</td>
-      <td>51.066611</td>
-      <td>4.Mu</td>
-      <td>4</td>
-      <td>Mu</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/05602477_sws_renorm.pkl</td>
-      <td>PN</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>{beta} Peg</td>
-      <td>5602595</td>
-      <td>345.943958</td>
-      <td>28.082667</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/05602595_sws_renorm.pkl</td>
-      <td>LPV*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>{mu} Cep</td>
-      <td>5602852</td>
-      <td>325.876667</td>
-      <td>58.780028</td>
-      <td>2.SEc</td>
-      <td>2</td>
-      <td>SEc</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/05602852_sws_renorm.pkl</td>
-      <td></td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>AFGL 4106</td>
-      <td>6000280</td>
-      <td>155.831875</td>
-      <td>-59.534944</td>
-      <td>4.SCp</td>
-      <td>4</td>
-      <td>SCp</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/06000280_sws_renorm.pkl</td>
-      <td>SG*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>HR 7341</td>
-      <td>6001362</td>
-      <td>289.657458</td>
-      <td>49.569333</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td>R</td>
-      <td></td>
-      <td>spectra_normalized/06001362_sws_renorm.pkl</td>
-      <td>Star</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>S 140</td>
-      <td>6401081</td>
-      <td>334.826250</td>
-      <td>63.313083</td>
-      <td>5.SA</td>
-      <td>5</td>
-      <td>SA</td>
-      <td></td>
-      <td>(0,0)</td>
-      <td></td>
-      <td>spectra_normalized/06401081_sws_renorm.pkl</td>
-      <td></td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>{xi} Dra</td>
-      <td>6800697</td>
-      <td>268.381958</td>
-      <td>56.872583</td>
-      <td>1.NO:</td>
-      <td>1</td>
-      <td>NO</td>
-      <td>1</td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/06800697_sws_renorm.pkl</td>
-      <td>PM*</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>{eta} Car</td>
-      <td>7100250</td>
-      <td>161.265000</td>
-      <td>-59.684528</td>
-      <td>4.M:e</td>
-      <td>4</td>
-      <td>M</td>
-      <td>1e</td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/07100250_sws_renorm.pkl</td>
-      <td></td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>{alpha} Boo +0.03, +0.9</td>
-      <td>7100434</td>
-      <td>213.916667</td>
-      <td>19.184583</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td>Offset</td>
-      <td></td>
-      <td>spectra_normalized/07100434_sws_renorm.pkl</td>
-      <td>RGB*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>HD 161796</td>
-      <td>7100579</td>
-      <td>266.231250</td>
-      <td>50.044389</td>
-      <td>4.SC</td>
-      <td>4</td>
-      <td>SC</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/07100579_sws_renorm.pkl</td>
-      <td>post-AGB*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>{delta} Cen</td>
-      <td>7200272</td>
-      <td>182.089625</td>
-      <td>-50.722417</td>
-      <td>1.NE</td>
-      <td>1</td>
-      <td>NE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/07200272_sws_renorm.pkl</td>
-      <td>Be*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>{delta} Cen</td>
-      <td>7200351</td>
-      <td>182.089625</td>
-      <td>-50.722417</td>
-      <td>1.NE</td>
-      <td>1</td>
-      <td>NE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/07200351_sws_renorm.pkl</td>
-      <td>Be*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>1205</th>
-      <td>AFGL 2392</td>
-      <td>85800120</td>
-      <td>291.810000</td>
-      <td>7.069444</td>
-      <td>2.CE</td>
-      <td>2</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/85800120_sws_renorm.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1206</th>
-      <td>Lk H{alpha} 225</td>
-      <td>85800403</td>
-      <td>305.126667</td>
-      <td>41.357500</td>
-      <td>5.SAe</td>
-      <td>5</td>
-      <td>SAe</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/85800403_sws_renorm.pkl</td>
-      <td>Ae*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1207</th>
-      <td>Lk H{alpha} 224</td>
-      <td>85800502</td>
-      <td>305.121667</td>
-      <td>41.357500</td>
-      <td>5.F</td>
-      <td>5</td>
-      <td>F</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/85800502_sws_renorm.pkl</td>
-      <td>Ae*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1208</th>
-      <td>W Ori</td>
-      <td>85801604</td>
-      <td>76.348750</td>
-      <td>1.177556</td>
-      <td>2.CE</td>
-      <td>2</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/85801604_sws_renorm.pkl</td>
-      <td>semi-regV*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1209</th>
-      <td>IRC +50137</td>
-      <td>86201803</td>
-      <td>77.831042</td>
-      <td>52.876028</td>
-      <td>3.SB</td>
-      <td>3</td>
-      <td>SB</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/86201803_sws_renorm.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1210</th>
-      <td>IRAS 04579+4703</td>
-      <td>86201902</td>
-      <td>75.415417</td>
-      <td>47.123111</td>
-      <td>5.SA</td>
-      <td>5</td>
-      <td>SA</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/86201902_sws_renorm.pkl</td>
-      <td>YSO</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1211</th>
-      <td>RV Cam</td>
-      <td>86202101</td>
-      <td>67.673750</td>
-      <td>57.411611</td>
-      <td>2.SEb</td>
-      <td>2</td>
-      <td>SEb</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/86202101_sws_renorm.pkl</td>
-      <td>semi-regV*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1212</th>
-      <td>AFGL 437</td>
-      <td>86300810</td>
-      <td>46.848667</td>
-      <td>58.514056</td>
-      <td>5.U</td>
-      <td>5</td>
-      <td>U</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/86300810_sws_renorm.pkl</td>
-      <td>Cl*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1213</th>
-      <td>AFGL 4029</td>
-      <td>86300968</td>
-      <td>45.380375</td>
-      <td>60.487083</td>
-      <td>5.U</td>
-      <td>5</td>
-      <td>U</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/86300968_sws_renorm.pkl</td>
-      <td>MolCld</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1214</th>
-      <td>SZ Sgr</td>
-      <td>86400616</td>
-      <td>266.235417</td>
-      <td>-18.657500</td>
-      <td>2.CE</td>
-      <td>2</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/86400616_sws_renorm.pkl</td>
-      <td>semi-regV*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1215</th>
-      <td>BD+30 3639</td>
-      <td>86500540</td>
-      <td>293.688333</td>
-      <td>30.516333</td>
-      <td>4.PU</td>
-      <td>4</td>
-      <td>PU</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/86500540_sws_renorm.pkl</td>
-      <td>PN</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1216</th>
-      <td>{alpha} Tuc</td>
-      <td>86602401</td>
-      <td>334.625500</td>
-      <td>-60.259694</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/86602401_sws_renorm.pkl</td>
-      <td>SB*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1217</th>
-      <td>HR 1939</td>
-      <td>86603434</td>
-      <td>85.175000</td>
-      <td>31.920833</td>
-      <td>2.SEa</td>
-      <td>2</td>
-      <td>SEa</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/86603434_sws_renorm.pkl</td>
-      <td>RedSG*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1218</th>
-      <td>IRC -10122</td>
-      <td>86706617</td>
-      <td>96.256667</td>
-      <td>-9.121111</td>
-      <td>2.CE</td>
-      <td>2</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/86706617_sws_renorm.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1219</th>
-      <td>IRC -10095</td>
-      <td>86801101</td>
-      <td>84.927500</td>
-      <td>-8.152194</td>
-      <td>2.CE</td>
-      <td>2</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/86801101_sws_renorm.pkl</td>
-      <td>C*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1220</th>
-      <td>{alpha} CMa</td>
-      <td>86801303</td>
-      <td>101.287375</td>
-      <td>-16.715528</td>
-      <td>1.N</td>
-      <td>1</td>
-      <td>N</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/86801303_sws_renorm.pkl</td>
-      <td></td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1221</th>
-      <td>OH 26.2-0.6</td>
-      <td>86901013</td>
-      <td>280.307500</td>
-      <td>-6.250278</td>
-      <td>4.SA</td>
-      <td>4</td>
-      <td>SA</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/86901013_sws_renorm.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1222</th>
-      <td>IRAS 17347-3139</td>
-      <td>87000939</td>
-      <td>264.502583</td>
-      <td>-31.681722</td>
-      <td>5.UE</td>
-      <td>5</td>
-      <td>UE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/87000939_sws_renorm.pkl</td>
-      <td>PN</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1223</th>
-      <td>AFGL 940</td>
-      <td>87102602</td>
-      <td>96.655417</td>
-      <td>9.037778</td>
-      <td>3.CE</td>
-      <td>3</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/87102602_sws_renorm.pkl</td>
-      <td>C*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1224</th>
-      <td>IRC +40149</td>
-      <td>87102906</td>
-      <td>89.853333</td>
-      <td>38.439444</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td>W</td>
-      <td></td>
-      <td>spectra_normalized/87102906_sws_renorm.pkl</td>
-      <td>Mira</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>1225</th>
-      <td>IRAS 17074-4549</td>
-      <td>87200109</td>
-      <td>257.777583</td>
-      <td>-45.883194</td>
-      <td>5.UEp</td>
-      <td>5</td>
-      <td>UEp</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/87200109_sws_renorm.pkl</td>
-      <td>HII</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1226</th>
-      <td>OH 21.5+0.5</td>
-      <td>87200833</td>
-      <td>277.128750</td>
-      <td>-9.971111</td>
-      <td>4.SA</td>
-      <td>4</td>
-      <td>SA</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/87200833_sws_renorm.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1227</th>
-      <td>IRC +10374</td>
-      <td>87201107</td>
-      <td>280.893750</td>
-      <td>13.959722</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td>W</td>
-      <td></td>
-      <td>spectra_normalized/87201107_sws_renorm.pkl</td>
-      <td>Mira</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>1228</th>
-      <td>Case 181</td>
-      <td>87201221</td>
-      <td>285.825417</td>
-      <td>7.512222</td>
-      <td>3.CE</td>
-      <td>3</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/87201221_sws_renorm.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1229</th>
-      <td>T Mic</td>
-      <td>87201305</td>
-      <td>306.980000</td>
-      <td>-28.261111</td>
-      <td>2.SEa</td>
-      <td>2</td>
-      <td>SEa</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/87201305_sws_renorm.pkl</td>
-      <td>semi-regV*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1230</th>
-      <td>IRC +00102</td>
-      <td>87201709</td>
-      <td>95.463750</td>
-      <td>-3.861667</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td>W</td>
-      <td></td>
-      <td>spectra_normalized/87201709_sws_renorm.pkl</td>
-      <td>Mira</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>1231</th>
-      <td>FU Ori</td>
-      <td>87601701</td>
-      <td>86.343750</td>
-      <td>9.070000</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td>H</td>
-      <td></td>
-      <td>spectra_normalized/87601701_sws_renorm.pkl</td>
-      <td>Ae*</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>1232</th>
-      <td>M 16</td>
-      <td>87700401</td>
-      <td>274.735833</td>
-      <td>-13.814583</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/87700401_sws_renorm.pkl</td>
-      <td>OpCl</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>1233</th>
-      <td>FI Vul</td>
-      <td>87700716</td>
-      <td>312.213333</td>
-      <td>22.993889</td>
-      <td>2.SEa</td>
-      <td>2</td>
-      <td>SEa</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/87700716_sws_renorm.pkl</td>
-      <td>LPV*</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1234</th>
-      <td>Nova Sgr 1998</td>
-      <td>87901801</td>
-      <td>275.418750</td>
-      <td>-27.527222</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/87901801_sws_renorm.pkl</td>
-      <td>Nova</td>
-      <td>False</td>
-    </tr>
   </tbody>
 </table>
-<p>1235 rows × 13 columns</p>
 </div>
 </div>
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.-Save-PDFs-by-groupings">2. Save PDFs by groupings<a class="anchor-link" href="#2.-Save-PDFs-by-groupings">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Condition is <code>data_ok == True</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Plot-all">Plot all<a class="anchor-link" href="#Plot-all">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Save all of them to all.pdf: <code>pdftk *_renorm.pdf cat output all.pdf</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">save_dir</span> <span class="o">=</span> <span class="s1">&#39;step5_cull_suspect/plots/&#39;</span>
+<span class="n">pdf_file</span> <span class="o">=</span> <span class="n">save_dir</span> <span class="o">+</span> <span class="s1">&#39;all.pdf&#39;</span>
+
+<span class="c1"># Plot all into a single PDF file.</span>
+<span class="k">with</span> <span class="n">PdfPages</span><span class="p">(</span><span class="n">pdf_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">pdfpages</span><span class="p">:</span>   
+    <span class="n">plot_dataframe</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="n">save_dir</span><span class="o">=</span><span class="n">save_dir</span><span class="p">,</span>
+                   <span class="n">pdfpages</span><span class="o">=</span><span class="n">pdfpages</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Saved: &#39;</span><span class="p">,</span> <span class="n">pdf_file</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Saved:  step5_cull_suspect/plots/all.pdf
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Plot-by-group">Plot by group<a class="anchor-link" href="#Plot-by-group">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">]</span>
+
+<span class="c1"># Save separate PDFs for each group in separate folders.</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">groups</span><span class="p">):</span>
+
+    <span class="c1"># Dataframe subset by &#39;group&#39; condition.</span>
+    <span class="n">meta_subset</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">group</span><span class="p">]</span>
+    
+    <span class="c1"># Plot and save to a separate directory.</span>
+    <span class="n">save_dir</span> <span class="o">=</span> <span class="s1">&#39;step5_cull_suspect/plots/&#39;</span>
+    <span class="n">pdf_file</span> <span class="o">=</span> <span class="n">save_dir</span> <span class="o">+</span> <span class="s1">&#39;group_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">group</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.pdf&#39;</span>
+    
+    <span class="c1"># Save all PDFs to one file.</span>
+    <span class="k">with</span> <span class="n">PdfPages</span><span class="p">(</span><span class="n">pdf_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">pdfpages</span><span class="p">:</span>    
+        <span class="n">plot_dataframe</span><span class="p">(</span><span class="n">meta_subset</span><span class="p">,</span> <span class="n">save_dir</span><span class="o">=</span><span class="n">save_dir</span><span class="p">,</span>
+                       <span class="n">pdfpages</span><span class="o">=</span><span class="n">pdfpages</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Saved: &#39;</span><span class="p">,</span> <span class="n">pdf_file</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Saved:  step5_cull_suspect/plots/group_1.pdf
+Saved:  step5_cull_suspect/plots/group_2.pdf
+Saved:  step5_cull_suspect/plots/group_3.pdf
+Saved:  step5_cull_suspect/plots/group_4.pdf
+Saved:  step5_cull_suspect/plots/group_5.pdf
+Saved:  step5_cull_suspect/plots/group_6.pdf
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Plot-by-subgroup">Plot by subgroup<a class="anchor-link" href="#Plot-by-subgroup">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">]</span>
+
+<span class="c1"># Iterate over all the groups.</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">groups</span><span class="p">):</span>
+
+    <span class="c1"># Isolate group, identify subgroups.</span>
+    <span class="n">meta_subset</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">group</span><span class="p">]</span>
+    <span class="n">subgroups</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">meta_subset</span><span class="p">[</span><span class="s1">&#39;subgroup&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Subgroups of group&#39;</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="s1">&#39;: &#39;</span><span class="p">,</span> <span class="n">subgroups</span><span class="p">)</span>
+    
+    <span class="c1"># Iterate over all the subgroups.</span>
+    <span class="k">for</span> <span class="n">subindex</span><span class="p">,</span> <span class="n">subgroup</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subgroups</span><span class="p">):</span>
+
+        <span class="c1"># Subgroup directory label, avoid weird characters.</span>
+        <span class="k">if</span> <span class="n">subgroup</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">subgroup_label</span> <span class="o">=</span> <span class="s1">&#39;empty&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">subgroup_label</span> <span class="o">=</span> <span class="n">subgroup</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="s1">&#39;_slash_&#39;</span><span class="p">)</span>
+            
+        <span class="c1"># Output directory.</span>
+        <span class="n">save_dir</span> <span class="o">=</span> <span class="s1">&#39;step5_cull_suspect/plots/group&#39;</span> <span class="o">+</span> <span class="n">group</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+        <span class="n">pdf_file</span> <span class="o">=</span> <span class="n">save_dir</span> <span class="o">+</span> <span class="s1">&#39;subgroup_&#39;</span> <span class="o">+</span> <span class="n">subgroup_label</span> <span class="o">+</span> <span class="s1">&#39;.pdf&#39;</span>
+        <span class="n">ensure_exists</span><span class="p">(</span><span class="n">save_dir</span><span class="p">)</span>        
+        
+        <span class="c1"># Extract a single subgroup&#39;s subset from the meta DataFrame.</span>
+        <span class="n">meta_subsubset</span> <span class="o">=</span> <span class="n">meta_subset</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">meta_subset</span><span class="p">[</span><span class="s1">&#39;subgroup&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">subgroup</span><span class="p">]</span>        
+        
+        <span class="c1"># Plot all spectra in the subgroup.</span>
+        <span class="k">with</span> <span class="n">PdfPages</span><span class="p">(</span><span class="n">pdf_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">pdfpages</span><span class="p">:</span>
+            <span class="n">plot_dataframe</span><span class="p">(</span><span class="n">meta_subsubset</span><span class="p">,</span> <span class="n">save_dir</span><span class="o">=</span><span class="n">save_dir</span><span class="p">,</span>
+                           <span class="n">pdfpages</span><span class="o">=</span><span class="n">pdfpages</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Saved: &#39;</span><span class="p">,</span> <span class="n">pdf_file</span><span class="p">)</span>      
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Subgroups of group 1 :  [&#39;N&#39; &#39;NC&#39; &#39;NE&#39; &#39;NM&#39; &#39;NMp&#39; &#39;NO&#39; &#39;NOp&#39;]
+Saved:  step5_cull_suspect/plots/group1/subgroup_N.pdf
+Saved:  step5_cull_suspect/plots/group1/subgroup_NC.pdf
+Saved:  step5_cull_suspect/plots/group1/subgroup_NE.pdf
+Saved:  step5_cull_suspect/plots/group1/subgroup_NM.pdf
+Saved:  step5_cull_suspect/plots/group1/subgroup_NMp.pdf
+Saved:  step5_cull_suspect/plots/group1/subgroup_NO.pdf
+Saved:  step5_cull_suspect/plots/group1/subgroup_NOp.pdf
+
+Subgroups of group 2 :  [&#39;C/SE&#39; &#39;CE&#39; &#39;E&#39; &#39;M&#39; &#39;SEa&#39; &#39;SEap&#39; &#39;SEb&#39; &#39;SEc&#39; &#39;SEcp&#39; &#39;U&#39;]
+Saved:  step5_cull_suspect/plots/group2/subgroup_C_slash_SE.pdf
+Saved:  step5_cull_suspect/plots/group2/subgroup_CE.pdf
+Saved:  step5_cull_suspect/plots/group2/subgroup_E.pdf
+Saved:  step5_cull_suspect/plots/group2/subgroup_M.pdf
+Saved:  step5_cull_suspect/plots/group2/subgroup_SEa.pdf
+Saved:  step5_cull_suspect/plots/group2/subgroup_SEap.pdf
+Saved:  step5_cull_suspect/plots/group2/subgroup_SEb.pdf
+Saved:  step5_cull_suspect/plots/group2/subgroup_SEc.pdf
+Saved:  step5_cull_suspect/plots/group2/subgroup_SEcp.pdf
+Saved:  step5_cull_suspect/plots/group2/subgroup_U.pdf
+
+Subgroups of group 3 :  [&#39;CE&#39; &#39;CR&#39; &#39;SAe&#39; &#39;SB&#39; &#39;SBp&#39; &#39;SE&#39; &#39;SEe&#39; &#39;SEp&#39; &#39;W&#39; &#39;Wp&#39;]
+Saved:  step5_cull_suspect/plots/group3/subgroup_CE.pdf
+Saved:  step5_cull_suspect/plots/group3/subgroup_CR.pdf
+Saved:  step5_cull_suspect/plots/group3/subgroup_SAe.pdf
+Saved:  step5_cull_suspect/plots/group3/subgroup_SB.pdf
+Saved:  step5_cull_suspect/plots/group3/subgroup_SBp.pdf
+Saved:  step5_cull_suspect/plots/group3/subgroup_SE.pdf
+Saved:  step5_cull_suspect/plots/group3/subgroup_SEe.pdf
+Saved:  step5_cull_suspect/plots/group3/subgroup_SEp.pdf
+Saved:  step5_cull_suspect/plots/group3/subgroup_W.pdf
+Saved:  step5_cull_suspect/plots/group3/subgroup_Wp.pdf
+
+Subgroups of group 4 :  [&#39;C/SC&#39; &#39;CN&#39; &#39;CR&#39; &#39;CT&#39; &#39;F&#39; &#39;Fe&#39; &#39;Fu&#39; &#39;M&#39; &#39;Me&#39; &#39;Mu&#39; &#39;PN&#39; &#39;PU&#39; &#39;PUp&#39; &#39;SA&#39;
+ &#39;SAe&#39; &#39;SAp&#39; &#39;SB&#39; &#39;SBe&#39; &#39;SBu&#39; &#39;SC&#39; &#39;SCp&#39; &#39;SE&#39; &#39;SEC&#39; &#39;SECe&#39; &#39;SECu&#39; &#39;SEe&#39;
+ &#39;SEep&#39; &#39;SEu&#39; &#39;SEue&#39; &#39;U/SC&#39;]
+Saved:  step5_cull_suspect/plots/group4/subgroup_C_slash_SC.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_CN.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_CR.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_CT.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_F.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_Fe.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_Fu.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_M.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_Me.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_Mu.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_PN.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_PU.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_PUp.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SA.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SAe.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SAp.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SB.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SBe.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SBu.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SC.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SCp.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SE.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SEC.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SECe.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SECu.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SEe.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SEep.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SEu.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_SEue.pdf
+Saved:  step5_cull_suspect/plots/group4/subgroup_U_slash_SC.pdf
+
+Subgroups of group 5 :  [&#39;E&#39; &#39;F&#39; &#39;Fe&#39; &#39;M&#39; &#39;PN&#39; &#39;PNup&#39; &#39;SA&#39; &#39;SAe&#39; &#39;SAeu&#39; &#39;SAu&#39; &#39;SE&#39; &#39;SEu&#39; &#39;U&#39; &#39;UE&#39;
+ &#39;UEp&#39;]
+Saved:  step5_cull_suspect/plots/group5/subgroup_E.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_F.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_Fe.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_M.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_PN.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_PNup.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_SA.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_SAe.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_SAeu.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_SAu.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_SE.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_SEu.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_U.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_UE.pdf
+Saved:  step5_cull_suspect/plots/group5/subgroup_UEp.pdf
+
+Subgroups of group 6 :  [&#39;&#39; &#39;u&#39;]
+Saved:  step5_cull_suspect/plots/group6/subgroup_empty.pdf
+Saved:  step5_cull_suspect/plots/group6/subgroup_u.pdf
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>
+</pre></div>
+
+</div>
 </div>
 </div>
 
