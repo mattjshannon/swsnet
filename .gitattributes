@@ -1,2 +1,2 @@
 swsnet/_version.py export-subst
-*.html linguist-generated=true
+*.html linguist-detectable=false
