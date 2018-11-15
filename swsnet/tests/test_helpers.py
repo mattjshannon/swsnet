@@ -26,8 +26,9 @@ def meta_file(tmpdir_factory, pickle_file):
     meta_path = tmpdir_factory.mktemp("").join("metadata.pkl")
     mock_dict = {
         'group': [1, 7, 7],
-        'file_path': [str(pickle_file)] * 3
-        }
+        'file_path': [str(pickle_file)] * 3,
+        'data_ok': [1, 1, 0]
+    }
     mock_df = pd.DataFrame(mock_dict)
     mock_df.to_pickle(meta_path)
     return meta_path
@@ -38,8 +39,9 @@ def meta_file2(tmpdir_factory, pickle_file):
     meta_path2 = tmpdir_factory.mktemp("").join("metadata2.pkl")
     mock_dict2 = {
         'group': [1, 7, 7],
-        'file_path': [str(pickle_file), str(pickle_file), 'fake.fakefile']
-        }
+        'file_path': [str(pickle_file), str(pickle_file), 'fake.fakefile'],
+        'data_ok': [1, 1, 0]
+    }
     mock_df2 = pd.DataFrame(mock_dict2)
     mock_df2.to_pickle(meta_path2)
     return meta_path2
@@ -50,8 +52,9 @@ def meta_file_inf(tmpdir_factory, pickle_file):
     meta_path = tmpdir_factory.mktemp("").join("metadata_inf.pkl")
     mock_dict = {
         'group': [1, np.nan, 8],
-        'file_path': [str(pickle_file)] * 3
-        }
+        'file_path': [str(pickle_file)] * 3,
+        'data_ok': [1, 1, 0]
+    }
     mock_df = pd.DataFrame(mock_dict)
     mock_df.to_pickle(meta_path)
     return meta_path
@@ -94,6 +97,14 @@ def test_load_data(meta_file, meta_file2, meta_file_inf):
     # Test a legit metadata.pkl with cleaning needed.
     features, labels = load_data(metadata=meta_file, n_samples=3, verbose=True,
                                  clean=True, normalize=False)
+    assert list(labels) == [0]
+    assert features.shape == (1, 3)
+    assert labels.shape[0] == 1
+
+    # Test a legit metadata.pkl with cleaning needed.
+    features, labels = load_data(metadata=meta_file, n_samples=3, verbose=True,
+                                 clean=True, only_ok_data=True,
+                                 normalize=False)
     assert list(labels) == [0]
     assert features.shape == (1, 3)
     assert labels.shape[0] == 1
