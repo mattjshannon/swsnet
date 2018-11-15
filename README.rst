@@ -8,14 +8,12 @@ swsnet
 .. image:: https://codecov.io/gh/mattjshannon/swsnet/branch/master/graph/badge.svg
         :target: https://codecov.io/gh/mattjshannon/swsnet
 
-.. image:: https://img.shields.io/pypi/v/swsnet.svg
-        :target: https://pypi.python.org/pypi/swsnet
-
+.. image:: https://img.shields.io/badge/docs-available-brightgreen.svg
+        :target: https://mattjshannon.github.io/swsnet/
 
 Applying neural networks to the Sloan SWS astronomical dataset.
 
 * Free software: 3-clause BSD license
-* Documentation: https://mattjshannon.github.io/swsnet
 
 Premise
 --------
