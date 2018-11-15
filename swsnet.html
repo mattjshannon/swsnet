@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>swsnet package &mdash; swsnet 0.post73+g6800097 documentation</title>
+  <title>swsnet package &mdash; swsnet 0.post81+gdd0143e documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.post73+g6800097
+                0.post81+gdd0143e
               </div>
             
           
@@ -224,13 +224,14 @@ header (fits.header): astropy header.</dd>
 
 <dl class="function">
 <dt id="swsnet.helpers.load_data">
-<code class="descclassname">swsnet.helpers.</code><code class="descname">load_data</code><span class="sig-paren">(</span><em>base_dir=''</em>, <em>metadata='metadata.pkl'</em>, <em>clean=False</em>, <em>verbose=False</em>, <em>n_samples=359</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/swsnet/helpers.html#load_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#swsnet.helpers.load_data" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">swsnet.helpers.</code><code class="descname">load_data</code><span class="sig-paren">(</span><em>base_dir=''</em>, <em>metadata='metadata.pkl'</em>, <em>clean=False</em>, <em>only_ok_data=False</em>, <em>verbose=False</em>, <em>n_samples=359</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/swsnet/helpers.html#load_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#swsnet.helpers.load_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a pickled metadata file and extract features, labels.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd>base_dir (str): Path to the directory containing ISO data.
 metadata (str): Path to the metadata.pkl file.
 clean (bool): Whether to remove group=7 data from ISO.
+only_ok_data (bool): Whether to only include rows with data_ok == True.
 verbose (bool): Whether to plot/print diagnostics.</dd>
 <dt>Returns:</dt>
 <dd>features (ndarray): Array containing the spectra (just fluxes).

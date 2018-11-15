@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>swsnet.tests.test_helpers &mdash; swsnet 0.post73+g6800097 documentation</title>
+  <title>swsnet.tests.test_helpers &mdash; swsnet 0.post81+gdd0143e documentation</title>
   
 
   
@@ -57,7 +57,7 @@
             
             
               <div class="version">
-                0.post73+g6800097
+                0.post81+gdd0143e
               </div>
             
           
@@ -178,8 +178,9 @@
     <span class="n">meta_path</span> <span class="o">=</span> <span class="n">tmpdir_factory</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;metadata.pkl&quot;</span><span class="p">)</span>
     <span class="n">mock_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
-        <span class="s1">&#39;file_path&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span>
-        <span class="p">}</span>
+        <span class="s1">&#39;file_path&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s1">&#39;data_ok&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">}</span>
     <span class="n">mock_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mock_dict</span><span class="p">)</span>
     <span class="n">mock_df</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">meta_path</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">meta_path</span></div>
@@ -190,8 +191,9 @@
     <span class="n">meta_path2</span> <span class="o">=</span> <span class="n">tmpdir_factory</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;metadata2.pkl&quot;</span><span class="p">)</span>
     <span class="n">mock_dict2</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
-        <span class="s1">&#39;file_path&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">),</span> <span class="s1">&#39;fake.fakefile&#39;</span><span class="p">]</span>
-        <span class="p">}</span>
+        <span class="s1">&#39;file_path&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">),</span> <span class="s1">&#39;fake.fakefile&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;data_ok&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">}</span>
     <span class="n">mock_df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mock_dict2</span><span class="p">)</span>
     <span class="n">mock_df2</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">meta_path2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">meta_path2</span></div>
@@ -202,8 +204,9 @@
     <span class="n">meta_path</span> <span class="o">=</span> <span class="n">tmpdir_factory</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;metadata_inf.pkl&quot;</span><span class="p">)</span>
     <span class="n">mock_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
-        <span class="s1">&#39;file_path&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span>
-        <span class="p">}</span>
+        <span class="s1">&#39;file_path&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s1">&#39;data_ok&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">}</span>
     <span class="n">mock_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mock_dict</span><span class="p">)</span>
     <span class="n">mock_df</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">meta_path</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">meta_path</span></div>
@@ -246,6 +249,14 @@
     <span class="c1"># Test a legit metadata.pkl with cleaning needed.</span>
     <span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">meta_file</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                  <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">features</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+
+    <span class="c1"># Test a legit metadata.pkl with cleaning needed.</span>
+    <span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">meta_file</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                 <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">only_ok_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">assert</span> <span class="n">features</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
