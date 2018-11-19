@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 
 from mattpy.utils import smooth
+from swsnet.norm_utils import normalize_spectrum
 
 
 # In[2]:
