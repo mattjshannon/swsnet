@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>swsnet package &mdash; swsnet 0.1.0.post1+gd0b807d documentation</title>
+  <title>swsnet package &mdash; swsnet 0.1.0.post4+g748a26d documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.0.post1+gd0b807d
+                0.1.0.post4+g748a26d
               </div>
             
           
@@ -202,7 +202,8 @@
 <dl class="function">
 <dt id="swsnet.convert_fits_to_csv.main">
 <code class="descclassname">swsnet.convert_fits_to_csv.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/swsnet/convert_fits_to_csv.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#swsnet.convert_fits_to_csv.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Batch convert SWS .fits files to .csv.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="module-swsnet.helpers">
@@ -219,6 +220,12 @@
 <dt>Returns:</dt>
 <dd>dframe (pd.DataFrame): wave, flux, error (spce), error (norm).
 header (fits.header): astropy header.</dd>
+<dt>Note:</dt>
+<dd>Column format of hdu[0].data.T:
+COMMENT Column 1 = wavelength (micron)
+COMMENT Column 2 = flux (Jy)
+COMMENT Column 3 = spectroscopic error (Jy)
+COMMENT Column 4 = normalization error (Jy)</dd>
 </dl>
 </dd></dl>
 

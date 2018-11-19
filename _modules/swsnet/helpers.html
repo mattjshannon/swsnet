@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>swsnet.helpers &mdash; swsnet 0.1.0.post1+gd0b807d documentation</title>
+  <title>swsnet.helpers &mdash; swsnet 0.1.0.post4+g748a26d documentation</title>
   
 
   
@@ -57,7 +57,7 @@
             
             
               <div class="version">
-                0.1.0.post1+gd0b807d
+                0.1.0.post4+g748a26d
               </div>
             
           
@@ -175,11 +175,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">e</span>
 
-    <span class="n">flux</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;flux&#39;</span><span class="p">]</span>
+    <span class="n">flux</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">&#39;flux&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
         <span class="n">flux</span> <span class="o">=</span> <span class="n">flux</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">flux</span><span class="p">)</span>
 
@@ -206,7 +206,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">e</span>
 
     <span class="k">if</span> <span class="n">clean</span><span class="p">:</span>
         <span class="n">meta</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;group != &quot;7&quot;&#39;</span><span class="p">)</span>
@@ -243,7 +243,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">flux</span> <span class="o">=</span> <span class="n">load_spectrum</span><span class="p">(</span><span class="n">base_dir</span> <span class="o">+</span> <span class="n">row</span><span class="o">.</span><span class="n">file_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
 
         <span class="n">features</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">flux</span>
         <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -260,29 +260,31 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        dframe (pd.DataFrame): wave, flux, error (spce), error (norm).</span>
 <span class="sd">        header (fits.header): astropy header.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Column format of hdu[0].data.T:</span>
+<span class="sd">        COMMENT Column 1 = wavelength (micron)</span>
+<span class="sd">        COMMENT Column 2 = flux (Jy)</span>
+<span class="sd">        COMMENT Column 3 = spectroscopic error (Jy)</span>
+<span class="sd">        COMMENT Column 4 = normalization error (Jy)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Read the FITS file, assign variables.</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">hdu</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">e</span>
 
-    <span class="n">header</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
-    <span class="n">dat</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hdu</span><span class="p">,</span> <span class="n">fits</span><span class="o">.</span><span class="n">hdu</span><span class="o">.</span><span class="n">hdulist</span><span class="o">.</span><span class="n">HDUList</span><span class="p">)</span>
+
+    <span class="n">header</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>  <span class="c1"># pylint: disable=no-member</span>
+    <span class="n">dat</span> <span class="o">=</span> <span class="n">hdu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># pylint: disable=no-member</span>
 
     <span class="c1"># Should be wave, flux, spec_error, norm_error</span>
     <span class="k">if</span> <span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;Unexpected .fits file dimensions.&#39;</span><span class="p">)</span>
 
     <span class="n">wave</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span> <span class="n">spec_error</span><span class="p">,</span> <span class="n">norm_error</span> <span class="o">=</span> <span class="n">dat</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Column format of hdu[0].data.T:</span>
-<span class="sd">    COMMENT Column 1 = wavelength (micron)</span>
-<span class="sd">    COMMENT Column 2 = flux (Jy)</span>
-<span class="sd">    COMMENT Column 3 = spectroscopic error (Jy)</span>
-<span class="sd">    COMMENT Column 4 = normalization error (Jy)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Create a dictionary of useful measurements.</span>
     <span class="n">hdu_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;wave&#39;</span><span class="p">:</span> <span class="n">wave</span><span class="p">,</span> <span class="s1">&#39;flux&#39;</span><span class="p">:</span> <span class="n">flux</span><span class="p">,</span>
