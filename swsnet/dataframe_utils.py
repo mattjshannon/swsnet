@@ -67,7 +67,7 @@ def plot_spectrum(spectrum_dict, metadata_dict, pdfpages=None,
 
     # Plot relevant quantities/labels.
     fig, ax = plt.subplots()
-    ax.plot(spectrum_dict['wave'], spectrum_dict['flux'])
+    ax.plot(spectrum_dict['wave'], spectrum_dict['flux'], **kwargs)
     ax.set_title(classifier + '   -   ' + base_name_pkl)
     ax.text(0.05, 0.95, obj_type, transform=ax.transAxes,
             color='red', ha='left')

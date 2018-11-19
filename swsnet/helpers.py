@@ -23,11 +23,11 @@ def load_spectrum(path, normalize=True):
     """
 
     try:
-        df = pd.read_pickle(path)
+        dataframe = pd.read_pickle(path)
     except OSError as e:
-        raise(e)
+        raise e
 
-    flux = df['flux']
+    flux = dataframe['flux']
     if normalize:
         flux = flux / np.nanmax(flux)
 
@@ -54,7 +54,7 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
     try:
         meta = pd.read_pickle(metadata)
     except OSError as e:
-        raise(e)
+        raise e
 
     if clean:
         meta = meta.query('group != "7"')
@@ -91,7 +91,7 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
         try:
             flux = load_spectrum(base_dir + row.file_path, **kwargs)
         except OSError as e:
-            raise(e)
+            raise e
 
         features[index] = flux
         index += 1
@@ -108,29 +108,31 @@ def fits_to_dataframe(filename):
     Returns:
         dframe (pd.DataFrame): wave, flux, error (spce), error (norm).
         header (fits.header): astropy header.
+
+    Note:
+        Column format of hdu[0].data.T:
+        COMMENT Column 1 = wavelength (micron)
+        COMMENT Column 2 = flux (Jy)
+        COMMENT Column 3 = spectroscopic error (Jy)
+        COMMENT Column 4 = normalization error (Jy)
     """
 
     # Read the FITS file, assign variables.
     try:
         hdu = fits.open(filename)
     except OSError as e:
-        raise(e)
+        raise e
 
-    header = hdu[0].header
-    dat = hdu[0].data.T
+    assert isinstance(hdu, fits.hdu.hdulist.HDUList)
+
+    header = hdu[0].header  # pylint: disable=no-member
+    dat = hdu[0].data.T  # pylint: disable=no-member
 
     # Should be wave, flux, spec_error, norm_error
     if dat.shape[0] != 4:
         raise IndexError('Unexpected .fits file dimensions.')
 
     wave, flux, spec_error, norm_error = dat
-    """
-    Column format of hdu[0].data.T:
-    COMMENT Column 1 = wavelength (micron)
-    COMMENT Column 2 = flux (Jy)
-    COMMENT Column 3 = spectroscopic error (Jy)
-    COMMENT Column 4 = normalization error (Jy)
-    """
 
     # Create a dictionary of useful measurements.
     hdu_dict = {'wave': wave, 'flux': flux,
