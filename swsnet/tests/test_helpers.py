@@ -3,10 +3,11 @@
 test_helpers.py
 
 Test whether helpers.py behaves as expected."""
+# pylint:disable=redefined-outer-name
 
+import os
 
 import numpy as np
-import os
 import pandas as pd
 import pytest
 
@@ -15,6 +16,7 @@ from swsnet.helpers import load_spectrum, load_data, fits_to_dataframe
 
 @pytest.fixture(scope="module")
 def pickle_file(tmpdir_factory):
+    """Fixture for a fake spectrum pickle."""
     pickle_path = tmpdir_factory.mktemp("data").join("test.pkl")
     mock_df = pd.DataFrame({'wave': [1, 2, 3], 'flux': [84, 80, 75]})
     mock_df.to_pickle(pickle_path)
@@ -23,6 +25,7 @@ def pickle_file(tmpdir_factory):
 
 @pytest.fixture(scope="module")
 def meta_file(tmpdir_factory, pickle_file):
+    """Fixture for a fake metadata pickle."""
     meta_path = tmpdir_factory.mktemp("").join("metadata.pkl")
     mock_dict = {
         'group': [1, 7, 7],
@@ -36,6 +39,7 @@ def meta_file(tmpdir_factory, pickle_file):
 
 @pytest.fixture(scope="module")
 def meta_file2(tmpdir_factory, pickle_file):
+    """Fixture for a fake metadata pickle, including invalid name."""
     meta_path2 = tmpdir_factory.mktemp("").join("metadata2.pkl")
     mock_dict2 = {
         'group': [1, 7, 7],
@@ -49,6 +53,7 @@ def meta_file2(tmpdir_factory, pickle_file):
 
 @pytest.fixture(scope="module")
 def meta_file_inf(tmpdir_factory, pickle_file):
+    """Fixture for a fake metadata pickle, including NaN."""
     meta_path = tmpdir_factory.mktemp("").join("metadata_inf.pkl")
     mock_dict = {
         'group': [1, np.nan, 8],
@@ -111,8 +116,8 @@ def test_load_data(meta_file, meta_file2, meta_file_inf):
 
     # Labels outside of expected range for SWS "group" classifier.
     with pytest.raises(ValueError):
-        feat, labe = load_data(metadata=meta_file_inf, n_samples=3,
-                               verbose=True, clean=False, normalize=False)
+        _, _ = load_data(metadata=meta_file_inf, n_samples=3,
+                         verbose=True, clean=False, normalize=False)
 
 
 def test_fits_to_dataframe():
@@ -121,19 +126,19 @@ def test_fits_to_dataframe():
     # First using real, well-formed data.
     fname = os.path.join(os.path.dirname(__file__), 'data',
                          '02400714_sws.fit')
-    df, header = fits_to_dataframe(fname)
-    df_dict = df.to_dict()
-    dict_keys = list(df_dict.keys())
-    assert df.shape == (48924, 4)
+    dataframe, header = fits_to_dataframe(fname)
+    dataframe_dict = dataframe.to_dict()
+    dict_keys = list(dataframe_dict.keys())
+    assert dataframe.shape == (48924, 4)
     assert dict_keys == ['wave', 'flux', 'spec_error', 'norm_error']
     assert len(header) == 52
 
     # Next using a non-existent file.
     with pytest.raises(OSError):
-        df, header = fits_to_dataframe(fname + 'zzzz')
+        dataframe, header = fits_to_dataframe(fname + 'zzzz')
 
     # And now using real, ill-formed data.
     with pytest.raises(IndexError):
         fname = os.path.join(os.path.dirname(__file__), 'data',
                              '02400714_sws_err.fit')
-        df, header = fits_to_dataframe(fname)
+        dataframe, header = fits_to_dataframe(fname)

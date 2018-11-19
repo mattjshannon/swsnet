@@ -12,6 +12,7 @@ from swsnet.helpers import fits_to_dataframe
 
 
 def main():
+    """Batch convert SWS .fits files to .csv."""
 
     # Location of fits/csv files.
     fits_dir = '../data/fits/'
@@ -23,7 +24,7 @@ def main():
     hold_header = []
 
     # Iterate over all .fits files in 'data/fits/':
-    for index, fname in enumerate(fits_files):
+    for _, fname in enumerate(fits_files):
 
         # Pull out base filename (minus extension and directory).
         base_fname = fname.split('/')[-1].split('.fit')[0]
@@ -31,7 +32,7 @@ def main():
         try:
             dframe, header = fits_to_dataframe(fname)
         except Exception as e:
-            raise(e)
+            raise e
         else:
             csv_fname = base_fname + '.csv'
 
