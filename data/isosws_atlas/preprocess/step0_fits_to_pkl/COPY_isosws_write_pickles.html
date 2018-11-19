@@ -11781,7 +11781,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">glob</span>
@@ -11805,7 +11805,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Some useful functions....</span>
@@ -11840,7 +11840,7 @@ div#notebook {
     <span class="n">base_filename</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.fit&#39;</span><span class="p">,</span> <span class="s1">&#39;.pkl&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     
     <span class="c1"># Save the dataframe to a pickle.</span>
-    <span class="n">pickle_path</span> <span class="o">=</span> <span class="s1">&#39;COPY_isosws_dataframes/&#39;</span> <span class="o">+</span> <span class="n">base_filename</span>
+    <span class="n">pickle_path</span> <span class="o">=</span> <span class="s1">&#39;spectra/&#39;</span> <span class="o">+</span> <span class="n">base_filename</span>
     <span class="n">df</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">pickle_path</span><span class="p">)</span>
     
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
@@ -11956,7 +11956,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">spec_dir</span> <span class="o">=</span> <span class="s1">&#39;sws_irs/&#39;</span>
@@ -11970,7 +11970,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">spec_files</span><span class="p">)</span>
@@ -11986,7 +11986,7 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[24]:</div>
+<div class="prompt output_prompt">Out[14]:</div>
 
 
 
@@ -12005,16 +12005,16 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Convert-spectra-to-dataframes-and-save-to-disk-as-pickles">Convert spectra to dataframes and save to disk as pickles<a class="anchor-link" href="#Convert-spectra-to-dataframes-and-save-to-disk-as-pickles">&#182;</a></h2>
+<h3 id="Identify-the-'good'-TDTs">Identify the 'good' TDTs<a class="anchor-link" href="#Identify-the-'good'-TDTs">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">perform_conversion</span> <span class="o">=</span> <span class="kc">True</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">good_tdts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;good_tdts.txt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12024,7 +12024,94 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">good_tdts</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[8]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 2400714,  2400807,  2400910, ..., 87700401, 87700716, 87901801])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">good_tdts</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[9]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1235</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Convert-spectra-to-dataframes-and-save-to-disk-as-pickles">Convert spectra to dataframes and save to disk as pickles<a class="anchor-link" href="#Convert-spectra-to-dataframes-and-save-to-disk-as-pickles">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">perform_conversion</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Note the break I&#39;ve added; remove for full conversion.</span>
@@ -12033,9 +12120,11 @@ div#notebook {
 
     <span class="c1"># Iterate over all the fits files and convert them.</span>
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">fits_file</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spec_files</span><span class="p">):</span>
-<span class="c1">#         if index &gt;= 22:</span>
-<span class="c1">#             break</span>
-
+    
+        <span class="n">tdt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fits_file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_irs&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">tdt</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">good_tdts</span><span class="p">:</span>
+            <span class="k">continue</span>
+        
         <span class="k">if</span> <span class="n">index</span> <span class="o">%</span> <span class="mi">20</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">spec_files</span><span class="p">))</span>
 
@@ -12062,70 +12151,6 @@ div#notebook {
 Converting fits files...
 =============================
 
-0 / 1262
-20 / 1262
-40 / 1262
-60 / 1262
-80 / 1262
-100 / 1262
-120 / 1262
-140 / 1262
-160 / 1262
-180 / 1262
-200 / 1262
-220 / 1262
-240 / 1262
-260 / 1262
-280 / 1262
-300 / 1262
-320 / 1262
-340 / 1262
-360 / 1262
-380 / 1262
-400 / 1262
-420 / 1262
-440 / 1262
-460 / 1262
-480 / 1262
-500 / 1262
-520 / 1262
-540 / 1262
-560 / 1262
-580 / 1262
-600 / 1262
-620 / 1262
-640 / 1262
-660 / 1262
-680 / 1262
-700 / 1262
-720 / 1262
-740 / 1262
-760 / 1262
-780 / 1262
-800 / 1262
-820 / 1262
-840 / 1262
-860 / 1262
-880 / 1262
-900 / 1262
-920 / 1262
-940 / 1262
-960 / 1262
-980 / 1262
-1000 / 1262
-1020 / 1262
-1040 / 1262
-1060 / 1262
-1080 / 1262
-1100 / 1262
-1120 / 1262
-1140 / 1262
-1160 / 1262
-1180 / 1262
-1200 / 1262
-1220 / 1262
-1240 / 1262
-1260 / 1262
 
 =============================
 Complete.
@@ -12156,62 +12181,58 @@ Complete.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Only do this once.</span>
 <span class="n">recreate_meta_pickle</span> <span class="o">=</span> <span class="kc">True</span>
 
-<span class="k">if</span> <span class="n">recreate_meta_pickle</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">create_swsmeta_dataframe</span><span class="p">():</span>
-        <span class="sd">&quot;&quot;&quot;Create a dataframe that contains the metadata for the ISO-SWS Atlas.&quot;&quot;&quot;</span>
-        
-        <span class="k">def</span> <span class="nf">simbad_results</span><span class="p">():</span>
-            <span class="sd">&quot;&quot;&quot;Create a dictionary of the SIMBAD object type query results.&quot;&quot;&quot;</span>
-            <span class="n">simbad_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;isosws_misc/simbad_type.csv&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-            <span class="n">simbad_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">simbad_results</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">simbad_dict</span>
-        
-        <span class="k">def</span> <span class="nf">sexagesimal_to_degree</span><span class="p">(</span><span class="n">tupe</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;Convert from hour:minute:second to degrees.&quot;&quot;&quot;</span>
-            <span class="n">sex_str</span> <span class="o">=</span> <span class="n">tupe</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">tupe</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">c</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="n">sex_str</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">hourangle</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">c</span><span class="o">.</span><span class="n">ra</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">dec</span><span class="o">.</span><span class="n">deg</span>        
-        
-        <span class="k">def</span> <span class="nf">transform_ra_dec_into_degrees</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;Perform full ra, dec conversion to degrees.&quot;&quot;&quot;</span>
-            <span class="n">ra</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">dec</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ra&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dec&#39;</span><span class="p">])):</span>
-                <span class="n">ra_deg</span><span class="p">,</span> <span class="n">dec_deg</span> <span class="o">=</span> <span class="n">sexagesimal_to_degree</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-                <span class="n">ra</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ra_deg</span><span class="p">)</span>
-                <span class="n">dec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dec_deg</span><span class="p">)</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">ra</span><span class="o">=</span><span class="n">ra</span><span class="p">)</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">dec</span><span class="o">=</span><span class="n">dec</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">df</span>
+<span class="k">def</span> <span class="nf">create_swsmeta_dataframe</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Create a dataframe that contains the metadata for the ISO-SWS Atlas.&quot;&quot;&quot;</span>
 
-        <span class="c1"># Read in the metadata</span>
-        <span class="n">meta_filename</span> <span class="o">=</span> <span class="s1">&#39;isosws_misc/kraemer_class.csv&#39;</span>
-        <span class="n">swsmeta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">meta_filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">swsmeta</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">columns</span><span class="o">=</span><span class="n">swsmeta</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        
-        <span class="c1"># Add a column for the pickle paths (dataframes with wave, flux, etc).</span>
-        <span class="n">pickle_paths</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;spectra/&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="s1">&#39;_irs.pkl&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;tdt&#39;</span><span class="p">]]</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">pickle_paths</span><span class="p">)</span>
-        
-        <span class="c1"># Add a column for SIMBAD type, need to query &#39;simbad_type.csv&#39; for this. Not in order naturally...</span>
-        <span class="n">object_names</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;object_name&#39;</span><span class="p">]</span>
-        <span class="n">object_type_dict</span> <span class="o">=</span> <span class="n">simbad_results</span><span class="p">()</span>
-        <span class="n">object_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">object_type_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;empty&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">object_names</span><span class="p">]</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">object_type</span><span class="o">=</span><span class="n">object_types</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">simbad_results</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Create a dictionary of the SIMBAD object type query results.&quot;&quot;&quot;</span>
+        <span class="n">simbad_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;isosws_misc/simbad_type.csv&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+        <span class="n">simbad_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">simbad_results</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">simbad_dict</span>
 
-        <span class="c1"># Transform ra and dec into degrees.</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">transform_ra_dec_into_degrees</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-        
+    <span class="k">def</span> <span class="nf">sexagesimal_to_degree</span><span class="p">(</span><span class="n">tupe</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert from hour:minute:second to degrees.&quot;&quot;&quot;</span>
+        <span class="n">sex_str</span> <span class="o">=</span> <span class="n">tupe</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">tupe</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="n">sex_str</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">hourangle</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">c</span><span class="o">.</span><span class="n">ra</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">dec</span><span class="o">.</span><span class="n">deg</span>        
+
+    <span class="k">def</span> <span class="nf">transform_ra_dec_into_degrees</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Perform full ra, dec conversion to degrees.&quot;&quot;&quot;</span>
+        <span class="n">ra</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dec</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ra&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dec&#39;</span><span class="p">])):</span>
+            <span class="n">ra_deg</span><span class="p">,</span> <span class="n">dec_deg</span> <span class="o">=</span> <span class="n">sexagesimal_to_degree</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">ra</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ra_deg</span><span class="p">)</span>
+            <span class="n">dec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dec_deg</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">ra</span><span class="o">=</span><span class="n">ra</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">dec</span><span class="o">=</span><span class="n">dec</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span>
-    
-    <span class="n">df</span> <span class="o">=</span> <span class="n">create_swsmeta_dataframe</span><span class="p">()</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s1">&#39;isosws_metadata_df_rebin.pkl&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Read in the metadata</span>
+    <span class="n">meta_filename</span> <span class="o">=</span> <span class="s1">&#39;isosws_misc/kraemer_class.csv&#39;</span>
+    <span class="n">swsmeta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">meta_filename</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">swsmeta</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">columns</span><span class="o">=</span><span class="n">swsmeta</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># Add a column for the pickle paths (dataframes with wave, flux, etc).</span>
+    <span class="n">pickle_paths</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;spectra/&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_irs.pkl&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;tdt&#39;</span><span class="p">]]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">pickle_paths</span><span class="p">)</span>
+
+    <span class="c1"># Add a column for SIMBAD type, need to query &#39;simbad_type.csv&#39; for this. Not in order naturally...</span>
+    <span class="n">object_names</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;object_name&#39;</span><span class="p">]</span>
+    <span class="n">object_type_dict</span> <span class="o">=</span> <span class="n">simbad_results</span><span class="p">()</span>
+    <span class="n">object_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">object_type_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;empty&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">object_names</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">object_type</span><span class="o">=</span><span class="n">object_types</span><span class="p">)</span>
+
+    <span class="c1"># Transform ra and dec into degrees.</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">transform_ra_dec_into_degrees</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
 </pre></div>
 
 </div>
@@ -12221,10 +12242,63 @@ Complete.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">recreate_meta_pickle</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">create_swsmeta_dataframe</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># SORT BY TDT!</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;tdt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;tdt&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tdt&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Drop rows without data.</span>
+<span class="n">drop_indices</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">itertuples</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Pandas&#39;</span><span class="p">):</span>
+    <span class="n">tdt</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="s2">&quot;tdt&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tdt</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">good_tdts</span><span class="p">:</span>
+        <span class="n">drop_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>    
+
+<span class="n">final_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_indices</span><span class="p">)</span>
+<span class="n">final_df</span> <span class="o">=</span> <span class="n">final_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">final_df</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s1">&#39;../metadata_step0.pkl&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">final_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -12237,7 +12311,7 @@ Complete.
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[30]:</div>
+<div class="prompt output_prompt">Out[18]:</div>
 
 
 
@@ -12277,78 +12351,78 @@ Complete.
   <tbody>
     <tr>
       <th>0</th>
-      <td>W Cet</td>
-      <td>37802225</td>
-      <td>0.532083</td>
-      <td>-14.676639</td>
-      <td>2.SEa:</td>
-      <td>2</td>
-      <td>SEa</td>
-      <td>1</td>
+      <td>NGC 6543</td>
+      <td>2400714</td>
+      <td>269.639167</td>
+      <td>66.633194</td>
+      <td>4.PN</td>
+      <td>4</td>
+      <td>PN</td>
       <td></td>
       <td></td>
-      <td>spectra/37802225_irs.pkl</td>
-      <td>S*</td>
+      <td></td>
+      <td>spectra/02400714_irs.pkl</td>
+      <td>PN</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>SV And</td>
-      <td>42801007</td>
-      <td>1.083333</td>
-      <td>40.110333</td>
-      <td>2.SEa:</td>
-      <td>2</td>
-      <td>SEa</td>
-      <td>1</td>
+      <td>NGC 6543</td>
+      <td>2400807</td>
+      <td>269.639167</td>
+      <td>66.633194</td>
+      <td>4.PN</td>
+      <td>4</td>
+      <td>PN</td>
       <td></td>
       <td></td>
-      <td>spectra/42801007_irs.pkl</td>
-      <td>Mira</td>
+      <td></td>
+      <td>spectra/02400807_irs.pkl</td>
+      <td>PN</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>SV And</td>
-      <td>80800708</td>
-      <td>1.083333</td>
-      <td>40.110333</td>
-      <td>2.SEa</td>
-      <td>2</td>
-      <td>SEa</td>
+      <td>NGC 6543</td>
+      <td>2400910</td>
+      <td>269.639125</td>
+      <td>66.633194</td>
+      <td>4.PN</td>
+      <td>4</td>
+      <td>PN</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>spectra/80800708_irs.pkl</td>
-      <td>Mira</td>
+      <td>spectra/02400910_irs.pkl</td>
+      <td>PN</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>CIT 1</td>
-      <td>78201008</td>
-      <td>1.717917</td>
-      <td>43.076667</td>
-      <td>7</td>
-      <td>7</td>
+      <td>NGC 7027</td>
+      <td>2401183</td>
+      <td>316.757125</td>
+      <td>42.235861</td>
+      <td>4.PU</td>
+      <td>4</td>
+      <td>PU</td>
       <td></td>
       <td></td>
-      <td>W</td>
       <td></td>
-      <td>spectra/78201008_irs.pkl</td>
-      <td>Mira</td>
+      <td>spectra/02401183_irs.pkl</td>
+      <td>PN</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>HR 10</td>
-      <td>37802001</td>
-      <td>1.825833</td>
-      <td>-17.387000</td>
-      <td>1.NM:</td>
+      <td>{gamma} Dra</td>
+      <td>2401579</td>
+      <td>269.151708</td>
+      <td>51.488972</td>
+      <td>1.NO</td>
       <td>1</td>
-      <td>NM</td>
-      <td>1</td>
+      <td>NO</td>
       <td></td>
+      <td>(0,0)</td>
       <td></td>
-      <td>spectra/37802001_irs.pkl</td>
-      <td>Star</td>
+      <td>spectra/02401579_irs.pkl</td>
+      <td></td>
     </tr>
   </tbody>
 </table>
@@ -12363,10 +12437,10 @@ Complete.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;isosws_metadata_df.pkl&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;../metadata_step0.pkl&#39;</span><span class="p">)</span>
 <span class="n">mdf</span>
 </pre></div>
 
@@ -12380,7 +12454,7 @@ Complete.
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[31]:</div>
+<div class="prompt output_prompt">Out[19]:</div>
 
 
 
@@ -12420,453 +12494,453 @@ Complete.
   <tbody>
     <tr>
       <th>0</th>
-      <td>W Cet</td>
-      <td>37802225</td>
-      <td>0.532083</td>
-      <td>-14.676639</td>
-      <td>2.SEa:</td>
-      <td>2</td>
-      <td>SEa</td>
-      <td>1</td>
+      <td>NGC 6543</td>
+      <td>2400714</td>
+      <td>269.639167</td>
+      <td>66.633194</td>
+      <td>4.PN</td>
+      <td>4</td>
+      <td>PN</td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/37802225_sws.pkl</td>
-      <td>S*</td>
+      <td></td>
+      <td>spectra/02400714_irs.pkl</td>
+      <td>PN</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>SV And</td>
-      <td>42801007</td>
-      <td>1.083333</td>
-      <td>40.110333</td>
-      <td>2.SEa:</td>
-      <td>2</td>
-      <td>SEa</td>
-      <td>1</td>
+      <td>NGC 6543</td>
+      <td>2400807</td>
+      <td>269.639167</td>
+      <td>66.633194</td>
+      <td>4.PN</td>
+      <td>4</td>
+      <td>PN</td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/42801007_sws.pkl</td>
-      <td>Mira</td>
+      <td></td>
+      <td>spectra/02400807_irs.pkl</td>
+      <td>PN</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>SV And</td>
-      <td>80800708</td>
-      <td>1.083333</td>
-      <td>40.110333</td>
-      <td>2.SEa</td>
-      <td>2</td>
-      <td>SEa</td>
+      <td>NGC 6543</td>
+      <td>2400910</td>
+      <td>269.639125</td>
+      <td>66.633194</td>
+      <td>4.PN</td>
+      <td>4</td>
+      <td>PN</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/80800708_sws.pkl</td>
-      <td>Mira</td>
+      <td>spectra/02400910_irs.pkl</td>
+      <td>PN</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>CIT 1</td>
-      <td>78201008</td>
-      <td>1.717917</td>
-      <td>43.076667</td>
-      <td>7</td>
-      <td>7</td>
+      <td>NGC 7027</td>
+      <td>2401183</td>
+      <td>316.757125</td>
+      <td>42.235861</td>
+      <td>4.PU</td>
+      <td>4</td>
+      <td>PU</td>
       <td></td>
       <td></td>
-      <td>W</td>
       <td></td>
-      <td>isosws_dataframes/78201008_sws.pkl</td>
-      <td>Mira</td>
+      <td>spectra/02401183_irs.pkl</td>
+      <td>PN</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>HR 10</td>
-      <td>37802001</td>
-      <td>1.825833</td>
-      <td>-17.387000</td>
-      <td>1.NM:</td>
+      <td>{gamma} Dra</td>
+      <td>2401579</td>
+      <td>269.151708</td>
+      <td>51.488972</td>
+      <td>1.NO</td>
       <td>1</td>
-      <td>NM</td>
-      <td>1</td>
+      <td>NO</td>
       <td></td>
+      <td>(0,0)</td>
       <td></td>
-      <td>isosws_dataframes/37802001_sws.pkl</td>
-      <td>Star</td>
+      <td>spectra/02401579_irs.pkl</td>
+      <td></td>
     </tr>
     <tr>
       <th>5</th>
-      <td>{beta} Cas</td>
-      <td>28501420</td>
-      <td>2.293625</td>
-      <td>59.149944</td>
-      <td>1.N</td>
-      <td>1</td>
-      <td>N</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/28501420_sws.pkl</td>
-      <td>Star</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>V633 Cas</td>
-      <td>43501514</td>
-      <td>2.860833</td>
-      <td>58.834444</td>
-      <td>5.SE</td>
-      <td>5</td>
-      <td>SE</td>
-      <td></td>
-      <td>W</td>
-      <td></td>
-      <td>isosws_dataframes/43501514_sws.pkl</td>
-      <td>Ae*</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>NGC 40</td>
-      <td>44401917</td>
-      <td>3.253792</td>
-      <td>72.522222</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/44401917_sws.pkl</td>
-      <td>PN</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>NGC 40</td>
-      <td>30003803</td>
-      <td>3.254583</td>
-      <td>72.521972</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/30003803_sws.pkl</td>
-      <td>PN</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>HR 48</td>
-      <td>55502138</td>
-      <td>3.660000</td>
-      <td>-18.932889</td>
+      <td>{gamma} Dra</td>
+      <td>2402105</td>
+      <td>269.151667</td>
+      <td>51.488972</td>
       <td>1.NO</td>
       <td>1</td>
       <td>NO</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/55502138_sws.pkl</td>
-      <td>Candidate_LP*</td>
+      <td>spectra/02402105_irs.pkl</td>
+      <td></td>
     </tr>
     <tr>
-      <th>10</th>
-      <td>S Scl</td>
-      <td>73500129</td>
-      <td>3.842417</td>
-      <td>-32.045389</td>
-      <td>2.SEb</td>
-      <td>2</td>
-      <td>SEb</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/73500129_sws.pkl</td>
-      <td>Mira</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>S Scl</td>
-      <td>37102018</td>
-      <td>3.842458</td>
-      <td>-32.045556</td>
-      <td>2.SEb</td>
-      <td>2</td>
-      <td>SEb</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/37102018_sws.pkl</td>
-      <td>Mira</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>IRAS 00127+5437</td>
-      <td>39902101</td>
-      <td>3.850542</td>
-      <td>54.904278</td>
-      <td>4.SE::</td>
-      <td>4</td>
-      <td>SE</td>
-      <td>2</td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/39902101_sws.pkl</td>
-      <td>IR</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>VX And</td>
-      <td>42801502</td>
-      <td>4.975417</td>
-      <td>44.709722</td>
-      <td>2.CE</td>
-      <td>2</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/42801502_sws.pkl</td>
-      <td>semi-regV*</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>T Cet</td>
-      <td>55502308</td>
-      <td>5.441792</td>
-      <td>-20.058556</td>
-      <td>2.SEa</td>
-      <td>2</td>
-      <td>SEa</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/55502308_sws.pkl</td>
-      <td>S*</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>T Cet</td>
-      <td>37801819</td>
-      <td>5.444083</td>
-      <td>-20.057778</td>
-      <td>2.SEa</td>
-      <td>2</td>
-      <td>SEa</td>
-      <td></td>
-      <td>F</td>
-      <td></td>
-      <td>isosws_dataframes/37801819_sws.pkl</td>
-      <td>S*</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>RAFGL 5017</td>
-      <td>54900858</td>
-      <td>5.450000</td>
-      <td>-40.286944</td>
-      <td>4.SEC:</td>
-      <td>4</td>
-      <td>SEC</td>
-      <td>1</td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/54900858_sws.pkl</td>
-      <td>Mira</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>T Cas</td>
-      <td>40201208</td>
-      <td>5.809375</td>
-      <td>55.792694</td>
-      <td>2.SEa</td>
-      <td>2</td>
-      <td>SEa</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/40201208_sws.pkl</td>
-      <td>Mira</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>IRAS 00210+6221</td>
-      <td>40401901</td>
-      <td>5.963333</td>
-      <td>62.635278</td>
-      <td>4.CR</td>
-      <td>4</td>
-      <td>CR</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/40401901_sws.pkl</td>
-      <td>C*</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>IRAS 00211+6549</td>
-      <td>44402001</td>
-      <td>5.991667</td>
-      <td>66.100889</td>
-      <td>5.F:</td>
+      <th>6</th>
+      <td>AFGL 2591</td>
+      <td>2800433</td>
+      <td>307.352750</td>
+      <td>40.188583</td>
+      <td>5.SA</td>
       <td>5</td>
-      <td>F</td>
-      <td>1</td>
+      <td>SA</td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/44402001_sws.pkl</td>
+      <td></td>
+      <td>spectra/02800433_irs.pkl</td>
       <td>YSO</td>
     </tr>
     <tr>
-      <th>20</th>
-      <td>R And</td>
-      <td>40201723</td>
-      <td>6.008333</td>
-      <td>38.576944</td>
-      <td>2.SEc</td>
+      <th>7</th>
+      <td>NGC 6543</td>
+      <td>2800908</td>
+      <td>269.639167</td>
+      <td>66.633194</td>
+      <td>4.PN</td>
+      <td>4</td>
+      <td>PN</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/02800908_irs.pkl</td>
+      <td>PN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>P Cyg</td>
+      <td>3201129</td>
+      <td>304.446667</td>
+      <td>38.032861</td>
+      <td>2.E</td>
       <td>2</td>
-      <td>SEc</td>
+      <td>E</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/40201723_sws.pkl</td>
-      <td>S*</td>
+      <td>spectra/03201129_irs.pkl</td>
+      <td>BlueSG*</td>
     </tr>
     <tr>
-      <th>21</th>
-      <td>47 Tuc</td>
-      <td>74803701</td>
-      <td>6.021250</td>
-      <td>-72.080694</td>
-      <td>7</td>
-      <td>7</td>
+      <th>9</th>
+      <td>NGC 6543</td>
+      <td>3201202</td>
+      <td>269.639167</td>
+      <td>66.633194</td>
+      <td>4.PN</td>
+      <td>4</td>
+      <td>PN</td>
       <td></td>
       <td></td>
-      <td>R</td>
       <td></td>
-      <td>isosws_dataframes/74803701_sws.pkl</td>
-      <td>GlCl</td>
+      <td>spectra/03201202_irs.pkl</td>
+      <td>PN</td>
     </tr>
     <tr>
-      <th>22</th>
-      <td>Off-{beta}Hyi</td>
-      <td>17900204</td>
-      <td>6.428542</td>
-      <td>-77.254778</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/17900204_sws.pkl</td>
-      <td>V*</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>{beta} Hyi</td>
-      <td>85000604</td>
-      <td>6.433708</td>
-      <td>-77.254611</td>
-      <td>1.N</td>
+      <th>10</th>
+      <td>Cyg OB2 No. 12</td>
+      <td>3602226</td>
+      <td>308.170833</td>
+      <td>41.241472</td>
+      <td>1.NMp</td>
       <td>1</td>
-      <td>N</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/85000604_sws.pkl</td>
-      <td>V*</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>Off-{beta}Hyi</td>
-      <td>9200604</td>
-      <td>6.447250</td>
-      <td>-77.254806</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
+      <td>NMp</td>
       <td></td>
       <td>F</td>
       <td></td>
-      <td>isosws_dataframes/9200604_sws.pkl</td>
-      <td>V*</td>
+      <td>spectra/03602226_irs.pkl</td>
+      <td></td>
     </tr>
     <tr>
-      <th>25</th>
-      <td>{kappa} Phe</td>
-      <td>23200502</td>
-      <td>6.550667</td>
-      <td>-43.680306</td>
-      <td>1.NM:</td>
-      <td>1</td>
-      <td>NM</td>
-      <td>1</td>
+      <th>11</th>
+      <td>HR 4049</td>
+      <td>4000458</td>
+      <td>154.531667</td>
+      <td>-28.992028</td>
+      <td>2.U</td>
+      <td>2</td>
+      <td>U</td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/23200502_sws.pkl</td>
-      <td>Star</td>
+      <td></td>
+      <td>spectra/04000458_irs.pkl</td>
+      <td>post-AGB*</td>
     </tr>
     <tr>
-      <th>26</th>
-      <td>VX Cas</td>
-      <td>42701004</td>
-      <td>7.833333</td>
-      <td>62.000000</td>
+      <th>12</th>
+      <td>AG Car</td>
+      <td>4000652</td>
+      <td>164.048333</td>
+      <td>-60.453722</td>
+      <td>4.Me</td>
+      <td>4</td>
+      <td>Me</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/04000652_irs.pkl</td>
+      <td>BlueSG*</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>V778 Cyg</td>
+      <td>4001456</td>
+      <td>309.044167</td>
+      <td>60.088889</td>
       <td>7</td>
       <td>7</td>
       <td></td>
       <td></td>
       <td>W</td>
       <td></td>
-      <td>isosws_dataframes/42701004_sws.pkl</td>
-      <td>Ae*</td>
+      <td>spectra/04001456_irs.pkl</td>
+      <td>C*</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>{beta} Leo</td>
+      <td>4001710</td>
+      <td>177.263667</td>
+      <td>14.572194</td>
+      <td>1.N</td>
+      <td>1</td>
+      <td>N</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/04001710_irs.pkl</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>{gamma} Dra</td>
+      <td>4002405</td>
+      <td>269.151708</td>
+      <td>51.488972</td>
+      <td>1.NO</td>
+      <td>1</td>
+      <td>NO</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/04002405_irs.pkl</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>NML Cyg</td>
+      <td>5200726</td>
+      <td>311.606250</td>
+      <td>40.116500</td>
+      <td>3.SB</td>
+      <td>3</td>
+      <td>SB</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/05200726_irs.pkl</td>
+      <td>V*</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>{alpha} Boo +0.04, +1.0</td>
+      <td>5601291</td>
+      <td>213.916708</td>
+      <td>19.184611</td>
+      <td>1.NO</td>
+      <td>1</td>
+      <td>NO</td>
+      <td></td>
+      <td>Offset</td>
+      <td></td>
+      <td>spectra/05601291_irs.pkl</td>
+      <td>RGB*</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>IRAS 21282+5050</td>
+      <td>5602477</td>
+      <td>322.493417</td>
+      <td>51.066611</td>
+      <td>4.Mu</td>
+      <td>4</td>
+      <td>Mu</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/05602477_irs.pkl</td>
+      <td>PN</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>{beta} Peg</td>
+      <td>5602595</td>
+      <td>345.943958</td>
+      <td>28.082667</td>
+      <td>1.NO</td>
+      <td>1</td>
+      <td>NO</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/05602595_irs.pkl</td>
+      <td>LPV*</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>{mu} Cep</td>
+      <td>5602852</td>
+      <td>325.876667</td>
+      <td>58.780028</td>
+      <td>2.SEc</td>
+      <td>2</td>
+      <td>SEc</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/05602852_irs.pkl</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>AFGL 4106</td>
+      <td>6000280</td>
+      <td>155.831875</td>
+      <td>-59.534944</td>
+      <td>4.SCp</td>
+      <td>4</td>
+      <td>SCp</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/06000280_irs.pkl</td>
+      <td>SG*</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>HR 7341</td>
+      <td>6001362</td>
+      <td>289.657458</td>
+      <td>49.569333</td>
+      <td>7</td>
+      <td>7</td>
+      <td></td>
+      <td></td>
+      <td>R</td>
+      <td></td>
+      <td>spectra/06001362_irs.pkl</td>
+      <td>Star</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>S 140</td>
+      <td>6401081</td>
+      <td>334.826250</td>
+      <td>63.313083</td>
+      <td>5.SA</td>
+      <td>5</td>
+      <td>SA</td>
+      <td></td>
+      <td>(0,0)</td>
+      <td></td>
+      <td>spectra/06401081_irs.pkl</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>{xi} Dra</td>
+      <td>6800697</td>
+      <td>268.381958</td>
+      <td>56.872583</td>
+      <td>1.NO:</td>
+      <td>1</td>
+      <td>NO</td>
+      <td>1</td>
+      <td></td>
+      <td></td>
+      <td>spectra/06800697_irs.pkl</td>
+      <td>PM*</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>{eta} Car</td>
+      <td>7100250</td>
+      <td>161.265000</td>
+      <td>-59.684528</td>
+      <td>4.M:e</td>
+      <td>4</td>
+      <td>M</td>
+      <td>1e</td>
+      <td></td>
+      <td></td>
+      <td>spectra/07100250_irs.pkl</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>{alpha} Boo +0.03, +0.9</td>
+      <td>7100434</td>
+      <td>213.916667</td>
+      <td>19.184583</td>
+      <td>1.NO</td>
+      <td>1</td>
+      <td>NO</td>
+      <td></td>
+      <td>Offset</td>
+      <td></td>
+      <td>spectra/07100434_irs.pkl</td>
+      <td>RGB*</td>
     </tr>
     <tr>
       <th>27</th>
-      <td>RNO 1B</td>
-      <td>28500902</td>
-      <td>9.192750</td>
-      <td>63.481778</td>
-      <td>5.F</td>
-      <td>5</td>
-      <td>F</td>
+      <td>HD 161796</td>
+      <td>7100579</td>
+      <td>266.231250</td>
+      <td>50.044389</td>
+      <td>4.SC</td>
+      <td>4</td>
+      <td>SC</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/28500902_sws.pkl</td>
-      <td>FUOr</td>
+      <td>spectra/07100579_irs.pkl</td>
+      <td>post-AGB*</td>
     </tr>
     <tr>
       <th>28</th>
-      <td>M 31</td>
-      <td>40001501</td>
-      <td>10.691708</td>
-      <td>41.269972</td>
-      <td>7</td>
-      <td>7</td>
+      <td>{delta} Cen</td>
+      <td>7200272</td>
+      <td>182.089625</td>
+      <td>-50.722417</td>
+      <td>1.NE</td>
+      <td>1</td>
+      <td>NE</td>
       <td></td>
       <td></td>
-      <td>G</td>
       <td></td>
-      <td>isosws_dataframes/40001501_sws.pkl</td>
-      <td>Galaxy</td>
+      <td>spectra/07200272_irs.pkl</td>
+      <td>Be*</td>
     </tr>
     <tr>
       <th>29</th>
-      <td>WR 1</td>
-      <td>42500402</td>
-      <td>10.868333</td>
-      <td>64.762361</td>
-      <td>7</td>
-      <td>7</td>
+      <td>{delta} Cen</td>
+      <td>7200351</td>
+      <td>182.089625</td>
+      <td>-50.722417</td>
+      <td>1.NE</td>
+      <td>1</td>
+      <td>NE</td>
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td>isosws_dataframes/42500402_sws.pkl</td>
-      <td>WR*</td>
+      <td>spectra/07200351_irs.pkl</td>
+      <td>Be*</td>
     </tr>
     <tr>
       <th>...</th>
@@ -12884,458 +12958,458 @@ Complete.
       <td>...</td>
     </tr>
     <tr>
-      <th>1218</th>
-      <td>{upsilon} Peg</td>
-      <td>21900653</td>
-      <td>351.344375</td>
-      <td>23.404111</td>
-      <td>1.N:</td>
-      <td>1</td>
-      <td>N</td>
-      <td>1</td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/21900653_sws.pkl</td>
-      <td>PM*</td>
-    </tr>
-    <tr>
-      <th>1219</th>
-      <td>NGC 7662</td>
-      <td>43700427</td>
-      <td>351.474417</td>
-      <td>42.534833</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/43700427_sws.pkl</td>
-      <td>PN</td>
-    </tr>
-    <tr>
-      <th>1220</th>
-      <td>Hb 12</td>
-      <td>43700330</td>
-      <td>351.561167</td>
-      <td>58.181861</td>
-      <td>4.SECe</td>
-      <td>4</td>
-      <td>SECe</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/43700330_sws.pkl</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>1221</th>
-      <td>RU Phe</td>
-      <td>34401919</td>
-      <td>352.034583</td>
-      <td>-47.458139</td>
-      <td>2.SEc:</td>
+      <th>1205</th>
+      <td>AFGL 2392</td>
+      <td>85800120</td>
+      <td>291.810000</td>
+      <td>7.069444</td>
+      <td>2.CE</td>
       <td>2</td>
-      <td>SEc</td>
-      <td>1</td>
+      <td>CE</td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/34401919_sws.pkl</td>
+      <td></td>
+      <td>spectra/85800120_irs.pkl</td>
       <td>Mira</td>
     </tr>
     <tr>
-      <th>1222</th>
-      <td>AFGL 3099</td>
-      <td>78200523</td>
-      <td>352.070417</td>
-      <td>10.911111</td>
-      <td>3.CR</td>
+      <th>1206</th>
+      <td>Lk H{alpha} 225</td>
+      <td>85800403</td>
+      <td>305.126667</td>
+      <td>41.357500</td>
+      <td>5.SAe</td>
+      <td>5</td>
+      <td>SAe</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/85800403_irs.pkl</td>
+      <td>Ae*</td>
+    </tr>
+    <tr>
+      <th>1207</th>
+      <td>Lk H{alpha} 224</td>
+      <td>85800502</td>
+      <td>305.121667</td>
+      <td>41.357500</td>
+      <td>5.F</td>
+      <td>5</td>
+      <td>F</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/85800502_irs.pkl</td>
+      <td>Ae*</td>
+    </tr>
+    <tr>
+      <th>1208</th>
+      <td>W Ori</td>
+      <td>85801604</td>
+      <td>76.348750</td>
+      <td>1.177556</td>
+      <td>2.CE</td>
+      <td>2</td>
+      <td>CE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/85801604_irs.pkl</td>
+      <td>semi-regV*</td>
+    </tr>
+    <tr>
+      <th>1209</th>
+      <td>IRC +50137</td>
+      <td>86201803</td>
+      <td>77.831042</td>
+      <td>52.876028</td>
+      <td>3.SB</td>
       <td>3</td>
-      <td>CR</td>
+      <td>SB</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/78200523_sws.pkl</td>
+      <td>spectra/86201803_irs.pkl</td>
       <td>Mira</td>
     </tr>
     <tr>
-      <th>1223</th>
-      <td>IRAS 23262+6401</td>
-      <td>43305805</td>
-      <td>352.115417</td>
-      <td>64.292472</td>
+      <th>1210</th>
+      <td>IRAS 04579+4703</td>
+      <td>86201902</td>
+      <td>75.415417</td>
+      <td>47.123111</td>
       <td>5.SA</td>
       <td>5</td>
       <td>SA</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/43305805_sws.pkl</td>
-      <td>IR</td>
+      <td>spectra/86201902_irs.pkl</td>
+      <td>YSO</td>
     </tr>
     <tr>
-      <th>1224</th>
-      <td>V582 Cas</td>
-      <td>38501620</td>
-      <td>352.545208</td>
-      <td>60.276139</td>
-      <td>2.SEc</td>
+      <th>1211</th>
+      <td>RV Cam</td>
+      <td>86202101</td>
+      <td>67.673750</td>
+      <td>57.411611</td>
+      <td>2.SEb</td>
       <td>2</td>
-      <td>SEc</td>
+      <td>SEb</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/38501620_sws.pkl</td>
+      <td>spectra/86202101_irs.pkl</td>
       <td>semi-regV*</td>
     </tr>
     <tr>
-      <th>1225</th>
-      <td>V582 Cas</td>
-      <td>42300804</td>
-      <td>352.613875</td>
-      <td>57.976250</td>
-      <td>2.SEc</td>
+      <th>1212</th>
+      <td>AFGL 437</td>
+      <td>86300810</td>
+      <td>46.848667</td>
+      <td>58.514056</td>
+      <td>5.U</td>
+      <td>5</td>
+      <td>U</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/86300810_irs.pkl</td>
+      <td>Cl*</td>
+    </tr>
+    <tr>
+      <th>1213</th>
+      <td>AFGL 4029</td>
+      <td>86300968</td>
+      <td>45.380375</td>
+      <td>60.487083</td>
+      <td>5.U</td>
+      <td>5</td>
+      <td>U</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/86300968_irs.pkl</td>
+      <td>MolCld</td>
+    </tr>
+    <tr>
+      <th>1214</th>
+      <td>SZ Sgr</td>
+      <td>86400616</td>
+      <td>266.235417</td>
+      <td>-18.657500</td>
+      <td>2.CE</td>
       <td>2</td>
-      <td>SEc</td>
+      <td>CE</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/42300804_sws.pkl</td>
+      <td>spectra/86400616_irs.pkl</td>
       <td>semi-regV*</td>
     </tr>
     <tr>
-      <th>1226</th>
-      <td>IRAS 23304+6147</td>
-      <td>24800452</td>
-      <td>353.187250</td>
-      <td>62.063750</td>
-      <td>4.CT</td>
+      <th>1215</th>
+      <td>BD+30 3639</td>
+      <td>86500540</td>
+      <td>293.688333</td>
+      <td>30.516333</td>
+      <td>4.PU</td>
       <td>4</td>
-      <td>CT</td>
+      <td>PU</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/24800452_sws.pkl</td>
-      <td>post-AGB*</td>
+      <td>spectra/86500540_irs.pkl</td>
+      <td>PN</td>
     </tr>
     <tr>
-      <th>1227</th>
-      <td>IRAS 23304+6147</td>
-      <td>39601867</td>
-      <td>353.187250</td>
-      <td>62.063778</td>
-      <td>4.CT</td>
-      <td>4</td>
-      <td>CT</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/39601867_sws.pkl</td>
-      <td>post-AGB*</td>
-    </tr>
-    <tr>
-      <th>1228</th>
-      <td>IRAS 23304+6147</td>
-      <td>8502452</td>
-      <td>353.187292</td>
-      <td>62.063750</td>
-      <td>4.CT</td>
-      <td>4</td>
-      <td>CT</td>
-      <td></td>
-      <td>F</td>
-      <td></td>
-      <td>isosws_dataframes/8502452_sws.pkl</td>
-      <td>post-AGB*</td>
-    </tr>
-    <tr>
-      <th>1229</th>
-      <td>IRAS 23321+6545</td>
-      <td>25500248</td>
-      <td>353.593875</td>
-      <td>66.030667</td>
-      <td>4.CN:</td>
-      <td>4</td>
-      <td>CN</td>
+      <th>1216</th>
+      <td>{alpha} Tuc</td>
+      <td>86602401</td>
+      <td>334.625500</td>
+      <td>-60.259694</td>
+      <td>1.NO</td>
       <td>1</td>
+      <td>NO</td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/25500248_sws.pkl</td>
+      <td></td>
+      <td>spectra/86602401_irs.pkl</td>
+      <td>SB*</td>
+    </tr>
+    <tr>
+      <th>1217</th>
+      <td>HR 1939</td>
+      <td>86603434</td>
+      <td>85.175000</td>
+      <td>31.920833</td>
+      <td>2.SEa</td>
+      <td>2</td>
+      <td>SEa</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/86603434_irs.pkl</td>
+      <td>RedSG*</td>
+    </tr>
+    <tr>
+      <th>1218</th>
+      <td>IRC -10122</td>
+      <td>86706617</td>
+      <td>96.256667</td>
+      <td>-9.121111</td>
+      <td>2.CE</td>
+      <td>2</td>
+      <td>CE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/86706617_irs.pkl</td>
+      <td>Mira</td>
+    </tr>
+    <tr>
+      <th>1219</th>
+      <td>IRC -10095</td>
+      <td>86801101</td>
+      <td>84.927500</td>
+      <td>-8.152194</td>
+      <td>2.CE</td>
+      <td>2</td>
+      <td>CE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/86801101_irs.pkl</td>
       <td>C*</td>
     </tr>
     <tr>
-      <th>1230</th>
-      <td>IRC +40540</td>
-      <td>38201557</td>
-      <td>353.616083</td>
-      <td>43.550111</td>
-      <td>3.CR</td>
+      <th>1220</th>
+      <td>{alpha} CMa</td>
+      <td>86801303</td>
+      <td>101.287375</td>
+      <td>-16.715528</td>
+      <td>1.N</td>
+      <td>1</td>
+      <td>N</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/86801303_irs.pkl</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>1221</th>
+      <td>OH 26.2-0.6</td>
+      <td>86901013</td>
+      <td>280.307500</td>
+      <td>-6.250278</td>
+      <td>4.SA</td>
+      <td>4</td>
+      <td>SA</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/86901013_irs.pkl</td>
+      <td>Mira</td>
+    </tr>
+    <tr>
+      <th>1222</th>
+      <td>IRAS 17347-3139</td>
+      <td>87000939</td>
+      <td>264.502583</td>
+      <td>-31.681722</td>
+      <td>5.UE</td>
+      <td>5</td>
+      <td>UE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/87000939_irs.pkl</td>
+      <td>PN</td>
+    </tr>
+    <tr>
+      <th>1223</th>
+      <td>AFGL 940</td>
+      <td>87102602</td>
+      <td>96.655417</td>
+      <td>9.037778</td>
+      <td>3.CE</td>
       <td>3</td>
-      <td>CR</td>
+      <td>CE</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/38201557_sws.pkl</td>
+      <td>spectra/87102602_irs.pkl</td>
+      <td>C*</td>
+    </tr>
+    <tr>
+      <th>1224</th>
+      <td>IRC +40149</td>
+      <td>87102906</td>
+      <td>89.853333</td>
+      <td>38.439444</td>
+      <td>7</td>
+      <td>7</td>
+      <td></td>
+      <td></td>
+      <td>W</td>
+      <td></td>
+      <td>spectra/87102906_irs.pkl</td>
+      <td>Mira</td>
+    </tr>
+    <tr>
+      <th>1225</th>
+      <td>IRAS 17074-4549</td>
+      <td>87200109</td>
+      <td>257.777583</td>
+      <td>-45.883194</td>
+      <td>5.UEp</td>
+      <td>5</td>
+      <td>UEp</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/87200109_irs.pkl</td>
+      <td>HII</td>
+    </tr>
+    <tr>
+      <th>1226</th>
+      <td>OH 21.5+0.5</td>
+      <td>87200833</td>
+      <td>277.128750</td>
+      <td>-9.971111</td>
+      <td>4.SA</td>
+      <td>4</td>
+      <td>SA</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/87200833_irs.pkl</td>
+      <td>Mira</td>
+    </tr>
+    <tr>
+      <th>1227</th>
+      <td>IRC +10374</td>
+      <td>87201107</td>
+      <td>280.893750</td>
+      <td>13.959722</td>
+      <td>7</td>
+      <td>7</td>
+      <td></td>
+      <td></td>
+      <td>W</td>
+      <td></td>
+      <td>spectra/87201107_irs.pkl</td>
+      <td>Mira</td>
+    </tr>
+    <tr>
+      <th>1228</th>
+      <td>Case 181</td>
+      <td>87201221</td>
+      <td>285.825417</td>
+      <td>7.512222</td>
+      <td>3.CE</td>
+      <td>3</td>
+      <td>CE</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/87201221_irs.pkl</td>
+      <td>Mira</td>
+    </tr>
+    <tr>
+      <th>1229</th>
+      <td>T Mic</td>
+      <td>87201305</td>
+      <td>306.980000</td>
+      <td>-28.261111</td>
+      <td>2.SEa</td>
+      <td>2</td>
+      <td>SEa</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>spectra/87201305_irs.pkl</td>
+      <td>semi-regV*</td>
+    </tr>
+    <tr>
+      <th>1230</th>
+      <td>IRC +00102</td>
+      <td>87201709</td>
+      <td>95.463750</td>
+      <td>-3.861667</td>
+      <td>7</td>
+      <td>7</td>
+      <td></td>
+      <td></td>
+      <td>W</td>
+      <td></td>
+      <td>spectra/87201709_irs.pkl</td>
       <td>Mira</td>
     </tr>
     <tr>
       <th>1231</th>
-      <td>Nova Cas 1993</td>
-      <td>24800307</td>
-      <td>355.446625</td>
-      <td>57.517028</td>
-      <td>6</td>
-      <td>6</td>
+      <td>FU Ori</td>
+      <td>87601701</td>
+      <td>86.343750</td>
+      <td>9.070000</td>
+      <td>7</td>
+      <td>7</td>
       <td></td>
       <td></td>
+      <td>H</td>
       <td></td>
-      <td></td>
-      <td>isosws_dataframes/24800307_sws.pkl</td>
-      <td>Nova</td>
+      <td>spectra/87601701_irs.pkl</td>
+      <td>Ae*</td>
     </tr>
     <tr>
       <th>1232</th>
-      <td>R Aqr</td>
-      <td>18100530</td>
-      <td>355.955667</td>
-      <td>-15.284528</td>
-      <td>2.SEc</td>
-      <td>2</td>
-      <td>SEc</td>
+      <td>M 16</td>
+      <td>87700401</td>
+      <td>274.735833</td>
+      <td>-13.814583</td>
+      <td>7</td>
+      <td>7</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/18100530_sws.pkl</td>
-      <td>Symbiotic*</td>
+      <td></td>
+      <td>spectra/87700401_irs.pkl</td>
+      <td>OpCl</td>
     </tr>
     <tr>
       <th>1233</th>
-      <td>PZ Cas</td>
-      <td>9502846</td>
-      <td>356.013750</td>
-      <td>61.789528</td>
-      <td>2.SEc</td>
+      <td>FI Vul</td>
+      <td>87700716</td>
+      <td>312.213333</td>
+      <td>22.993889</td>
+      <td>2.SEa</td>
       <td>2</td>
-      <td>SEc</td>
+      <td>SEa</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>isosws_dataframes/9502846_sws.pkl</td>
-      <td>semi-regV*</td>
+      <td>spectra/87700716_irs.pkl</td>
+      <td>LPV*</td>
     </tr>
     <tr>
       <th>1234</th>
-      <td>PZ Cas</td>
-      <td>42604702</td>
-      <td>356.013750</td>
-      <td>61.789528</td>
-      <td>2.SEc</td>
-      <td>2</td>
-      <td>SEc</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/42604702_sws.pkl</td>
-      <td>semi-regV*</td>
-    </tr>
-    <tr>
-      <th>1235</th>
-      <td>Z Cas</td>
-      <td>10101714</td>
-      <td>356.131208</td>
-      <td>56.581278</td>
-      <td>2.SEap</td>
-      <td>2</td>
-      <td>SEap</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/10101714_sws.pkl</td>
-      <td>Mira</td>
-    </tr>
-    <tr>
-      <th>1236</th>
-      <td>TX Psc</td>
-      <td>75700419</td>
-      <td>356.597917</td>
-      <td>3.486667</td>
-      <td>1.NC</td>
-      <td>1</td>
-      <td>NC</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/75700419_sws.pkl</td>
-      <td>C*</td>
-    </tr>
-    <tr>
-      <th>1237</th>
-      <td>TX Psc</td>
-      <td>55501379</td>
-      <td>356.597917</td>
-      <td>3.486833</td>
-      <td>1.NC</td>
-      <td>1</td>
-      <td>NC</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/55501379_sws.pkl</td>
-      <td>C*</td>
-    </tr>
-    <tr>
-      <th>1238</th>
-      <td>HR 9043</td>
-      <td>40400904</td>
-      <td>358.336625</td>
-      <td>-24.229250</td>
+      <td>Nova Sgr 1998</td>
+      <td>87901801</td>
+      <td>275.418750</td>
+      <td>-27.527222</td>
       <td>7</td>
       <td>7</td>
       <td></td>
       <td></td>
-      <td>R</td>
-      <td></td>
-      <td>isosws_dataframes/40400904_sws.pkl</td>
-      <td>Star</td>
-    </tr>
-    <tr>
-      <th>1239</th>
-      <td>M 2-56</td>
-      <td>43700232</td>
-      <td>359.151958</td>
-      <td>70.803639</td>
-      <td>4.SB</td>
-      <td>4</td>
-      <td>SB</td>
       <td></td>
       <td></td>
-      <td></td>
-      <td>isosws_dataframes/43700232_sws.pkl</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>1240</th>
-      <td>R Cas</td>
-      <td>24800223</td>
-      <td>359.603208</td>
-      <td>51.388528</td>
-      <td>2.SEb</td>
-      <td>2</td>
-      <td>SEb</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/24800223_sws.pkl</td>
-      <td>Mira</td>
-    </tr>
-    <tr>
-      <th>1241</th>
-      <td>R Cas</td>
-      <td>26301524</td>
-      <td>359.603208</td>
-      <td>51.388556</td>
-      <td>2.SEb</td>
-      <td>2</td>
-      <td>SEb</td>
-      <td></td>
-      <td>F</td>
-      <td></td>
-      <td>isosws_dataframes/26301524_sws.pkl</td>
-      <td>Mira</td>
-    </tr>
-    <tr>
-      <th>1242</th>
-      <td>R Cas</td>
-      <td>38300825</td>
-      <td>359.603250</td>
-      <td>51.388556</td>
-      <td>2.SEb</td>
-      <td>2</td>
-      <td>SEb</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/38300825_sws.pkl</td>
-      <td>Mira</td>
-    </tr>
-    <tr>
-      <th>1243</th>
-      <td>R Cas</td>
-      <td>39501330</td>
-      <td>359.603250</td>
-      <td>51.388556</td>
-      <td>2.SEb</td>
-      <td>2</td>
-      <td>SEb</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/39501330_sws.pkl</td>
-      <td>Mira</td>
-    </tr>
-    <tr>
-      <th>1244</th>
-      <td>R Cas</td>
-      <td>42100215</td>
-      <td>359.603250</td>
-      <td>51.388556</td>
-      <td>2.SEb</td>
-      <td>2</td>
-      <td>SEb</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/42100215_sws.pkl</td>
-      <td>Mira</td>
-    </tr>
-    <tr>
-      <th>1245</th>
-      <td>R Cas</td>
-      <td>44301926</td>
-      <td>359.603250</td>
-      <td>51.388556</td>
-      <td>2.SEb</td>
-      <td>2</td>
-      <td>SEb</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/44301926_sws.pkl</td>
-      <td>Mira</td>
-    </tr>
-    <tr>
-      <th>1246</th>
-      <td>R Cas</td>
-      <td>62702122</td>
-      <td>359.603250</td>
-      <td>51.388556</td>
-      <td>2.SEb</td>
-      <td>2</td>
-      <td>SEb</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/62702122_sws.pkl</td>
-      <td>Mira</td>
-    </tr>
-    <tr>
-      <th>1247</th>
-      <td>R Cas</td>
-      <td>38302016</td>
-      <td>359.603292</td>
-      <td>51.388667</td>
-      <td>2.SEb</td>
-      <td>2</td>
-      <td>SEb</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>isosws_dataframes/38302016_sws.pkl</td>
-      <td>Mira</td>
+      <td>spectra/87901801_irs.pkl</td>
+      <td>Nova</td>
     </tr>
   </tbody>
 </table>
-<p>1248 rows × 12 columns</p>
+<p>1235 rows × 12 columns</p>
 </div>
 </div>
 

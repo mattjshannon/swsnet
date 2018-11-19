@@ -3,7 +3,7 @@
 
 # # ISO-SWS data preprocessing: convert to pickled dataframes
 
-# In[21]:
+# In[1]:
 
 
 import glob
@@ -20,7 +20,7 @@ from IPython.core.debugger import set_trace as st
 from scipy.interpolate import splev, splrep
 
 
-# In[22]:
+# In[4]:
 
 
 # Some useful functions....
@@ -55,7 +55,7 @@ def convert_fits_to_pickle(path, verify_pickle=False, verbose=False, match_cassi
     base_filename = path.replace('.fit', '.pkl').split('/')[-1]
     
     # Save the dataframe to a pickle.
-    pickle_path = 'COPY_isosws_dataframes/' + base_filename
+    pickle_path = 'spectra/' + base_filename
     df.to_pickle(pickle_path)
     
     if verbose:
@@ -151,28 +151,48 @@ def isosws_fits_to_dataframe(path, test_for_monotonicity=True):
 
 # ## Find out how many files we're working with
 
-# In[23]:
+# In[13]:
 
 
 spec_dir = 'sws_irs/'
 spec_files = np.sort(glob.glob(spec_dir + '*.fit'))
 
 
-# In[24]:
+# In[14]:
 
 
 len(spec_files)
 
 
+# ### Identify the 'good' TDTs
+
+# In[7]:
+
+
+good_tdts = np.loadtxt('good_tdts.txt').astype(int)
+
+
+# In[8]:
+
+
+good_tdts
+
+
+# In[9]:
+
+
+len(good_tdts)
+
+
 # ## Convert spectra to dataframes and save to disk as pickles
 
-# In[25]:
+# In[12]:
 
 
-perform_conversion = True
+perform_conversion = False
 
 
-# In[28]:
+# In[11]:
 
 
 # Note the break I've added; remove for full conversion.
@@ -181,9 +201,11 @@ if perform_conversion:
 
     # Iterate over all the fits files and convert them.
     for index, fits_file in enumerate(spec_files):
-#         if index >= 22:
-#             break
-
+    
+        tdt = int(fits_file.split('/')[-1].split('_irs')[0])
+        if tdt not in good_tdts:
+            continue
+        
         if index % 20 == 0:
             print(index, '/', len(spec_files))
 
@@ -196,74 +218,102 @@ if perform_conversion:
 
 # ###### Creates isosws_metadata_df.pkl.
 
-# In[29]:
+# In[15]:
 
 
 # Only do this once.
 recreate_meta_pickle = True
 
-if recreate_meta_pickle:
-    def create_swsmeta_dataframe():
-        """Create a dataframe that contains the metadata for the ISO-SWS Atlas."""
-        
-        def simbad_results():
-            """Create a dictionary of the SIMBAD object type query results."""
-            simbad_results = np.loadtxt('isosws_misc/simbad_type.csv', delimiter=';', dtype=str)
-            simbad_dict = dict(simbad_results)
-            return simbad_dict
-        
-        def sexagesimal_to_degree(tupe):
-            """Convert from hour:minute:second to degrees."""
-            sex_str = tupe[0] + ' ' + tupe[1]
-            c = SkyCoord(sex_str, unit=(u.hourangle, u.deg))
-            return c.ra.deg, c.dec.deg        
-        
-        def transform_ra_dec_into_degrees(df):
-            """Perform full ra, dec conversion to degrees."""
-            ra = []
-            dec = []
-            for index, value in enumerate(zip(df['ra'], df['dec'])):
-                ra_deg, dec_deg = sexagesimal_to_degree(value)
-                ra.append(ra_deg)
-                dec.append(dec_deg)
-            df = df.assign(ra=ra)
-            df = df.assign(dec=dec)
-            return df
+def create_swsmeta_dataframe():
+    """Create a dataframe that contains the metadata for the ISO-SWS Atlas."""
 
-        # Read in the metadata
-        meta_filename = 'isosws_misc/kraemer_class.csv'
-        swsmeta = np.loadtxt(meta_filename, delimiter=';', dtype=str)
-        df = pd.DataFrame(swsmeta[1:], columns=swsmeta[0])
-        
-        # Add a column for the pickle paths (dataframes with wave, flux, etc).
-        pickle_paths = ['spectra/' + x + '_irs.pkl' for x in df['tdt']]
-        df = df.assign(file_path=pickle_paths)
-        
-        # Add a column for SIMBAD type, need to query 'simbad_type.csv' for this. Not in order naturally...
-        object_names = df['object_name']
-        object_type_dict = simbad_results()
-        object_types = [object_type_dict.get(key, "empty") for key in object_names]
-        df = df.assign(object_type=object_types)
+    def simbad_results():
+        """Create a dictionary of the SIMBAD object type query results."""
+        simbad_results = np.loadtxt('isosws_misc/simbad_type.csv', delimiter=';', dtype=str)
+        simbad_dict = dict(simbad_results)
+        return simbad_dict
 
-        # Transform ra and dec into degrees.
-        df = transform_ra_dec_into_degrees(df)
-        
+    def sexagesimal_to_degree(tupe):
+        """Convert from hour:minute:second to degrees."""
+        sex_str = tupe[0] + ' ' + tupe[1]
+        c = SkyCoord(sex_str, unit=(u.hourangle, u.deg))
+        return c.ra.deg, c.dec.deg        
+
+    def transform_ra_dec_into_degrees(df):
+        """Perform full ra, dec conversion to degrees."""
+        ra = []
+        dec = []
+        for index, value in enumerate(zip(df['ra'], df['dec'])):
+            ra_deg, dec_deg = sexagesimal_to_degree(value)
+            ra.append(ra_deg)
+            dec.append(dec_deg)
+        df = df.assign(ra=ra)
+        df = df.assign(dec=dec)
         return df
-    
+
+    # Read in the metadata
+    meta_filename = 'isosws_misc/kraemer_class.csv'
+    swsmeta = np.loadtxt(meta_filename, delimiter=';', dtype=str)
+    df = pd.DataFrame(swsmeta[1:], columns=swsmeta[0])
+
+    # Add a column for the pickle paths (dataframes with wave, flux, etc).
+    pickle_paths = ['spectra/' + x.zfill(8) + '_irs.pkl' for x in df['tdt']]
+    df = df.assign(file_path=pickle_paths)
+
+    # Add a column for SIMBAD type, need to query 'simbad_type.csv' for this. Not in order naturally...
+    object_names = df['object_name']
+    object_type_dict = simbad_results()
+    object_types = [object_type_dict.get(key, "empty") for key in object_names]
+    df = df.assign(object_type=object_types)
+
+    # Transform ra and dec into degrees.
+    df = transform_ra_dec_into_degrees(df)
+
+    return df
+
+
+# In[16]:
+
+
+if recreate_meta_pickle:
     df = create_swsmeta_dataframe()
-    df.to_pickle('isosws_metadata_df_rebin.pkl')
 
 
-# In[30]:
+# In[ ]:
 
 
-df.head()
+# SORT BY TDT!
+df['tdt'] = df['tdt'].astype(int)
+df = df.sort_values(by=['tdt'], ascending=True)
+df = df.reset_index(drop=True)
+
+# Drop rows without data.
+drop_indices = []
+for row in df.itertuples(index=True, name='Pandas'):
+    tdt = getattr(row, "tdt")
+    if tdt not in good_tdts:
+        drop_indices.append(row[0])    
+
+final_df = df.drop(drop_indices)
+final_df = final_df.reset_index(drop=True)    
 
 
-# In[31]:
+# In[17]:
 
 
-mdf = pd.read_pickle('isosws_metadata_df.pkl')
+final_df.to_pickle('../metadata_step0.pkl')
+
+
+# In[18]:
+
+
+final_df.head()
+
+
+# In[19]:
+
+
+mdf = pd.read_pickle('../metadata_step0.pkl')
 mdf
 
 
