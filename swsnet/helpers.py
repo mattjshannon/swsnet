@@ -125,11 +125,8 @@ def fits_to_dataframe(filename):
 
     assert isinstance(hdu, fits.hdu.hdulist.HDUList)
 
-    try:
-        header = hdu[0].header  # pylint: disable=no-member
-        dat = hdu[0].data.T  # pylint: disable=no-member
-    except Exception as e:
-        raise e
+    header = hdu[0].header  # pylint: disable=no-member
+    dat = hdu[0].data.T  # pylint: disable=no-member
 
     # Should be wave, flux, spec_error, norm_error
     if dat.shape[0] != 4:
