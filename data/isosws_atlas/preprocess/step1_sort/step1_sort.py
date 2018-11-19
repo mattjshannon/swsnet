@@ -11,7 +11,7 @@ import numpy
 import pandas as pd
 
 
-# In[5]:
+# In[2]:
 
 
 def create_plots():
@@ -31,7 +31,7 @@ def create_plots():
 # In[3]:
 
 
-meta = pd.read_pickle('../metadata.pkl')
+meta = pd.read_pickle('../../metadata.pkl')
 
 
 # In[4]:
@@ -52,10 +52,22 @@ meta.head()
 meta['tdt'] = meta['tdt'].astype(int)
 
 
-# In[9]:
+# In[7]:
 
 
 meta = meta.sort_values(by=['tdt'], ascending=True)
+
+
+# In[8]:
+
+
+meta
+
+
+# In[9]:
+
+
+meta = meta.reset_index(drop=True)
 
 
 # In[10]:
@@ -64,20 +76,8 @@ meta = meta.sort_values(by=['tdt'], ascending=True)
 meta
 
 
-# In[14]:
+# In[12]:
 
 
-meta = meta.reset_index(drop=True)
-
-
-# In[15]:
-
-
-meta
-
-
-# In[16]:
-
-
-meta.to_pickle('metadata_step1_sorted.pkl')
+meta.to_pickle('../metadata_step1_sorted.pkl')
 
