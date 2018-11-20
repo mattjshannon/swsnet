@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from swsnet.norm_utils import read_spectrum, renormalize_spectrum
+
 
 # In[2]:
 
@@ -35,64 +37,6 @@ spectra_paths
 
 
 norm_params[0]
-
-
-# ***
-
-# In[6]:
-
-
-def read_spectrum(filename):
-    """Returns an ISO spectrum (wave, flux, etc.) from a pickle."""
-    spectrum = pd.read_pickle(filename)
-    
-    wave = spectrum['wavelength']
-    flux = spectrum['flux']
-#     specerr = spectrum['spec_error']
-#     normerr = spectrum['norm_error']
-#     fluxerr = specerr + normerr
-    fluxerr = spectrum['uncertainty']
-    
-    return wave, flux, fluxerr, spectrum
-
-
-# In[11]:
-
-
-def renormalize_spectrum(file_path, norm_factors, output_dir='../spectra_normalized/',
-                         verbose=True):
-
-    # Sanity check that the parameters are for this particular file.
-    if file_path != norm_factors[0]:
-        raise SystemExit('File paths do not match!')
-    
-    # Read the original pickled spectrum.
-    full_file_path = '../../' + file_path
-    wave, flux, fluxerr, spectrum = read_spectrum(filename=full_file_path)
-    
-    # Identify the scaling factors.
-    _, spec_min, spec_max, norm_fac = norm_factors
-    spec_min = float(spec_min)
-    spec_max = float(spec_max)
-    norm_fac = float(norm_fac)
-    
-    # Scale its flux using the norm factors.
-    renorm_flux = (flux - spec_min) / norm_fac
-    
-    # Create a new pickle with the scaled spectrum (otherwise the same structure).
-    spectrum['flux'] = renorm_flux
-    
-    # Save new pickle.
-    save_path = file_path.replace('.pkl', '_renorm.pkl')
-    save_path = save_path.replace('spectra', 'spectra_normalized')
-    full_save_path = '../../' + save_path
-    spectrum.to_pickle(full_save_path)
-    
-    # Print 'Saved!' statement if verbose.
-    if verbose:
-        print('Saved: ', full_save_path)
-    
-    return save_path
 
 
 # ***

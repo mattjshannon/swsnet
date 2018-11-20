@@ -58,7 +58,7 @@ def save_renorm_figure(plot_dir, classifier, iso_filename, renorm_wave,
     return
 
 
-def read_spectrum(file_path):
+def read_spectrum_alt(file_path):
     """Returns an ISO spectrum (wave, flux, etc.) from a pickle."""
     spectrum = pd.read_pickle(file_path)
 
@@ -69,7 +69,7 @@ def read_spectrum(file_path):
 #     fluxerr = specerr + normerr
     fluxerr = spectrum['uncertainty']
 
-    return wave, flux, fluxerr
+    return wave, flux, fluxerr, spectrum
 
 
 def smooth_spectrum(flux, **kwargs):
@@ -92,7 +92,7 @@ def smooth_spectrum(flux, **kwargs):
 
 def normalize_spectrum(file_path, classifier, plot=True, verbose=True):
     """Normalizes an ISO spectrum to span 0-1 (the main curvature)."""
-    wave, flux, fluxerr = read_spectrum('../../' + file_path)
+    wave, flux, fluxerr, _ = read_spectrum_alt('../../' + file_path)
 
     # Shift spectrum and get normalization factors.
     # Minimum should now=0.0.
@@ -122,3 +122,39 @@ def normalize_spectrum(file_path, classifier, plot=True, verbose=True):
                            verbose=False)
 
     return spec_min, spec_max, norm_factor
+
+
+def renormalize_spectrum(file_path, norm_factors, verbose=True,
+                         output_dir='../spectra_normalized/'):
+
+    # Sanity check that the parameters are for this particular file.
+    if file_path != norm_factors[0]:
+        raise SystemExit('File paths do not match!')
+
+    # Read the original pickled spectrum.
+    full_file_path = '../../' + file_path
+    wave, flux, fluxerr, spectrum = read_spectrum_alt(file_path=full_file_path)
+
+    # Identify the scaling factors.
+    _, spec_min, spec_max, norm_fac = norm_factors
+    spec_min = float(spec_min)
+    spec_max = float(spec_max)
+    norm_fac = float(norm_fac)
+
+    # Scale its flux using the norm factors.
+    renorm_flux = (flux - spec_min) / norm_fac
+
+    # Create a new pickle with the scaled spectrum (otherwise same structure).
+    spectrum['flux'] = renorm_flux
+
+    # Save new pickle.
+    save_path = file_path.replace('.pkl', '_renorm.pkl')
+    save_path = save_path.replace('spectra', 'spectra_normalized')
+    full_save_path = '../../' + save_path
+    spectrum.to_pickle(full_save_path)
+
+    # Print 'Saved!' statement if verbose.
+    if verbose:
+        print('Saved: ', full_save_path)
+
+    return save_path
