@@ -142,8 +142,8 @@ def update_dataframe(meta, file_path_list):
     new_meta['file_path'] = new_file_paths
     
     # Save to disk.
-    new_meta.to_pickle('../metadata_normalized.pkl')
-    print('Saved: ', '../metadata_normalized.pkl')
+    new_meta.to_pickle('../metadata__step1_normalized.pkl')
+    print('Saved: ', '../metadata_step1_normalized.pkl')
     
     return new_meta
 

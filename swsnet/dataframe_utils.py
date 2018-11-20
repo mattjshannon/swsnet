@@ -32,9 +32,10 @@ def read_spectrum(file_path):
 
     wave = spectrum['wavelength']
     flux = spectrum['flux']
-    specerr = spectrum['spec_error']
-    normerr = spectrum['norm_error']
-    fluxerr = specerr + normerr
+    # specerr = spectrum['spec_error']
+    # normerr = spectrum['norm_error']
+    # fluxerr = specerr + normerr
+    fluxerr = spectrum['uncertainty']
 
     spectrum_dict = {
         'wave': wave,
@@ -107,7 +108,7 @@ def plot_dataframe(dataframe, save_dir, **kwargs):
 
         # Read in spectrum and metadata for given row.
         file_path = dataframe['file_path'].values[index]
-        spectrum_dict = read_spectrum('../' + file_path)
+        spectrum_dict = read_spectrum('../../' + file_path)
         metadata_dict = read_metadata(dataframe, index)
 
         # Save spectrum as a PDF.
