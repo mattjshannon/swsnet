@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 from astropy.io import fits
-
+from ipdb import set_trace as st
 
 def load_spectrum(path, normalize=True):
     """Extract the normalized flux vector from a pickled dataframe.
@@ -35,7 +35,8 @@ def load_spectrum(path, normalize=True):
 
 
 def load_data(base_dir='', metadata='metadata.pkl', clean=False,
-              only_ok_data=False, verbose=False, n_samples=359, **kwargs):
+              only_ok_data=False, verbose=False, n_samples=359, 
+              cut_28micron=False, **kwargs):
     """Load a pickled metadata file and extract features, labels.
 
     Args:
@@ -50,16 +51,36 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
         labels (ndarray): Array containing the group classifier.
     """
 
+    def remove_bad_rows(df):
+        """Returns the dataframe with data_ok == True rows only."""
+
+        flag_arr = []
+        for row in df.itertuples(index=True, name='Pandas'):
+            flag = getattr(row, "uncertainty_flag")
+            if flag == '':
+                flag_arr.append(True)
+            else:
+                flag_arr.append(False)
+
+        df = df.assign(data_ok=flag_arr)
+        df = df.query('data_ok == True')
+        df.reset_index(drop=True, inplace=True)
+
+        return df
+
     # Load the metadata pickle.
     try:
         meta = pd.read_pickle(metadata)
     except OSError as e:
         raise e
 
+    # Remove group 7 (flawed spectra).
     if clean:
         meta = meta.query('group != "7"')
+
+    # Remove any rows with a non-zero uncertainty flag, data_ok=False.
     if only_ok_data:
-        meta = meta.query('data_ok == True')
+        meta = remove_bad_rows(meta)
 
     # Simple classifier first.
     labels = meta['group'].values.astype(int)
@@ -68,14 +89,12 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
     # SHIFTING TO START AT ZERO!
     labels = labels - 1
 
+    # See how the labels are distributed.
     if verbose:
-        # See how the labels are distributed.
+        print(type(labels[0]), len(labels))
         # plt.plot(labels, 'o');
 
-        # Label type, length
-        # print('VERBOSE.')
-        print(type(labels[0]), len(labels))
-
+    # Catch a weird label.
     group_max = max([max(6, x) for x in labels])
     if group_max > 6:
         raise ValueError("Unexpected label: ", group_max)
@@ -95,6 +114,11 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
 
         features[index] = flux
         index += 1
+
+    if cut_28micron:
+        wavearr = np.loadtxt('cassis_wavelength_grid.txt')
+        keep_dx = np.where(wavearr <= 28)[0]
+        features = features[:, keep_dx]
 
     return features, labels
 
