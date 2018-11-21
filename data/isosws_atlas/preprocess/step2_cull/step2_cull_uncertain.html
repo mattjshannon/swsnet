@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>step3_cull_uncertain</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>step2_cull_uncertain</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11771,6 +11771,14 @@ div#notebook {
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Remove-untrustworthy-sources">Remove untrustworthy sources<a class="anchor-link" href="#Remove-untrustworthy-sources">&#182;</a></h1>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
@@ -12859,24 +12867,157 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Manual-quality-flags">Manual quality flags<a class="anchor-link" href="#Manual-quality-flags">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">apply_manual_flags</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tdts</span><span class="p">,</span> <span class="n">flags</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;quality_flags.txt&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">flags</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[15]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0, 0, 0, ..., 2, 2, 2])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">flags</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[24]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(-0.09999999999999999, 2.5)</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Exclude-group-7-and-uncertain-data">Exclude group 7 and uncertain data<a class="anchor-link" href="#Exclude-group-7-and-uncertain-data">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">updated_data_ok</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">meta</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
     <span class="n">index</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Attributes needed for determining quality of spectrum.</span>
+    <span class="n">tdt</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="s2">&quot;tdt&quot;</span><span class="p">)</span>
     <span class="n">group_num</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="s2">&quot;group&quot;</span><span class="p">)</span>
+    <span class="n">flag</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="s2">&quot;uncertainty_flag&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Don&#39;t trust group 7, or anything with a flag.</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">group_num</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">flag</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
-        <span class="n">updated_data_ok</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">trust_tdt</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">updated_data_ok</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">trust_tdt</span> <span class="o">=</span> <span class="kc">True</span>
+        
+    <span class="c1"># Don&#39;t trust manually flagged spectra.</span>
+    <span class="n">tdt_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">tdts</span> <span class="o">==</span> <span class="n">tdt</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">manual_flag</span> <span class="o">=</span> <span class="n">flags</span><span class="p">[</span><span class="n">tdt_index</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">manual_flag</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">trust_tdt</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">trust_tdt</span> <span class="o">=</span> <span class="kc">False</span>        
+
+    <span class="n">updated_data_ok</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trust_tdt</span><span class="p">)</span>
         
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number still OK: &#39;</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">updated_data_ok</span><span class="p">))</span>
 </pre></div>
@@ -12895,7 +13036,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Number still OK:  1058
+<pre>Number still OK:  747
 </pre>
 </div>
 </div>
@@ -12914,7 +13055,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta2</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -12927,7 +13068,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta2</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -12943,7 +13084,7 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[8]:</div>
+<div class="prompt output_prompt">Out[36]:</div>
 
 
 
@@ -13075,7 +13216,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta2</span><span class="p">[</span><span class="s1">&#39;data_ok&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">updated_data_ok</span>
@@ -13088,7 +13229,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta2</span>
@@ -13104,7 +13245,7 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[10]:</div>
+<div class="prompt output_prompt">Out[38]:</div>
 
 
 
@@ -13285,7 +13426,7 @@ div#notebook {
       <td></td>
       <td>spectra_normalized/03201129_irs_renorm.pkl</td>
       <td>BlueSG*</td>
-      <td>True</td>
+      <td>False</td>
     </tr>
     <tr>
       <th>9</th>
@@ -13317,7 +13458,7 @@ div#notebook {
       <td></td>
       <td>spectra_normalized/03602226_irs_renorm.pkl</td>
       <td></td>
-      <td>True</td>
+      <td>False</td>
     </tr>
     <tr>
       <th>11</th>
@@ -13381,7 +13522,7 @@ div#notebook {
       <td></td>
       <td>spectra_normalized/04001710_irs_renorm.pkl</td>
       <td></td>
-      <td>True</td>
+      <td>False</td>
     </tr>
     <tr>
       <th>15</th>
@@ -13557,7 +13698,7 @@ div#notebook {
       <td></td>
       <td>spectra_normalized/07100250_irs_renorm.pkl</td>
       <td></td>
-      <td>True</td>
+      <td>False</td>
     </tr>
     <tr>
       <th>26</th>
@@ -13605,7 +13746,7 @@ div#notebook {
       <td></td>
       <td>spectra_normalized/07200272_irs_renorm.pkl</td>
       <td>Be*</td>
-      <td>True</td>
+      <td>False</td>
     </tr>
     <tr>
       <th>29</th>
@@ -14101,7 +14242,7 @@ div#notebook {
       <td></td>
       <td>spectra_normalized/87700716_irs_renorm.pkl</td>
       <td>LPV*</td>
-      <td>True</td>
+      <td>False</td>
     </tr>
     <tr>
       <th>1234</th>
@@ -14133,13 +14274,46 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta2</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s1">&#39;../metadata_step2_culled.pkl&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">meta2</span><span class="p">[</span><span class="s1">&#39;data_ok&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[41]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>747</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
