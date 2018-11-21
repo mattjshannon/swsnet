@@ -54,7 +54,7 @@ metadata = base_dir + 'metadata_step2_culled.pkl'
 
 # ### Subset 1: all data included (trimmed)
 
-# In[5]:
+# In[3]:
 
 
 features, labels = helpers.load_data(base_dir=base_dir, metadata=metadata,
@@ -62,7 +62,7 @@ features, labels = helpers.load_data(base_dir=base_dir, metadata=metadata,
                                      cut_28micron=True)
 
 
-# In[6]:
+# In[4]:
 
 
 print(features.shape)
@@ -71,7 +71,7 @@ print(labels.shape)
 
 # ### Subset 2: exclude group 7 (trimmed)
 
-# In[7]:
+# In[5]:
 
 
 features_clean, labels_clean =     helpers.load_data(base_dir=base_dir, metadata=metadata,
@@ -79,7 +79,7 @@ features_clean, labels_clean =     helpers.load_data(base_dir=base_dir, metadata
                       cut_28micron=True)
 
 
-# In[8]:
+# In[6]:
 
 
 print(features_clean.shape)
@@ -88,12 +88,12 @@ print(labels_clean.shape)
 
 # ### Subset 3: exclude group 7, uncertain data (trimmed)
 
-# In[9]:
+# In[13]:
 
 
 features_certain, labels_certain =     helpers.load_data(base_dir=base_dir, metadata=metadata,
                       only_ok_data=True, clean=True, verbose=False,
-                      cut_28micron=True)
+                      cut_28micron=False, remove_group=6)
 
 
 # In[10]:
@@ -103,37 +103,46 @@ print(features_certain.shape)
 print(labels_certain.shape)
 
 
+# In[14]:
+
+
+np.unique(labels_certain)
+
+
 # # Testing l2norms
 
-# def neural(features, labels, test_size=0.3, l2norm=0.01):
-# 
-#     X_train, X_test, y_train, y_test = \
-#         train_test_split(features, labels, test_size=test_size, random_state = 42)
-# 
-#     # Sequential model, 7 classes of output.
-#     model = keras.Sequential()
-#     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm), input_dim=303))
-#     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
-#     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
-#     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
-#     model.add(keras.layers.Dense(7, activation='softmax'))
-# 
-#     # Early stopping condition.
-#     callback = [tf.keras.callbacks.EarlyStopping(monitor='acc', patience=5, verbose=0)]
-# 
-#     # Recompile model and fit.
-#     model.compile(optimizer=keras.optimizers.Adam(0.0005),
-#                   loss='sparse_categorical_crossentropy',
-#                   metrics=['accuracy'])
-#     #     model.fit(X_train, y_train, epochs=50, batch_size=32, verbose=False)
-#     model.fit(X_train, y_train, epochs=100, batch_size=32, callbacks=callback, verbose=False)
-# 
-#     # Check accuracy.
-#     score = model.evaluate(X_test, y_test, verbose=0)
-#     accuracy = score[1]
-#     print("L2 norm, accuracy: ", l2norm, accuracy)
-#     
-#     return model, test_size, accuracy
+# In[15]:
+
+
+def neural(features, labels, test_size=0.3, l2norm=0.01):
+
+    X_train, X_test, y_train, y_test =         train_test_split(features, labels, test_size=test_size, random_state = 42)
+
+    # Sequential model, 7 classes of output.
+    model = keras.Sequential()
+    model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm), input_dim=303))
+    model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
+    model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
+    model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
+    model.add(keras.layers.Dense(5, activation='softmax'))
+
+    # Early stopping condition.
+    callback = [tf.keras.callbacks.EarlyStopping(monitor='acc', patience=5, verbose=0)]
+
+    # Recompile model and fit.
+    model.compile(optimizer=keras.optimizers.Adam(0.0005),
+                  loss='sparse_categorical_crossentropy',
+                  metrics=['accuracy'])
+    #     model.fit(X_train, y_train, epochs=50, batch_size=32, verbose=False)
+    model.fit(X_train, y_train, epochs=100, batch_size=32, callbacks=callback, verbose=False)
+
+    # Check accuracy.
+    score = model.evaluate(X_test, y_test, verbose=0)
+    accuracy = score[1]
+    print("L2 norm, accuracy: ", l2norm, accuracy)
+    
+    return model, test_size, accuracy
+
 
 # In[20]:
 
@@ -169,7 +178,7 @@ print(labels_certain.shape)
 
 # Model:
 
-# In[41]:
+# In[161]:
 
 
 def run_NN(input_tuple):
@@ -192,11 +201,11 @@ def run_NN(input_tuple):
     
     # Sequential model, 7 classes of output.
     model = keras.Sequential()
-    model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm), input_dim=303))
+    model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm), input_dim=359))
     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
-    model.add(keras.layers.Dense(7, activation='softmax'))
+    model.add(keras.layers.Dense(5, activation='softmax'))
 
     # Early stopping condition.
     callback = [tf.keras.callbacks.EarlyStopping(monitor='acc', patience=5, verbose=0)]
@@ -216,13 +225,13 @@ def run_NN(input_tuple):
     return test_size, accuracy
 
 
-# In[42]:
+# In[162]:
 
 
 def run_networks(search_map):
     # Run the networks in parallel.
     start = time()
-    pool = ProcessPoolExecutor(max_workers=6)
+    pool = ProcessPoolExecutor(max_workers=7)
     results = list(pool.map(run_NN, search_map))
     end = time()
     print('Took %.3f seconds' % (end - start))
@@ -242,12 +251,12 @@ def plot_results(run_matrix):
 
 # Search space (training size):
 
-# In[43]:
+# In[163]:
 
 
 # Values of test_size to probe.
 # search_space = np.arange(0.14, 0.60, 0.02)
-search_space = np.arange(0.14, 0.60, 0.2)
+search_space = np.arange(0.14, 0.60, 0.1)
 print('Size of test set considered: ', search_space)
 
 # Number of iterations for each test_size value.
@@ -262,7 +271,7 @@ print('Number of iterations per test_size: ', n_iterations)
 print('Total number of NN iterations required: ', n_iterations * len(search_space))
 
 
-# In[44]:
+# In[164]:
 
 
 # Wrap up tuple inputs for running in parallel.
@@ -271,19 +280,25 @@ search_map_clean = [(features_clean, labels_clean, x) for x in search_space_full
 search_map_certain = [(features_certain, labels_certain, x) for x in search_space_full]
 
 
-# In[45]:
+# In[165]:
 
 
-run_matrix = run_networks(search_map)
-run_matrix_clean = run_networks(search_map_clean)
+# run_matrix = run_networks(search_map)
+# run_matrix_clean = run_networks(search_map_clean)
 run_matrix_certain = run_networks(search_map_certain)
+
+
+# In[166]:
+
+
+plot_results(run_matrix_certain)
 
 
 # # Results - trimmed wavelength arrays
 
 # ## Full set:
 
-# In[46]:
+# In[14]:
 
 
 plot_results(run_matrix)
@@ -291,18 +306,66 @@ plot_results(run_matrix)
 
 # ## Clean set:
 
-# In[47]:
+# In[15]:
 
 
 plot_results(run_matrix_clean)
 
 
-# ## Certain set:
+# ## Certain set: (< 28 µm only)
 
-# In[48]:
+# In[25]:
 
 
 plot_results(run_matrix_certain)
+
+
+# ## Certain set: (full wavelength array)
+
+# In[37]:
+
+
+plot_results(run_matrix_certain)
+
+
+# In[45]:
+
+
+x, y = run_matrix_certain.T
+z = np.polyfit(x, y, 4)
+p = np.poly1d(z)
+
+
+# In[47]:
+
+
+xp = np.linspace(x[0], x[-1], 100)
+_ = plt.plot(x, y, '.', xp, p(xp), '-', lw=2)
+
+
+# # Remove group 6! only six!
+
+# ## Certain set: (full wavelength array)
+
+# In[31]:
+
+
+plot_results(run_matrix_certain)
+
+
+# In[32]:
+
+
+x, y = run_matrix_certain.T
+z = np.polyfit(x, y, 4)
+p = np.poly1d(z)
+
+
+# In[33]:
+
+
+xp = np.linspace(x[0], x[-1], 100)
+_ = plt.plot(x, y, '.', xp, p(xp), '-', lw=2)
 
 
 # ***
