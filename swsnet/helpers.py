@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 from astropy.io import fits
-from ipdb import set_trace as st
+
 
 def load_spectrum(path, normalize=True):
     """Extract the normalized flux vector from a pickled dataframe.
@@ -35,8 +35,8 @@ def load_spectrum(path, normalize=True):
 
 
 def load_data(base_dir='', metadata='metadata.pkl', clean=False,
-              only_ok_data=False, verbose=False, n_samples=359, 
-              cut_28micron=False, **kwargs):
+              only_ok_data=False, verbose=False, n_samples=359,
+              cut_28micron=False, remove_group=None, **kwargs):
     """Load a pickled metadata file and extract features, labels.
 
     Args:
@@ -54,19 +54,25 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
     def remove_bad_rows(df):
         """Returns the dataframe with data_ok == True rows only."""
 
-        flag_arr = []
-        for row in df.itertuples(index=True, name='Pandas'):
-            flag = getattr(row, "uncertainty_flag")
-            if flag == '':
-                flag_arr.append(True)
-            else:
-                flag_arr.append(False)
+        # flag_arr = []
+        # for row in df.itertuples(index=True, name='Pandas'):
+        #     flag = getattr(row, "uncertainty_flag")
+        #     if flag == '':
+        #         flag_arr.append(True)
+        #     else:
+        #         flag_arr.append(False)
 
-        df = df.assign(data_ok=flag_arr)
+        # df = df.assign(data_ok=flag_arr)
         df = df.query('data_ok == True')
-        df.reset_index(drop=True, inplace=True)
+        # df.reset_index(drop=True, inplace=True)
 
         return df
+
+    def remove_specific_group(df, remove_group):
+        """Returns the dataframe with a group removed."""
+
+        query_str = 'group != "' + str(remove_group) + '"'
+        return df.query(query_str)
 
     # Load the metadata pickle.
     try:
@@ -81,6 +87,10 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
     # Remove any rows with a non-zero uncertainty flag, data_ok=False.
     if only_ok_data:
         meta = remove_bad_rows(meta)
+
+    # Remove a given group if desired.
+    if remove_group is not None:
+        meta = remove_specific_group(meta, remove_group)
 
     # Simple classifier first.
     labels = meta['group'].values.astype(int)
@@ -102,10 +112,8 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
     # Feature vector, knowing that each sample has a 359-point vector/spectrum.
     features = np.zeros((len(labels), n_samples))
 
-    # Fill feature vector.
-    index = 0
-
     # Fill the 'spectra' variable with the astronomical data.
+    index = 0
     for row in meta.itertuples(index=True, name='Pandas'):
         try:
             flux = load_spectrum(base_dir + row.file_path, **kwargs)
