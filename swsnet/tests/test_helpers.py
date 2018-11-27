@@ -5,8 +5,6 @@ test_helpers.py
 Test whether helpers.py behaves as expected."""
 # pylint:disable=redefined-outer-name
 
-import os
-
 import numpy as np
 import pandas as pd
 import pkg_resources
