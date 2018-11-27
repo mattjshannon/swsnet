@@ -7,6 +7,7 @@ Helper functions: e..g, read an SWS fits file, reformat for our uses.
 
 import numpy as np
 import pandas as pd
+import pkg_resources
 
 from astropy.io import fits
 
@@ -111,6 +112,7 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
 
     # Feature vector, knowing that each sample has a 359-point vector/spectrum.
     features = np.zeros((len(labels), n_samples))
+    print(features.shape)
 
     # Fill the 'spectra' variable with the astronomical data.
     index = 0
@@ -123,10 +125,15 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
         features[index] = flux
         index += 1
 
+    # Extract just the shorter wavelength zones.
     if cut_28micron:
-        wavearr = np.loadtxt('cassis_wavelength_grid.txt')
+        cassis_wave_array = 'test_data/cassis_wavelength_grid.txt'
+        cassis_file = \
+            pkg_resources.resource_filename('swsnet', cassis_wave_array)
+        wavearr = np.loadtxt(cassis_file)
         keep_dx = np.where(wavearr <= 28)[0]
-        features = features[:, keep_dx]
+        if features.shape[1] >= len(keep_dx):
+            features = features[:, keep_dx]
 
     return features, labels
 
