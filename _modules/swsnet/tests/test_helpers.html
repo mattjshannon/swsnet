@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>swsnet.tests.test_helpers &mdash; swsnet 0.1.0.post4+g748a26d documentation</title>
+  <title>swsnet.tests.test_helpers &mdash; swsnet 0.1.0.post26+g12b4bed documentation</title>
   
 
   
@@ -57,7 +57,7 @@
             
             
               <div class="version">
-                0.1.0.post4+g748a26d
+                0.1.0.post26+g12b4bed
               </div>
             
           
@@ -157,10 +157,9 @@
 <span class="sd">Test whether helpers.py behaves as expected.&quot;&quot;&quot;</span>
 <span class="c1"># pylint:disable=redefined-outer-name</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
 <span class="kn">import</span> <span class="nn">pytest</span>
 
 <span class="kn">from</span> <span class="nn">swsnet.helpers</span> <span class="k">import</span> <span class="n">load_spectrum</span><span class="p">,</span> <span class="n">load_data</span><span class="p">,</span> <span class="n">fits_to_dataframe</span>
@@ -171,6 +170,15 @@
     <span class="sd">&quot;&quot;&quot;Fixture for a fake spectrum pickle.&quot;&quot;&quot;</span>
     <span class="n">pickle_path</span> <span class="o">=</span> <span class="n">tmpdir_factory</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;test.pkl&quot;</span><span class="p">)</span>
     <span class="n">mock_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;wave&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;flux&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">84</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">75</span><span class="p">]})</span>
+    <span class="n">mock_df</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">pickle_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pickle_path</span></div>
+
+
+<div class="viewcode-block" id="pickle_file_long"><a class="viewcode-back" href="../../../swsnet.tests.html#swsnet.tests.test_helpers.pickle_file_long">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">pickle_file_long</span><span class="p">(</span><span class="n">tmpdir_factory</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fixture for a fake spectrum pickle.&quot;&quot;&quot;</span>
+    <span class="n">pickle_path</span> <span class="o">=</span> <span class="n">tmpdir_factory</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;test.pkl&quot;</span><span class="p">)</span>
+    <span class="n">mock_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;wave&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">359</span><span class="p">),</span> <span class="s1">&#39;flux&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">359</span><span class="p">)})</span>
     <span class="n">mock_df</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">pickle_path</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">pickle_path</span></div>
 
@@ -203,6 +211,20 @@
     <span class="k">return</span> <span class="n">meta_path2</span></div>
 
 
+<div class="viewcode-block" id="meta_file3"><a class="viewcode-back" href="../../../swsnet.tests.html#swsnet.tests.test_helpers.meta_file3">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">meta_file3</span><span class="p">(</span><span class="n">tmpdir_factory</span><span class="p">,</span> <span class="n">pickle_file_long</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fixture for a fake metadata pickle.&quot;&quot;&quot;</span>
+    <span class="n">meta_path</span> <span class="o">=</span> <span class="n">tmpdir_factory</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;metadata3.pkl&quot;</span><span class="p">)</span>
+    <span class="n">mock_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+        <span class="s1">&#39;file_path&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">pickle_file_long</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s1">&#39;data_ok&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="n">mock_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mock_dict</span><span class="p">)</span>
+    <span class="n">mock_df</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">meta_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">meta_path</span></div>
+
+
 <div class="viewcode-block" id="meta_file_inf"><a class="viewcode-back" href="../../../swsnet.tests.html#swsnet.tests.test_helpers.meta_file_inf">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">meta_file_inf</span><span class="p">(</span><span class="n">tmpdir_factory</span><span class="p">,</span> <span class="n">pickle_file</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Fixture for a fake metadata pickle, including NaN.&quot;&quot;&quot;</span>
@@ -231,7 +253,7 @@
     <span class="k">assert</span> <span class="n">flux</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="test_load_data"><a class="viewcode-back" href="../../../swsnet.tests.html#swsnet.tests.test_helpers.test_load_data">[docs]</a><span class="k">def</span> <span class="nf">test_load_data</span><span class="p">(</span><span class="n">meta_file</span><span class="p">,</span> <span class="n">meta_file2</span><span class="p">,</span> <span class="n">meta_file_inf</span><span class="p">):</span>
+<div class="viewcode-block" id="test_load_data"><a class="viewcode-back" href="../../../swsnet.tests.html#swsnet.tests.test_helpers.test_load_data">[docs]</a><span class="k">def</span> <span class="nf">test_load_data</span><span class="p">(</span><span class="n">meta_file</span><span class="p">,</span> <span class="n">meta_file2</span><span class="p">,</span> <span class="n">meta_file3</span><span class="p">,</span> <span class="n">meta_file_inf</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Test that we can load a metadata pickle and its associated spectra.&quot;&quot;&quot;</span>
 
     <span class="c1"># File doesn&#39;t exist.</span>
@@ -239,7 +261,7 @@
         <span class="n">load_data</span><span class="p">(</span><span class="n">base_dir</span><span class="o">=</span><span class="s1">&#39;made_up&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="s1">&#39;made_up&#39;</span><span class="p">)</span>
 
     <span class="c1"># Test reading a regular metadata.pkl.</span>
-    <span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">meta_file</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">meta_file</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                                  <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
     <span class="k">assert</span> <span class="n">features</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -248,11 +270,11 @@
     <span class="c1"># Test a metadata.pkl that points to a file that doesn&#39;t exist.</span>
     <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">OSError</span><span class="p">):</span>
         <span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">meta_file2</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                                     <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                     <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                      <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># Test a legit metadata.pkl with cleaning needed.</span>
-    <span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">meta_file</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">meta_file</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                                  <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">assert</span> <span class="n">features</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -269,18 +291,42 @@
     <span class="c1"># Labels outside of expected range for SWS &quot;group&quot; classifier.</span>
     <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">meta_file_inf</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                         <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+                         <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Try cutting the 28-micron zone.</span>
+    <span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">meta_file</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                 <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">cut_28micron</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">features</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
+
+    <span class="c1"># Try cutting the 28-micron zone, long.</span>
+    <span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">meta_file3</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">359</span><span class="p">,</span>
+                                 <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">cut_28micron</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">features</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">303</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
+
+    <span class="c1"># Try removing a specific group.</span>
+    <span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">meta_file</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                 <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">remove_group</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">features</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span></div>
 
 
 <div class="viewcode-block" id="test_fits_to_dataframe"><a class="viewcode-back" href="../../../swsnet.tests.html#swsnet.tests.test_helpers.test_fits_to_dataframe">[docs]</a><span class="k">def</span> <span class="nf">test_fits_to_dataframe</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Test that we can read a .FITS file and return a DataFrame.&quot;&quot;&quot;</span>
 
     <span class="c1"># First using real, well-formed data.</span>
-    <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;02400714_sws.fit&#39;</span><span class="p">)</span>
+    <span class="n">test_fits</span> <span class="o">=</span> <span class="s1">&#39;test_data/02400714_sws.fit&#39;</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;swsnet&#39;</span><span class="p">,</span> <span class="n">test_fits</span><span class="p">)</span>
     <span class="n">dataframe</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="n">fits_to_dataframe</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
     <span class="n">dataframe_dict</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
     <span class="n">dict_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dataframe_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
     <span class="k">assert</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">48924</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">dict_keys</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;wave&#39;</span><span class="p">,</span> <span class="s1">&#39;flux&#39;</span><span class="p">,</span> <span class="s1">&#39;spec_error&#39;</span><span class="p">,</span> <span class="s1">&#39;norm_error&#39;</span><span class="p">]</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">)</span> <span class="o">==</span> <span class="mi">52</span>
@@ -291,8 +337,8 @@
 
     <span class="c1"># And now using real, ill-formed data.</span>
     <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">IndexError</span><span class="p">):</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span>
-                             <span class="s1">&#39;02400714_sws_err.fit&#39;</span><span class="p">)</span>
+        <span class="n">test_fits</span> <span class="o">=</span> <span class="s1">&#39;test_data/02400714_sws_err.fit&#39;</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s1">&#39;swsnet&#39;</span><span class="p">,</span> <span class="n">test_fits</span><span class="p">)</span>
         <span class="n">dataframe</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="n">fits_to_dataframe</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span></div>
 </pre></div>
 
