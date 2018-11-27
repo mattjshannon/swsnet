@@ -7,6 +7,7 @@ Helper functions: e..g, read an SWS fits file, reformat for our uses.
 
 import numpy as np
 import pandas as pd
+import pkg_resources
 
 from astropy.io import fits
 
@@ -35,7 +36,8 @@ def load_spectrum(path, normalize=True):
 
 
 def load_data(base_dir='', metadata='metadata.pkl', clean=False,
-              only_ok_data=False, verbose=False, n_samples=359, **kwargs):
+              only_ok_data=False, verbose=False, n_samples=359,
+              cut_28micron=False, remove_group=None, **kwargs):
     """Load a pickled metadata file and extract features, labels.
 
     Args:
@@ -50,16 +52,46 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
         labels (ndarray): Array containing the group classifier.
     """
 
+    def remove_bad_rows(df):
+        """Returns the dataframe with data_ok == True rows only."""
+
+        # flag_arr = []
+        # for row in df.itertuples(index=True, name='Pandas'):
+        #     flag = getattr(row, "uncertainty_flag")
+        #     if flag == '':
+        #         flag_arr.append(True)
+        #     else:
+        #         flag_arr.append(False)
+
+        # df = df.assign(data_ok=flag_arr)
+        df = df.query('data_ok == True')
+        # df.reset_index(drop=True, inplace=True)
+
+        return df
+
+    def remove_specific_group(df, remove_group):
+        """Returns the dataframe with a group removed."""
+
+        query_str = 'group != "' + str(remove_group) + '"'
+        return df.query(query_str)
+
     # Load the metadata pickle.
     try:
         meta = pd.read_pickle(metadata)
     except OSError as e:
         raise e
 
+    # Remove group 7 (flawed spectra).
     if clean:
         meta = meta.query('group != "7"')
+
+    # Remove any rows with a non-zero uncertainty flag, data_ok=False.
     if only_ok_data:
-        meta = meta.query('data_ok == True')
+        meta = remove_bad_rows(meta)
+
+    # Remove a given group if desired.
+    if remove_group is not None:
+        meta = remove_specific_group(meta, remove_group)
 
     # Simple classifier first.
     labels = meta['group'].values.astype(int)
@@ -68,25 +100,22 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
     # SHIFTING TO START AT ZERO!
     labels = labels - 1
 
+    # See how the labels are distributed.
     if verbose:
-        # See how the labels are distributed.
+        print(type(labels[0]), len(labels))
         # plt.plot(labels, 'o');
 
-        # Label type, length
-        # print('VERBOSE.')
-        print(type(labels[0]), len(labels))
-
+    # Catch a weird label.
     group_max = max([max(6, x) for x in labels])
     if group_max > 6:
         raise ValueError("Unexpected label: ", group_max)
 
     # Feature vector, knowing that each sample has a 359-point vector/spectrum.
     features = np.zeros((len(labels), n_samples))
-
-    # Fill feature vector.
-    index = 0
+    print(features.shape)
 
     # Fill the 'spectra' variable with the astronomical data.
+    index = 0
     for row in meta.itertuples(index=True, name='Pandas'):
         try:
             flux = load_spectrum(base_dir + row.file_path, **kwargs)
@@ -95,6 +124,16 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
 
         features[index] = flux
         index += 1
+
+    # Extract just the shorter wavelength zones.
+    if cut_28micron:
+        cassis_wave_array = 'test_data/cassis_wavelength_grid.txt'
+        cassis_file = \
+            pkg_resources.resource_filename('swsnet', cassis_wave_array)
+        wavearr = np.loadtxt(cassis_file)
+        keep_dx = np.where(wavearr <= 28)[0]
+        if features.shape[1] >= len(keep_dx):
+            features = features[:, keep_dx]
 
     return features, labels
 
