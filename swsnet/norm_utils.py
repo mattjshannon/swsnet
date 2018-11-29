@@ -67,9 +67,6 @@ def read_spectrum_alt(file_path):
 
     wave = spectrum['wavelength']
     flux = spectrum['flux']
-#     specerr = spectrum['spec_error']
-#     normerr = spectrum['norm_error']
-#     fluxerr = specerr + normerr
 
     try:
         fluxerr = spectrum['uncertainty']

@@ -32,10 +32,15 @@ def read_spectrum(file_path):
 
     wave = spectrum['wavelength']
     flux = spectrum['flux']
-    # specerr = spectrum['spec_error']
-    # normerr = spectrum['norm_error']
-    # fluxerr = specerr + normerr
-    fluxerr = spectrum['uncertainty']
+    try:
+        fluxerr = spectrum['uncertainty']
+    except Exception:
+        pass
+
+    try:
+        fluxerr = spectrum['error (RMS+SYS)']
+    except Exception:
+        pass
 
     spectrum_dict = {
         'wave': wave,
