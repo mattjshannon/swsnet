@@ -70,12 +70,12 @@ def read_spectrum_alt(file_path):
 
     try:
         fluxerr = spectrum['uncertainty']
-    except Exception as e:
+    except Exception:
         pass
 
     try:
         fluxerr = spectrum['error (RMS+SYS)']
-    except Exception as e:
+    except Exception:
         pass
 
     return wave, flux, fluxerr, spectrum
