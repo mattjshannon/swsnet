@@ -6,6 +6,8 @@
 
 get_ipython().run_line_magic('matplotlib', 'inline')
 
+import os
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -16,25 +18,31 @@ from swsnet.norm_utils import normalize_spectrum, renormalize_spectrum
 
 # # Read metadata in
 
-# In[2]:
+# In[14]:
 
 
-meta = pd.read_pickle('../metadata_step0.pkl')
+meta = pd.read_pickle('../metadata.pkl')
 
 
-# In[3]:
+# In[15]:
 
 
 nrows = meta.shape[0]
+nrows
+
+
+# In[16]:
+
+
 meta
 
 
 # # Determine normalization parameters (and plot-opt)
 
-# In[4]:
+# In[19]:
 
 
-determine_parameters = False
+determine_parameters = True
 
 def norm_and_plot(meta):
     param_list = []
@@ -44,11 +52,14 @@ def norm_and_plot(meta):
             print(index, ' / ', nrows)
 
         # Full classifier
-        classifier = meta['full_classifier'][index]
+        try:
+            classifier = meta['full_classifier'][index]
+        except Exception as e:
+            classifier = ''
             
         # Perform shift/renormalization
         parameters = normalize_spectrum(filename, classifier,
-                                        plot=True, verbose=False)
+                                        plot=False, verbose=False)
         
         # Save parameters to a list
         spec_min, spec_max, norm_factor = parameters
@@ -57,7 +68,7 @@ def norm_and_plot(meta):
     return param_list
 
 
-# In[5]:
+# In[20]:
 
 
 if determine_parameters:
@@ -69,21 +80,21 @@ if determine_parameters:
 
 # ### Confirm we can read them back in later.
 
-# In[6]:
+# In[21]:
 
 
 norm_params = np.loadtxt('../step1_norm/step1_norm_params.txt', delimiter=',', dtype='str')
 nrows = norm_params.shape[0]
 
 
-# In[7]:
+# In[22]:
 
 
 spectra_paths = norm_params.T[0]
 spectra_paths
 
 
-# In[8]:
+# In[23]:
 
 
 norm_params[0]
@@ -91,7 +102,7 @@ norm_params[0]
 
 # # Perform normalization
 
-# In[10]:
+# In[25]:
 
 
 file_path_list = []
@@ -113,16 +124,16 @@ for index, file_path in enumerate(spectra_paths):
 #         break
 
 
-# In[11]:
+# In[26]:
 
 
 def update_dataframe(meta, file_path_list):
     
     def check_tdts(old_file_paths, new_file_paths):
 
-        old_list = [x.split('/')[-1].split('_')[0] for x in old_file_paths]
+        old_list = [x.split('/')[-1].split('.pkl')[0] for x in old_file_paths]
         new_list = [x.split('/')[-1].split('_')[0] for x in new_file_paths]
-
+        
         if old_list != new_list:
             raise SystemExit("TDTs don't match.")
 
@@ -142,26 +153,73 @@ def update_dataframe(meta, file_path_list):
     new_meta['file_path'] = new_file_paths
     
     # Save to disk.
-    new_meta.to_pickle('../metadata__step1_normalized.pkl')
+    new_meta.to_pickle('../metadata_step1_normalized.pkl')
     print('Saved: ', '../metadata_step1_normalized.pkl')
     
     return new_meta
 
 
-# In[12]:
+# In[27]:
 
 
 new_meta = update_dataframe(meta, file_path_list)
 
 
-# In[13]:
+# In[28]:
 
 
 meta.head()
 
 
-# In[14]:
+# In[29]:
 
 
 new_meta.head()
+
+
+# ## Reindex dataframe, save again
+
+# In[30]:
+
+
+# SORT BY TDT!
+df = new_meta
+
+df['aorkey'] = df['aorkey'].astype(int)
+df = df.sort_values(by=['aorkey'], ascending=True)
+df = df.reset_index(drop=True)
+
+
+# In[31]:
+
+
+df.head()
+
+
+# In[32]:
+
+
+# Remove rows of objects not pickled (typically due to a data error).
+bool_list = []
+for path in df['file_path']:
+    if os.path.isfile('../../' + path):
+        bool_list.append(True)
+    else:
+        bool_list.append(False)
+
+df = df.assign(data_ok=bool_list)
+df = df.query('data_ok == True')
+
+
+# In[33]:
+
+
+df.head()
+
+
+# In[34]:
+
+
+df.to_pickle('../metadata_step1_normalized.pkl')
+print('Saved: ', '../metadata_step1_normalized.pkl')
 

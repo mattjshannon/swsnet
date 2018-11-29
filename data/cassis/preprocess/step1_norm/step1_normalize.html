@@ -11778,6 +11778,8 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 
+<span class="kn">import</span> <span class="nn">os</span>
+
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -11801,10 +11803,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;../metadata_step0.pkl&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;../metadata.pkl&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11814,11 +11816,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">nrows</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">meta</span>
+<span class="n">nrows</span>
 </pre></div>
 
 </div>
@@ -11831,7 +11833,40 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[3]:</div>
+<div class="prompt output_prompt">Out[15]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>6732</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[16]:</div>
 
 
 
@@ -11854,501 +11889,284 @@ div#notebook {
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>aorkey</th>
       <th>object_name</th>
-      <th>tdt</th>
       <th>ra</th>
       <th>dec</th>
-      <th>full_classifier</th>
-      <th>group</th>
-      <th>subgroup</th>
-      <th>uncertainty_flag</th>
-      <th>note</th>
-      <th></th>
+      <th>flux_units</th>
       <th>file_path</th>
-      <th>object_type</th>
-      <th>data_ok</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>NGC 6543</td>
-      <td>2400714</td>
-      <td>269.639167</td>
-      <td>66.633194</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/02400714_irs.pkl</td>
-      <td>PN</td>
-      <td>True</td>
+      <td>10019072</td>
+      <td>HD 99754</td>
+      <td>172.096220</td>
+      <td>-23.829099</td>
+      <td>Jy</td>
+      <td>spectra/10019072.pkl</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>NGC 6543</td>
-      <td>2400807</td>
-      <td>269.639167</td>
-      <td>66.633194</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/02400807_irs.pkl</td>
-      <td>PN</td>
-      <td>True</td>
+      <td>10019328</td>
+      <td>HR 5467</td>
+      <td>219.560550</td>
+      <td>54.021404</td>
+      <td>Jy</td>
+      <td>spectra/10019328.pkl</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>NGC 6543</td>
-      <td>2400910</td>
-      <td>269.639125</td>
-      <td>66.633194</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/02400910_irs.pkl</td>
-      <td>PN</td>
-      <td>True</td>
+      <td>10019584</td>
+      <td>HD 173511</td>
+      <td>280.413770</td>
+      <td>61.546739</td>
+      <td>Jy</td>
+      <td>spectra/10019584.pkl</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>NGC 7027</td>
-      <td>2401183</td>
-      <td>316.757125</td>
-      <td>42.235861</td>
-      <td>4.PU</td>
-      <td>4</td>
-      <td>PU</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/02401183_irs.pkl</td>
-      <td>PN</td>
-      <td>True</td>
+      <td>10019840</td>
+      <td>alp Lac</td>
+      <td>337.820510</td>
+      <td>50.284642</td>
+      <td>Jy</td>
+      <td>spectra/10019840.pkl</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>{gamma} Dra</td>
-      <td>2401579</td>
-      <td>269.151708</td>
-      <td>51.488972</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td>(0,0)</td>
-      <td></td>
-      <td>spectra/02401579_irs.pkl</td>
-      <td></td>
-      <td>True</td>
+      <td>10020096</td>
+      <td>HR 6348</td>
+      <td>255.315400</td>
+      <td>60.647838</td>
+      <td>Jy</td>
+      <td>spectra/10020096.pkl</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>{gamma} Dra</td>
-      <td>2402105</td>
-      <td>269.151667</td>
-      <td>51.488972</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/02402105_irs.pkl</td>
-      <td></td>
-      <td>True</td>
+      <td>10020352</td>
+      <td>HIZODY_Camp9_1</td>
+      <td>6.428490</td>
+      <td>-1.768108</td>
+      <td>Jy</td>
+      <td>spectra/10020352.pkl</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>AFGL 2591</td>
-      <td>2800433</td>
-      <td>307.352750</td>
-      <td>40.188583</td>
-      <td>5.SA</td>
-      <td>5</td>
-      <td>SA</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/02800433_irs.pkl</td>
-      <td>YSO</td>
-      <td>True</td>
+      <td>10020608</td>
+      <td>HIZODY_Camp9_1</td>
+      <td>6.428418</td>
+      <td>-1.773440</td>
+      <td>Jy</td>
+      <td>spectra/10020608.pkl</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>NGC 6543</td>
-      <td>2800908</td>
-      <td>269.639167</td>
-      <td>66.633194</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/02800908_irs.pkl</td>
-      <td>PN</td>
-      <td>True</td>
+      <td>10020864</td>
+      <td>NGC6543-edge</td>
+      <td>269.624370</td>
+      <td>66.632947</td>
+      <td>Jy</td>
+      <td>spectra/10020864.pkl</td>
     </tr>
     <tr>
       <th>8</th>
+      <td>10021120</td>
       <td>P Cyg</td>
-      <td>3201129</td>
-      <td>304.446667</td>
-      <td>38.032861</td>
-      <td>2.E</td>
-      <td>2</td>
-      <td>E</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/03201129_irs.pkl</td>
-      <td>BlueSG*</td>
-      <td>True</td>
+      <td>304.443720</td>
+      <td>38.033915</td>
+      <td>Jy</td>
+      <td>spectra/10021120.pkl</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>NGC 6543</td>
-      <td>3201202</td>
-      <td>269.639167</td>
-      <td>66.633194</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/03201202_irs.pkl</td>
-      <td>PN</td>
-      <td>True</td>
+      <td>10021376</td>
+      <td>HD190429</td>
+      <td>300.869810</td>
+      <td>36.026100</td>
+      <td>Jy</td>
+      <td>spectra/10021376.pkl</td>
     </tr>
     <tr>
       <th>10</th>
-      <td>Cyg OB2 No. 12</td>
-      <td>3602226</td>
-      <td>308.170833</td>
-      <td>41.241472</td>
-      <td>1.NMp</td>
-      <td>1</td>
-      <td>NMp</td>
-      <td></td>
-      <td>F</td>
-      <td></td>
-      <td>spectra/03602226_irs.pkl</td>
-      <td></td>
-      <td>True</td>
+      <td>10021632</td>
+      <td>BD+36 4063_1</td>
+      <td>306.416390</td>
+      <td>37.375266</td>
+      <td>Jy</td>
+      <td>spectra/10021632.pkl</td>
     </tr>
     <tr>
       <th>11</th>
-      <td>HR 4049</td>
-      <td>4000458</td>
-      <td>154.531667</td>
-      <td>-28.992028</td>
-      <td>2.U</td>
-      <td>2</td>
-      <td>U</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/04000458_irs.pkl</td>
-      <td>post-AGB*</td>
-      <td>True</td>
+      <td>10021888</td>
+      <td>NGC6543-edge</td>
+      <td>269.624590</td>
+      <td>66.632873</td>
+      <td>Jy</td>
+      <td>spectra/10021888.pkl</td>
     </tr>
     <tr>
       <th>12</th>
-      <td>AG Car</td>
-      <td>4000652</td>
-      <td>164.048333</td>
-      <td>-60.453722</td>
-      <td>4.Me</td>
-      <td>4</td>
-      <td>Me</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/04000652_irs.pkl</td>
-      <td>BlueSG*</td>
-      <td>True</td>
+      <td>10045440</td>
+      <td>HD 99754</td>
+      <td>172.096170</td>
+      <td>-23.829155</td>
+      <td>Jy</td>
+      <td>spectra/10045440.pkl</td>
     </tr>
     <tr>
       <th>13</th>
-      <td>V778 Cyg</td>
-      <td>4001456</td>
-      <td>309.044167</td>
-      <td>60.088889</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td>W</td>
-      <td></td>
-      <td>spectra/04001456_irs.pkl</td>
-      <td>C*</td>
-      <td>True</td>
+      <td>10045952</td>
+      <td>HR 5467</td>
+      <td>219.560630</td>
+      <td>54.021289</td>
+      <td>Jy</td>
+      <td>spectra/10045952.pkl</td>
     </tr>
     <tr>
       <th>14</th>
-      <td>{beta} Leo</td>
-      <td>4001710</td>
-      <td>177.263667</td>
-      <td>14.572194</td>
-      <td>1.N</td>
-      <td>1</td>
-      <td>N</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/04001710_irs.pkl</td>
-      <td></td>
-      <td>True</td>
+      <td>10046208</td>
+      <td>HD 173511</td>
+      <td>280.413720</td>
+      <td>61.546656</td>
+      <td>Jy</td>
+      <td>spectra/10046208.pkl</td>
     </tr>
     <tr>
       <th>15</th>
-      <td>{gamma} Dra</td>
-      <td>4002405</td>
-      <td>269.151708</td>
-      <td>51.488972</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/04002405_irs.pkl</td>
-      <td></td>
-      <td>True</td>
+      <td>10046464</td>
+      <td>alp Lac</td>
+      <td>337.820740</td>
+      <td>50.284392</td>
+      <td>Jy</td>
+      <td>spectra/10046464.pkl</td>
     </tr>
     <tr>
       <th>16</th>
-      <td>NML Cyg</td>
-      <td>5200726</td>
-      <td>311.606250</td>
-      <td>40.116500</td>
-      <td>3.SB</td>
-      <td>3</td>
-      <td>SB</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/05200726_irs.pkl</td>
-      <td>V*</td>
-      <td>True</td>
+      <td>10046720</td>
+      <td>HR 6348</td>
+      <td>255.315630</td>
+      <td>60.647985</td>
+      <td>Jy</td>
+      <td>spectra/10046720.pkl</td>
     </tr>
     <tr>
       <th>17</th>
-      <td>{alpha} Boo +0.04, +1.0</td>
-      <td>5601291</td>
-      <td>213.916708</td>
-      <td>19.184611</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td>Offset</td>
-      <td></td>
-      <td>spectra/05601291_irs.pkl</td>
-      <td>RGB*</td>
-      <td>True</td>
+      <td>10046976</td>
+      <td>HR 5467</td>
+      <td>219.560720</td>
+      <td>54.021321</td>
+      <td>Jy</td>
+      <td>spectra/10046976.pkl</td>
     </tr>
     <tr>
       <th>18</th>
-      <td>IRAS 21282+5050</td>
-      <td>5602477</td>
-      <td>322.493417</td>
-      <td>51.066611</td>
-      <td>4.Mu</td>
-      <td>4</td>
-      <td>Mu</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/05602477_irs.pkl</td>
-      <td>PN</td>
-      <td>True</td>
+      <td>10047232</td>
+      <td>HD 173511</td>
+      <td>280.413780</td>
+      <td>61.546561</td>
+      <td>Jy</td>
+      <td>spectra/10047232.pkl</td>
     </tr>
     <tr>
       <th>19</th>
-      <td>{beta} Peg</td>
-      <td>5602595</td>
-      <td>345.943958</td>
-      <td>28.082667</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/05602595_irs.pkl</td>
-      <td>LPV*</td>
-      <td>True</td>
+      <td>10047488</td>
+      <td>alp Lac</td>
+      <td>337.820930</td>
+      <td>50.284550</td>
+      <td>Jy</td>
+      <td>spectra/10047488.pkl</td>
     </tr>
     <tr>
       <th>20</th>
-      <td>{mu} Cep</td>
-      <td>5602852</td>
-      <td>325.876667</td>
-      <td>58.780028</td>
-      <td>2.SEc</td>
-      <td>2</td>
-      <td>SEc</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/05602852_irs.pkl</td>
-      <td></td>
-      <td>True</td>
+      <td>10047744</td>
+      <td>HR 6348</td>
+      <td>255.315620</td>
+      <td>60.647975</td>
+      <td>Jy</td>
+      <td>spectra/10047744.pkl</td>
     </tr>
     <tr>
       <th>21</th>
-      <td>AFGL 4106</td>
-      <td>6000280</td>
-      <td>155.831875</td>
-      <td>-59.534944</td>
-      <td>4.SCp</td>
-      <td>4</td>
-      <td>SCp</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/06000280_irs.pkl</td>
-      <td>SG*</td>
-      <td>True</td>
+      <td>10060800</td>
+      <td>alp Lac_1</td>
+      <td>337.820110</td>
+      <td>50.284183</td>
+      <td>Jy</td>
+      <td>spectra/10060800.pkl</td>
     </tr>
     <tr>
       <th>22</th>
-      <td>HR 7341</td>
-      <td>6001362</td>
-      <td>289.657458</td>
-      <td>49.569333</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td>R</td>
-      <td></td>
-      <td>spectra/06001362_irs.pkl</td>
-      <td>Star</td>
-      <td>True</td>
+      <td>10061056</td>
+      <td>tau Cen</td>
+      <td>189.423950</td>
+      <td>-48.543728</td>
+      <td>Jy</td>
+      <td>spectra/10061056.pkl</td>
     </tr>
     <tr>
       <th>23</th>
-      <td>S 140</td>
-      <td>6401081</td>
-      <td>334.826250</td>
-      <td>63.313083</td>
-      <td>5.SA</td>
-      <td>5</td>
-      <td>SA</td>
-      <td></td>
-      <td>(0,0)</td>
-      <td></td>
-      <td>spectra/06401081_irs.pkl</td>
-      <td></td>
-      <td>True</td>
+      <td>10061312</td>
+      <td>HD 166780</td>
+      <td>272.157300</td>
+      <td>57.978597</td>
+      <td>Jy</td>
+      <td>spectra/10061312.pkl</td>
     </tr>
     <tr>
       <th>24</th>
-      <td>{xi} Dra</td>
-      <td>6800697</td>
-      <td>268.381958</td>
-      <td>56.872583</td>
-      <td>1.NO:</td>
-      <td>1</td>
-      <td>NO</td>
-      <td>1</td>
-      <td></td>
-      <td></td>
-      <td>spectra/06800697_irs.pkl</td>
-      <td>PM*</td>
-      <td>True</td>
+      <td>10061568</td>
+      <td>HD 55151</td>
+      <td>106.552660</td>
+      <td>-68.837539</td>
+      <td>Jy</td>
+      <td>spectra/10061568.pkl</td>
     </tr>
     <tr>
       <th>25</th>
-      <td>{eta} Car</td>
-      <td>7100250</td>
-      <td>161.265000</td>
-      <td>-59.684528</td>
-      <td>4.M:e</td>
-      <td>4</td>
-      <td>M</td>
-      <td>1e</td>
-      <td></td>
-      <td></td>
-      <td>spectra/07100250_irs.pkl</td>
-      <td></td>
-      <td>True</td>
+      <td>10062848</td>
+      <td>alp Lac</td>
+      <td>337.820020</td>
+      <td>50.284114</td>
+      <td>Jy</td>
+      <td>spectra/10062848.pkl</td>
     </tr>
     <tr>
       <th>26</th>
-      <td>{alpha} Boo +0.03, +0.9</td>
-      <td>7100434</td>
-      <td>213.916667</td>
-      <td>19.184583</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td>Offset</td>
-      <td></td>
-      <td>spectra/07100434_irs.pkl</td>
-      <td>RGB*</td>
-      <td>True</td>
+      <td>10063104</td>
+      <td>tau Cen</td>
+      <td>189.423980</td>
+      <td>-48.543704</td>
+      <td>Jy</td>
+      <td>spectra/10063104.pkl</td>
     </tr>
     <tr>
       <th>27</th>
-      <td>HD 161796</td>
-      <td>7100579</td>
-      <td>266.231250</td>
-      <td>50.044389</td>
-      <td>4.SC</td>
-      <td>4</td>
-      <td>SC</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/07100579_irs.pkl</td>
-      <td>post-AGB*</td>
-      <td>True</td>
+      <td>10063360</td>
+      <td>HD 166780</td>
+      <td>272.157600</td>
+      <td>57.978605</td>
+      <td>Jy</td>
+      <td>spectra/10063360.pkl</td>
     </tr>
     <tr>
       <th>28</th>
-      <td>{delta} Cen</td>
-      <td>7200272</td>
-      <td>182.089625</td>
-      <td>-50.722417</td>
-      <td>1.NE</td>
-      <td>1</td>
-      <td>NE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/07200272_irs.pkl</td>
-      <td>Be*</td>
-      <td>True</td>
+      <td>10063616</td>
+      <td>HD 55151</td>
+      <td>106.552710</td>
+      <td>-68.837568</td>
+      <td>Jy</td>
+      <td>spectra/10063616.pkl</td>
     </tr>
     <tr>
       <th>29</th>
-      <td>{delta} Cen</td>
-      <td>7200351</td>
-      <td>182.089625</td>
-      <td>-50.722417</td>
-      <td>1.NE</td>
-      <td>1</td>
-      <td>NE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/07200351_irs.pkl</td>
-      <td>Be*</td>
-      <td>True</td>
+      <td>10063872</td>
+      <td>HD 173511</td>
+      <td>280.413750</td>
+      <td>61.545953</td>
+      <td>Jy</td>
+      <td>spectra/10063872.pkl</td>
     </tr>
     <tr>
       <th>...</th>
@@ -12358,497 +12176,280 @@ div#notebook {
       <td>...</td>
       <td>...</td>
       <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
     </tr>
     <tr>
-      <th>1205</th>
-      <td>AFGL 2392</td>
-      <td>85800120</td>
-      <td>291.810000</td>
-      <td>7.069444</td>
-      <td>2.CE</td>
-      <td>2</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/85800120_irs.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
+      <th>6702</th>
+      <td>9755904</td>
+      <td>HD 173511</td>
+      <td>280.415770</td>
+      <td>61.548354</td>
+      <td>Jy</td>
+      <td>spectra/9755904.pkl</td>
     </tr>
     <tr>
-      <th>1206</th>
-      <td>Lk H{alpha} 225</td>
-      <td>85800403</td>
-      <td>305.126667</td>
-      <td>41.357500</td>
-      <td>5.SAe</td>
-      <td>5</td>
-      <td>SAe</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/85800403_irs.pkl</td>
-      <td>Ae*</td>
-      <td>True</td>
+      <th>6703</th>
+      <td>9756416</td>
+      <td>HR 6348</td>
+      <td>255.315490</td>
+      <td>60.649883</td>
+      <td>Jy</td>
+      <td>spectra/9756416.pkl</td>
     </tr>
     <tr>
-      <th>1207</th>
-      <td>Lk H{alpha} 224</td>
-      <td>85800502</td>
-      <td>305.121667</td>
-      <td>41.357500</td>
-      <td>5.F</td>
-      <td>5</td>
-      <td>F</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/85800502_irs.pkl</td>
-      <td>Ae*</td>
-      <td>True</td>
+      <th>6704</th>
+      <td>9756672</td>
+      <td>29 Vul</td>
+      <td>309.629490</td>
+      <td>21.203252</td>
+      <td>Jy</td>
+      <td>spectra/9756672.pkl</td>
     </tr>
     <tr>
-      <th>1208</th>
-      <td>W Ori</td>
-      <td>85801604</td>
-      <td>76.348750</td>
-      <td>1.177556</td>
-      <td>2.CE</td>
-      <td>2</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/85801604_irs.pkl</td>
-      <td>semi-regV*</td>
-      <td>True</td>
+      <th>6705</th>
+      <td>9756928</td>
+      <td>HD 173511</td>
+      <td>280.415410</td>
+      <td>61.548230</td>
+      <td>Jy</td>
+      <td>spectra/9756928.pkl</td>
     </tr>
     <tr>
-      <th>1209</th>
-      <td>IRC +50137</td>
-      <td>86201803</td>
-      <td>77.831042</td>
-      <td>52.876028</td>
-      <td>3.SB</td>
-      <td>3</td>
-      <td>SB</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/86201803_irs.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
+      <th>6706</th>
+      <td>9757440</td>
+      <td>HR 6348</td>
+      <td>255.315280</td>
+      <td>60.649868</td>
+      <td>Jy</td>
+      <td>spectra/9757440.pkl</td>
     </tr>
     <tr>
-      <th>1210</th>
-      <td>IRAS 04579+4703</td>
-      <td>86201902</td>
-      <td>75.415417</td>
-      <td>47.123111</td>
-      <td>5.SA</td>
-      <td>5</td>
-      <td>SA</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/86201902_irs.pkl</td>
-      <td>YSO</td>
-      <td>True</td>
+      <th>6707</th>
+      <td>9757696</td>
+      <td>29 Vul</td>
+      <td>309.629390</td>
+      <td>21.203557</td>
+      <td>Jy</td>
+      <td>spectra/9757696.pkl</td>
     </tr>
     <tr>
-      <th>1211</th>
-      <td>RV Cam</td>
-      <td>86202101</td>
-      <td>67.673750</td>
-      <td>57.411611</td>
-      <td>2.SEb</td>
-      <td>2</td>
-      <td>SEb</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/86202101_irs.pkl</td>
-      <td>semi-regV*</td>
-      <td>True</td>
+      <th>6708</th>
+      <td>9757952</td>
+      <td>HD 173511</td>
+      <td>280.415390</td>
+      <td>61.548424</td>
+      <td>Jy</td>
+      <td>spectra/9757952.pkl</td>
     </tr>
     <tr>
-      <th>1212</th>
-      <td>AFGL 437</td>
-      <td>86300810</td>
-      <td>46.848667</td>
-      <td>58.514056</td>
-      <td>5.U</td>
-      <td>5</td>
-      <td>U</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/86300810_irs.pkl</td>
-      <td>Cl*</td>
-      <td>True</td>
+      <th>6709</th>
+      <td>9758464</td>
+      <td>HR 6348</td>
+      <td>255.315350</td>
+      <td>60.649751</td>
+      <td>Jy</td>
+      <td>spectra/9758464.pkl</td>
     </tr>
     <tr>
-      <th>1213</th>
-      <td>AFGL 4029</td>
-      <td>86300968</td>
-      <td>45.380375</td>
-      <td>60.487083</td>
-      <td>5.U</td>
-      <td>5</td>
-      <td>U</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/86300968_irs.pkl</td>
-      <td>MolCld</td>
-      <td>True</td>
+      <th>6710</th>
+      <td>9760000</td>
+      <td>HR7891</td>
+      <td>309.631020</td>
+      <td>21.203480</td>
+      <td>Jy</td>
+      <td>spectra/9760000.pkl</td>
     </tr>
     <tr>
-      <th>1214</th>
-      <td>SZ Sgr</td>
-      <td>86400616</td>
-      <td>266.235417</td>
-      <td>-18.657500</td>
-      <td>2.CE</td>
-      <td>2</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/86400616_irs.pkl</td>
-      <td>semi-regV*</td>
-      <td>True</td>
+      <th>6711</th>
+      <td>9760512</td>
+      <td>Brey 13</td>
+      <td>75.781179</td>
+      <td>-66.684118</td>
+      <td>Jy</td>
+      <td>spectra/9760512.pkl</td>
     </tr>
     <tr>
-      <th>1215</th>
-      <td>BD+30 3639</td>
-      <td>86500540</td>
-      <td>293.688333</td>
-      <td>30.516333</td>
-      <td>4.PU</td>
-      <td>4</td>
-      <td>PU</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/86500540_irs.pkl</td>
-      <td>PN</td>
-      <td>True</td>
+      <th>6712</th>
+      <td>9761024</td>
+      <td>grs79.29+00.46</td>
+      <td>307.924410</td>
+      <td>40.368656</td>
+      <td>Jy</td>
+      <td>spectra/9761024.pkl</td>
     </tr>
     <tr>
-      <th>1216</th>
-      <td>{alpha} Tuc</td>
-      <td>86602401</td>
-      <td>334.625500</td>
-      <td>-60.259694</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/86602401_irs.pkl</td>
-      <td>SB*</td>
-      <td>True</td>
+      <th>6713</th>
+      <td>9761280</td>
+      <td>grs79.29+00.46K1_1</td>
+      <td>307.952430</td>
+      <td>40.389907</td>
+      <td>Jy</td>
+      <td>spectra/9761280.pkl</td>
     </tr>
     <tr>
-      <th>1217</th>
-      <td>HR 1939</td>
-      <td>86603434</td>
-      <td>85.175000</td>
-      <td>31.920833</td>
-      <td>2.SEa</td>
-      <td>2</td>
-      <td>SEa</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/86603434_irs.pkl</td>
-      <td>RedSG*</td>
-      <td>True</td>
+      <th>6714</th>
+      <td>9829632</td>
+      <td>2MASS16282-2432_1</td>
+      <td>247.057080</td>
+      <td>-24.529893</td>
+      <td>Jy</td>
+      <td>spectra/9829632.pkl</td>
     </tr>
     <tr>
-      <th>1218</th>
-      <td>IRC -10122</td>
-      <td>86706617</td>
-      <td>96.256667</td>
-      <td>-9.121111</td>
-      <td>2.CE</td>
-      <td>2</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/86706617_irs.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
+      <th>6715</th>
+      <td>9830400</td>
+      <td>sz 62</td>
+      <td>197.470570</td>
+      <td>-77.955022</td>
+      <td>Jy</td>
+      <td>spectra/9830400.pkl</td>
     </tr>
     <tr>
-      <th>1219</th>
-      <td>IRC -10095</td>
-      <td>86801101</td>
-      <td>84.927500</td>
-      <td>-8.152194</td>
-      <td>2.CE</td>
-      <td>2</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/86801101_irs.pkl</td>
-      <td>C*</td>
-      <td>True</td>
+      <th>6716</th>
+      <td>9830656</td>
+      <td>rxj 1301</td>
+      <td>195.230840</td>
+      <td>-76.902656</td>
+      <td>Jy</td>
+      <td>spectra/9830656.pkl</td>
     </tr>
     <tr>
-      <th>1220</th>
-      <td>{alpha} CMa</td>
-      <td>86801303</td>
-      <td>101.287375</td>
-      <td>-16.715528</td>
-      <td>1.N</td>
-      <td>1</td>
-      <td>N</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/86801303_irs.pkl</td>
-      <td></td>
-      <td>True</td>
+      <th>6717</th>
+      <td>9831168</td>
+      <td>hn 9</td>
+      <td>167.334500</td>
+      <td>-76.506579</td>
+      <td>Jy</td>
+      <td>spectra/9831168.pkl</td>
     </tr>
     <tr>
-      <th>1221</th>
-      <td>OH 26.2-0.6</td>
-      <td>86901013</td>
-      <td>280.307500</td>
-      <td>-6.250278</td>
-      <td>4.SA</td>
-      <td>4</td>
-      <td>SA</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/86901013_irs.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
+      <th>6718</th>
+      <td>9835520</td>
+      <td>iras03235</td>
+      <td>51.655048</td>
+      <td>30.260171</td>
+      <td>Jy</td>
+      <td>spectra/9835520.pkl</td>
     </tr>
     <tr>
-      <th>1222</th>
-      <td>IRAS 17347-3139</td>
-      <td>87000939</td>
-      <td>264.502583</td>
-      <td>-31.681722</td>
-      <td>5.UE</td>
-      <td>5</td>
-      <td>UE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/87000939_irs.pkl</td>
-      <td>PN</td>
-      <td>True</td>
+      <th>6719</th>
+      <td>9855744</td>
+      <td>HR 5467</td>
+      <td>219.559910</td>
+      <td>54.021977</td>
+      <td>Jy</td>
+      <td>spectra/9855744.pkl</td>
     </tr>
     <tr>
-      <th>1223</th>
-      <td>AFGL 940</td>
-      <td>87102602</td>
-      <td>96.655417</td>
-      <td>9.037778</td>
-      <td>3.CE</td>
-      <td>3</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/87102602_irs.pkl</td>
-      <td>C*</td>
-      <td>True</td>
+      <th>6720</th>
+      <td>9856000</td>
+      <td>HD 173511</td>
+      <td>280.414040</td>
+      <td>61.547353</td>
+      <td>Jy</td>
+      <td>spectra/9856000.pkl</td>
     </tr>
     <tr>
-      <th>1224</th>
-      <td>IRC +40149</td>
-      <td>87102906</td>
-      <td>89.853333</td>
-      <td>38.439444</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td>W</td>
-      <td></td>
-      <td>spectra/87102906_irs.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
+      <th>6721</th>
+      <td>9856256</td>
+      <td>HD 166780</td>
+      <td>272.157480</td>
+      <td>57.980406</td>
+      <td>Jy</td>
+      <td>spectra/9856256.pkl</td>
     </tr>
     <tr>
-      <th>1225</th>
-      <td>IRAS 17074-4549</td>
-      <td>87200109</td>
-      <td>257.777583</td>
-      <td>-45.883194</td>
-      <td>5.UEp</td>
-      <td>5</td>
-      <td>UEp</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/87200109_irs.pkl</td>
-      <td>HII</td>
-      <td>True</td>
+      <th>6722</th>
+      <td>9856512</td>
+      <td>HD 166780</td>
+      <td>272.157160</td>
+      <td>57.980298</td>
+      <td>Jy</td>
+      <td>spectra/9856512.pkl</td>
     </tr>
     <tr>
-      <th>1226</th>
-      <td>OH 21.5+0.5</td>
-      <td>87200833</td>
-      <td>277.128750</td>
-      <td>-9.971111</td>
-      <td>4.SA</td>
-      <td>4</td>
-      <td>SA</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/87200833_irs.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
+      <th>6723</th>
+      <td>9856768</td>
+      <td>HR 5467</td>
+      <td>219.560080</td>
+      <td>54.022001</td>
+      <td>Jy</td>
+      <td>spectra/9856768.pkl</td>
     </tr>
     <tr>
-      <th>1227</th>
-      <td>IRC +10374</td>
-      <td>87201107</td>
-      <td>280.893750</td>
-      <td>13.959722</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td>W</td>
-      <td></td>
-      <td>spectra/87201107_irs.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
+      <th>6724</th>
+      <td>9857024</td>
+      <td>HD 173511</td>
+      <td>280.414470</td>
+      <td>61.547501</td>
+      <td>Jy</td>
+      <td>spectra/9857024.pkl</td>
     </tr>
     <tr>
-      <th>1228</th>
-      <td>Case 181</td>
-      <td>87201221</td>
-      <td>285.825417</td>
-      <td>7.512222</td>
-      <td>3.CE</td>
-      <td>3</td>
-      <td>CE</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/87201221_irs.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
+      <th>6725</th>
+      <td>9857280</td>
+      <td>HD 15508</td>
+      <td>36.590824</td>
+      <td>-68.634180</td>
+      <td>Jy</td>
+      <td>spectra/9857280.pkl</td>
     </tr>
     <tr>
-      <th>1229</th>
-      <td>T Mic</td>
-      <td>87201305</td>
-      <td>306.980000</td>
-      <td>-28.261111</td>
-      <td>2.SEa</td>
-      <td>2</td>
-      <td>SEa</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/87201305_irs.pkl</td>
-      <td>semi-regV*</td>
-      <td>True</td>
+      <th>6726</th>
+      <td>9857792</td>
+      <td>P Cyg</td>
+      <td>304.444200</td>
+      <td>38.034520</td>
+      <td>Jy</td>
+      <td>spectra/9857792.pkl</td>
     </tr>
     <tr>
-      <th>1230</th>
-      <td>IRC +00102</td>
-      <td>87201709</td>
-      <td>95.463750</td>
-      <td>-3.861667</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td>W</td>
-      <td></td>
-      <td>spectra/87201709_irs.pkl</td>
-      <td>Mira</td>
-      <td>True</td>
+      <th>6727</th>
+      <td>9858048</td>
+      <td>GG Car</td>
+      <td>163.994950</td>
+      <td>-60.395207</td>
+      <td>Jy</td>
+      <td>spectra/9858048.pkl</td>
     </tr>
     <tr>
-      <th>1231</th>
-      <td>FU Ori</td>
-      <td>87601701</td>
-      <td>86.343750</td>
-      <td>9.070000</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td>H</td>
-      <td></td>
-      <td>spectra/87601701_irs.pkl</td>
-      <td>Ae*</td>
-      <td>True</td>
+      <th>6728</th>
+      <td>9923584</td>
+      <td>HD 166780</td>
+      <td>272.157020</td>
+      <td>57.980150</td>
+      <td>Jy</td>
+      <td>spectra/9923584.pkl</td>
     </tr>
     <tr>
-      <th>1232</th>
-      <td>M 16</td>
-      <td>87700401</td>
-      <td>274.735833</td>
-      <td>-13.814583</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/87700401_irs.pkl</td>
-      <td>OpCl</td>
-      <td>True</td>
+      <th>6729</th>
+      <td>9923840</td>
+      <td>HR 5467</td>
+      <td>219.559750</td>
+      <td>54.021781</td>
+      <td>Jy</td>
+      <td>spectra/9923840.pkl</td>
     </tr>
     <tr>
-      <th>1233</th>
-      <td>FI Vul</td>
-      <td>87700716</td>
-      <td>312.213333</td>
-      <td>22.993889</td>
-      <td>2.SEa</td>
-      <td>2</td>
-      <td>SEa</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/87700716_irs.pkl</td>
-      <td>LPV*</td>
-      <td>True</td>
+      <th>6730</th>
+      <td>9924096</td>
+      <td>HD 173511</td>
+      <td>280.414050</td>
+      <td>61.547418</td>
+      <td>Jy</td>
+      <td>spectra/9924096.pkl</td>
     </tr>
     <tr>
-      <th>1234</th>
-      <td>Nova Sgr 1998</td>
-      <td>87901801</td>
-      <td>275.418750</td>
-      <td>-27.527222</td>
-      <td>7</td>
-      <td>7</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/87901801_irs.pkl</td>
-      <td>Nova</td>
-      <td>True</td>
+      <th>6731</th>
+      <td>9924352</td>
+      <td>HD 15508</td>
+      <td>36.591400</td>
+      <td>-68.634208</td>
+      <td>Jy</td>
+      <td>spectra/9924352.pkl</td>
     </tr>
   </tbody>
 </table>
-<p>1235 rows × 13 columns</p>
+<p>6732 rows × 6 columns</p>
 </div>
 </div>
 
@@ -12868,10 +12469,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">determine_parameters</span> <span class="o">=</span> <span class="kc">False</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">determine_parameters</span> <span class="o">=</span> <span class="kc">True</span>
 
 <span class="k">def</span> <span class="nf">norm_and_plot</span><span class="p">(</span><span class="n">meta</span><span class="p">):</span>
     <span class="n">param_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -12881,11 +12482,14 @@ div#notebook {
             <span class="nb">print</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39; / &#39;</span><span class="p">,</span> <span class="n">nrows</span><span class="p">)</span>
 
         <span class="c1"># Full classifier</span>
-        <span class="n">classifier</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;full_classifier&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">classifier</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;full_classifier&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">classifier</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
             
         <span class="c1"># Perform shift/renormalization</span>
         <span class="n">parameters</span> <span class="o">=</span> <span class="n">normalize_spectrum</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">classifier</span><span class="p">,</span>
-                                        <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                                        <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         
         <span class="c1"># Save parameters to a list</span>
         <span class="n">spec_min</span><span class="p">,</span> <span class="n">spec_max</span><span class="p">,</span> <span class="n">norm_factor</span> <span class="o">=</span> <span class="n">parameters</span>
@@ -12901,7 +12505,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">determine_parameters</span><span class="p">:</span>
@@ -12912,6 +12516,57 @@ div#notebook {
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0  /  6732
+200  /  6732
+400  /  6732
+600  /  6732
+800  /  6732
+1000  /  6732
+1200  /  6732
+1400  /  6732
+1600  /  6732
+1800  /  6732
+2000  /  6732
+2200  /  6732
+2400  /  6732
+2600  /  6732
+2800  /  6732
+3000  /  6732
+3200  /  6732
+3400  /  6732
+3600  /  6732
+3800  /  6732
+4000  /  6732
+4200  /  6732
+4400  /  6732
+4600  /  6732
+4800  /  6732
+5000  /  6732
+5200  /  6732
+5400  /  6732
+5600  /  6732
+5800  /  6732
+6000  /  6732
+6200  /  6732
+6400  /  6732
+6600  /  6732
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12926,7 +12581,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">norm_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;../step1_norm/step1_norm_params.txt&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;str&#39;</span><span class="p">)</span>
@@ -12940,7 +12595,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">spectra_paths</span> <span class="o">=</span> <span class="n">norm_params</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -12957,16 +12612,15 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[7]:</div>
+<div class="prompt output_prompt">Out[22]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([&#39;spectra/02400714_irs.pkl&#39;, &#39;spectra/02400807_irs.pkl&#39;,
-       &#39;spectra/02400910_irs.pkl&#39;, ..., &#39;spectra/87700401_irs.pkl&#39;,
-       &#39;spectra/87700716_irs.pkl&#39;, &#39;spectra/87901801_irs.pkl&#39;],
-      dtype=&#39;&lt;U24&#39;)</pre>
+<pre>array([&#39;spectra/10019072.pkl&#39;, &#39;spectra/10019328.pkl&#39;,
+       &#39;spectra/10019584.pkl&#39;, ..., &#39;spectra/9923840.pkl&#39;,
+       &#39;spectra/9924096.pkl&#39;, &#39;spectra/9924352.pkl&#39;], dtype=&#39;&lt;U21&#39;)</pre>
 </div>
 
 </div>
@@ -12977,7 +12631,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">norm_params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -12993,14 +12647,14 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[8]:</div>
+<div class="prompt output_prompt">Out[23]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([&#39;spectra/02400714_irs.pkl&#39;, &#39;-3.9378679&#39;, &#39;285.0948&#39;,
-       &#39;164.7205999051585&#39;], dtype=&#39;&lt;U24&#39;)</pre>
+<pre>array([&#39;spectra/10019072.pkl&#39;, &#39;0.08301383&#39;, &#39;3.2870865&#39;,
+       &#39;3.2040727138519287&#39;], dtype=&#39;&lt;U21&#39;)</pre>
 </div>
 
 </div>
@@ -13019,7 +12673,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">file_path_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -13055,19 +12709,74 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>0  /  1235
-100  /  1235
-200  /  1235
-300  /  1235
-400  /  1235
-500  /  1235
-600  /  1235
-700  /  1235
-800  /  1235
-900  /  1235
-1000  /  1235
-1100  /  1235
-1200  /  1235
+<pre>0  /  6732
+100  /  6732
+200  /  6732
+300  /  6732
+400  /  6732
+500  /  6732
+600  /  6732
+700  /  6732
+800  /  6732
+900  /  6732
+1000  /  6732
+1100  /  6732
+1200  /  6732
+1300  /  6732
+1400  /  6732
+1500  /  6732
+1600  /  6732
+1700  /  6732
+1800  /  6732
+1900  /  6732
+2000  /  6732
+2100  /  6732
+2200  /  6732
+2300  /  6732
+2400  /  6732
+2500  /  6732
+2600  /  6732
+2700  /  6732
+2800  /  6732
+2900  /  6732
+3000  /  6732
+3100  /  6732
+3200  /  6732
+3300  /  6732
+3400  /  6732
+3500  /  6732
+3600  /  6732
+3700  /  6732
+3800  /  6732
+3900  /  6732
+4000  /  6732
+4100  /  6732
+4200  /  6732
+4300  /  6732
+4400  /  6732
+4500  /  6732
+4600  /  6732
+4700  /  6732
+4800  /  6732
+4900  /  6732
+5000  /  6732
+5100  /  6732
+5200  /  6732
+5300  /  6732
+5400  /  6732
+5500  /  6732
+5600  /  6732
+5700  /  6732
+5800  /  6732
+5900  /  6732
+6000  /  6732
+6100  /  6732
+6200  /  6732
+6300  /  6732
+6400  /  6732
+6500  /  6732
+6600  /  6732
+6700  /  6732
 </pre>
 </div>
 </div>
@@ -13078,16 +12787,16 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">update_dataframe</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="n">file_path_list</span><span class="p">):</span>
     
     <span class="k">def</span> <span class="nf">check_tdts</span><span class="p">(</span><span class="n">old_file_paths</span><span class="p">,</span> <span class="n">new_file_paths</span><span class="p">):</span>
 
-        <span class="n">old_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">old_file_paths</span><span class="p">]</span>
+        <span class="n">old_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.pkl&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">old_file_paths</span><span class="p">]</span>
         <span class="n">new_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">new_file_paths</span><span class="p">]</span>
-
+        
         <span class="k">if</span> <span class="n">old_list</span> <span class="o">!=</span> <span class="n">new_list</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="s2">&quot;TDTs don&#39;t match.&quot;</span><span class="p">)</span>
 
@@ -13107,7 +12816,7 @@ div#notebook {
     <span class="n">new_meta</span><span class="p">[</span><span class="s1">&#39;file_path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_file_paths</span>
     
     <span class="c1"># Save to disk.</span>
-    <span class="n">new_meta</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s1">&#39;../metadata__step1_normalized.pkl&#39;</span><span class="p">)</span>
+    <span class="n">new_meta</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s1">&#39;../metadata_step1_normalized.pkl&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Saved: &#39;</span><span class="p">,</span> <span class="s1">&#39;../metadata_step1_normalized.pkl&#39;</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">new_meta</span>
@@ -13120,7 +12829,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">new_meta</span> <span class="o">=</span> <span class="n">update_dataframe</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="n">file_path_list</span><span class="p">)</span>
@@ -13140,7 +12849,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Saved:  ../metadata_normalized.pkl
+<pre>Saved:  ../metadata_step1_normalized.pkl
 </pre>
 </div>
 </div>
@@ -13151,7 +12860,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">meta</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -13167,7 +12876,7 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[13]:</div>
+<div class="prompt output_prompt">Out[28]:</div>
 
 
 
@@ -13190,101 +12899,59 @@ div#notebook {
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>aorkey</th>
       <th>object_name</th>
-      <th>tdt</th>
       <th>ra</th>
       <th>dec</th>
-      <th>full_classifier</th>
-      <th>group</th>
-      <th>subgroup</th>
-      <th>uncertainty_flag</th>
-      <th>note</th>
-      <th></th>
+      <th>flux_units</th>
       <th>file_path</th>
-      <th>object_type</th>
-      <th>data_ok</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>NGC 6543</td>
-      <td>2400714</td>
-      <td>269.639167</td>
-      <td>66.633194</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/02400714_irs.pkl</td>
-      <td>PN</td>
-      <td>True</td>
+      <td>10019072</td>
+      <td>HD 99754</td>
+      <td>172.09622</td>
+      <td>-23.829099</td>
+      <td>Jy</td>
+      <td>spectra/10019072.pkl</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>NGC 6543</td>
-      <td>2400807</td>
-      <td>269.639167</td>
-      <td>66.633194</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/02400807_irs.pkl</td>
-      <td>PN</td>
-      <td>True</td>
+      <td>10019328</td>
+      <td>HR 5467</td>
+      <td>219.56055</td>
+      <td>54.021404</td>
+      <td>Jy</td>
+      <td>spectra/10019328.pkl</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>NGC 6543</td>
-      <td>2400910</td>
-      <td>269.639125</td>
-      <td>66.633194</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/02400910_irs.pkl</td>
-      <td>PN</td>
-      <td>True</td>
+      <td>10019584</td>
+      <td>HD 173511</td>
+      <td>280.41377</td>
+      <td>61.546739</td>
+      <td>Jy</td>
+      <td>spectra/10019584.pkl</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>NGC 7027</td>
-      <td>2401183</td>
-      <td>316.757125</td>
-      <td>42.235861</td>
-      <td>4.PU</td>
-      <td>4</td>
-      <td>PU</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra/02401183_irs.pkl</td>
-      <td>PN</td>
-      <td>True</td>
+      <td>10019840</td>
+      <td>alp Lac</td>
+      <td>337.82051</td>
+      <td>50.284642</td>
+      <td>Jy</td>
+      <td>spectra/10019840.pkl</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>{gamma} Dra</td>
-      <td>2401579</td>
-      <td>269.151708</td>
-      <td>51.488972</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td>(0,0)</td>
-      <td></td>
-      <td>spectra/02401579_irs.pkl</td>
-      <td></td>
-      <td>True</td>
+      <td>10020096</td>
+      <td>HR 6348</td>
+      <td>255.31540</td>
+      <td>60.647838</td>
+      <td>Jy</td>
+      <td>spectra/10020096.pkl</td>
     </tr>
   </tbody>
 </table>
@@ -13299,7 +12966,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">new_meta</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -13315,7 +12982,7 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[14]:</div>
+<div class="prompt output_prompt">Out[29]:</div>
 
 
 
@@ -13338,100 +13005,324 @@ div#notebook {
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>aorkey</th>
       <th>object_name</th>
-      <th>tdt</th>
       <th>ra</th>
       <th>dec</th>
-      <th>full_classifier</th>
-      <th>group</th>
-      <th>subgroup</th>
-      <th>uncertainty_flag</th>
-      <th>note</th>
-      <th></th>
+      <th>flux_units</th>
       <th>file_path</th>
-      <th>object_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>10019072</td>
+      <td>HD 99754</td>
+      <td>172.09622</td>
+      <td>-23.829099</td>
+      <td>Jy</td>
+      <td>spectra_normalized/10019072_renorm.pkl</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10019328</td>
+      <td>HR 5467</td>
+      <td>219.56055</td>
+      <td>54.021404</td>
+      <td>Jy</td>
+      <td>spectra_normalized/10019328_renorm.pkl</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10019584</td>
+      <td>HD 173511</td>
+      <td>280.41377</td>
+      <td>61.546739</td>
+      <td>Jy</td>
+      <td>spectra_normalized/10019584_renorm.pkl</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10019840</td>
+      <td>alp Lac</td>
+      <td>337.82051</td>
+      <td>50.284642</td>
+      <td>Jy</td>
+      <td>spectra_normalized/10019840_renorm.pkl</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>10020096</td>
+      <td>HR 6348</td>
+      <td>255.31540</td>
+      <td>60.647838</td>
+      <td>Jy</td>
+      <td>spectra_normalized/10020096_renorm.pkl</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Reindex-dataframe,-save-again">Reindex dataframe, save again<a class="anchor-link" href="#Reindex-dataframe,-save-again">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># SORT BY TDT!</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">new_meta</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;aorkey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;aorkey&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;aorkey&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[31]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>aorkey</th>
+      <th>object_name</th>
+      <th>ra</th>
+      <th>dec</th>
+      <th>flux_units</th>
+      <th>file_path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3539200</td>
+      <td>HBC 356</td>
+      <td>60.808893</td>
+      <td>25.880773</td>
+      <td>Jy</td>
+      <td>spectra_normalized/3539200_renorm.pkl</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3539456</td>
+      <td>LkCa 1</td>
+      <td>63.309814</td>
+      <td>28.317139</td>
+      <td>Jy</td>
+      <td>spectra_normalized/3539456_renorm.pkl</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3539712</td>
+      <td>04108+2803A</td>
+      <td>63.472431</td>
+      <td>28.187390</td>
+      <td>Jy</td>
+      <td>spectra_normalized/3539712_renorm.pkl</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3539968</td>
+      <td>MHO-3</td>
+      <td>63.627656</td>
+      <td>28.084989</td>
+      <td>Jy</td>
+      <td>spectra_normalized/3539968_renorm.pkl</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3540224</td>
+      <td>Hubble 4</td>
+      <td>64.696616</td>
+      <td>28.333013</td>
+      <td>Jy</td>
+      <td>spectra_normalized/3540224_renorm.pkl</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Remove rows of objects not pickled (typically due to a data error).</span>
+<span class="n">bool_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;file_path&#39;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;../../&#39;</span> <span class="o">+</span> <span class="n">path</span><span class="p">):</span>
+        <span class="n">bool_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">bool_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">data_ok</span><span class="o">=</span><span class="n">bool_list</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;data_ok == True&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[33]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>aorkey</th>
+      <th>object_name</th>
+      <th>ra</th>
+      <th>dec</th>
+      <th>flux_units</th>
+      <th>file_path</th>
       <th>data_ok</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>NGC 6543</td>
-      <td>2400714</td>
-      <td>269.639167</td>
-      <td>66.633194</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/02400714_irs_renorm.pkl</td>
-      <td>PN</td>
+      <td>3539200</td>
+      <td>HBC 356</td>
+      <td>60.808893</td>
+      <td>25.880773</td>
+      <td>Jy</td>
+      <td>spectra_normalized/3539200_renorm.pkl</td>
       <td>True</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>NGC 6543</td>
-      <td>2400807</td>
-      <td>269.639167</td>
-      <td>66.633194</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/02400807_irs_renorm.pkl</td>
-      <td>PN</td>
+      <td>3539456</td>
+      <td>LkCa 1</td>
+      <td>63.309814</td>
+      <td>28.317139</td>
+      <td>Jy</td>
+      <td>spectra_normalized/3539456_renorm.pkl</td>
       <td>True</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>NGC 6543</td>
-      <td>2400910</td>
-      <td>269.639125</td>
-      <td>66.633194</td>
-      <td>4.PN</td>
-      <td>4</td>
-      <td>PN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/02400910_irs_renorm.pkl</td>
-      <td>PN</td>
+      <td>3539712</td>
+      <td>04108+2803A</td>
+      <td>63.472431</td>
+      <td>28.187390</td>
+      <td>Jy</td>
+      <td>spectra_normalized/3539712_renorm.pkl</td>
       <td>True</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>NGC 7027</td>
-      <td>2401183</td>
-      <td>316.757125</td>
-      <td>42.235861</td>
-      <td>4.PU</td>
-      <td>4</td>
-      <td>PU</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>spectra_normalized/02401183_irs_renorm.pkl</td>
-      <td>PN</td>
+      <td>3539968</td>
+      <td>MHO-3</td>
+      <td>63.627656</td>
+      <td>28.084989</td>
+      <td>Jy</td>
+      <td>spectra_normalized/3539968_renorm.pkl</td>
       <td>True</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>{gamma} Dra</td>
-      <td>2401579</td>
-      <td>269.151708</td>
-      <td>51.488972</td>
-      <td>1.NO</td>
-      <td>1</td>
-      <td>NO</td>
-      <td></td>
-      <td>(0,0)</td>
-      <td></td>
-      <td>spectra_normalized/02401579_irs_renorm.pkl</td>
-      <td></td>
+      <td>3540224</td>
+      <td>Hubble 4</td>
+      <td>64.696616</td>
+      <td>28.333013</td>
+      <td>Jy</td>
+      <td>spectra_normalized/3540224_renorm.pkl</td>
       <td>True</td>
     </tr>
   </tbody>
@@ -13439,6 +13330,38 @@ div#notebook {
 </div>
 </div>
 
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s1">&#39;../metadata_step1_normalized.pkl&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Saved: &#39;</span><span class="p">,</span> <span class="s1">&#39;../metadata_step1_normalized.pkl&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Saved:  ../metadata_step1_normalized.pkl
+</pre>
+</div>
 </div>
 
 </div>
