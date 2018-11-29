@@ -54,15 +54,15 @@ metadata = base_dir + 'metadata_step2_culled.pkl'
 
 # ### Subset 1: all data included (trimmed)
 
-# In[5]:
+# In[3]:
 
 
 features, labels = helpers.load_data(base_dir=base_dir, metadata=metadata,
                                      only_ok_data=False, clean=False, verbose=False,
-                                     cut_28micron=False)
+                                     cut_28micron=True)
 
 
-# In[6]:
+# In[4]:
 
 
 print(features.shape)
@@ -71,15 +71,15 @@ print(labels.shape)
 
 # ### Subset 2: exclude group 7 (trimmed)
 
-# In[7]:
+# In[5]:
 
 
 features_clean, labels_clean =     helpers.load_data(base_dir=base_dir, metadata=metadata,
                       only_ok_data=False, clean=True, verbose=False,
-                      cut_28micron=False)
+                      cut_28micron=True)
 
 
-# In[8]:
+# In[6]:
 
 
 print(features_clean.shape)
@@ -88,7 +88,7 @@ print(labels_clean.shape)
 
 # ### Subset 3: exclude group 7, uncertain data (trimmed)
 
-# In[9]:
+# In[3]:
 
 
 features_certain, labels_certain =     helpers.load_data(base_dir=base_dir, metadata=metadata,
@@ -96,14 +96,14 @@ features_certain, labels_certain =     helpers.load_data(base_dir=base_dir, meta
                       cut_28micron=False, remove_group=6)
 
 
-# In[10]:
+# In[4]:
 
 
 print(features_certain.shape)
 print(labels_certain.shape)
 
 
-# In[11]:
+# In[5]:
 
 
 np.unique(labels_certain)
@@ -178,7 +178,7 @@ def neural(features, labels, test_size=0.3, l2norm=0.01):
 
 # Model:
 
-# In[29]:
+# In[120]:
 
 
 def run_NN(input_tuple):
@@ -202,7 +202,7 @@ def run_NN(input_tuple):
     # Sequential model, 7 classes of output.
     model = keras.Sequential()
     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm), input_dim=359))
-    model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
+#     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
     model.add(keras.layers.Dense(5, activation='softmax'))
 
     # Early stopping condition.
@@ -220,10 +220,10 @@ def run_NN(input_tuple):
     accuracy = score[1]
 #     print("Test size, accuracy: ", test_size, accuracy)
 
-    return test_size, accuracy, model
+    return test_size, accuracy
 
 
-# In[24]:
+# In[121]:
 
 
 def run_networks(search_map):
@@ -249,12 +249,12 @@ def plot_results(run_matrix):
 
 # Search space (training size):
 
-# In[25]:
+# In[122]:
 
 
 # Values of test_size to probe.
 # search_space = np.arange(0.14, 0.60, 0.02)
-search_space = np.arange(0.32, 0.40, 0.04)
+search_space = np.arange(0.10, 0.36, 0.04)
 print('Size of test set considered: ', search_space)
 
 # Number of iterations for each test_size value.
@@ -269,7 +269,7 @@ print('Number of iterations per test_size: ', n_iterations)
 print('Total number of NN iterations required: ', n_iterations * len(search_space))
 
 
-# In[26]:
+# In[123]:
 
 
 # Wrap up tuple inputs for running in parallel.
@@ -278,7 +278,7 @@ print('Total number of NN iterations required: ', n_iterations * len(search_spac
 search_map_certain = [(features_certain, labels_certain, x) for x in search_space_full]
 
 
-# In[27]:
+# In[124]:
 
 
 # run_matrix = run_networks(search_map)
@@ -286,7 +286,7 @@ search_map_certain = [(features_certain, labels_certain, x) for x in search_spac
 run_matrix_certain = run_networks(search_map_certain)
 
 
-# In[28]:
+# In[125]:
 
 
 plot_results(run_matrix_certain)
@@ -371,53 +371,14 @@ _ = plt.plot(x, y, '.', xp, p(xp), '-', lw=2)
 # Based on the above, probably need to do more data preprocessing:
 # - e.g., remove untrustworthy data
 
-# # Run a single time, save to file.
-
-# In[30]:
+# In[21]:
 
 
-# Input for NN:
-in_tuple = (features_certain, labels_certain, 0.35)
-
-# Run and retrieve model.
-test_size, accuracy, model = run_NN(in_tuple)
-print(test_size, accuracy)
+# save_path = '../models/nn_sorted_normalized_culled.h5'
 
 
-# In[34]:
+# In[22]:
 
 
-save_path = '../models/sws_model_01.h5'
-model.save(save_path)
-
-
-# In[38]:
-
-
-save_path_text = '../models/sws_model_01_features.txt'
-np.savetxt(save_path_text, features_certain.T)
-
-
-# In[35]:
-
-
-features_certain.shape
-
-
-# In[36]:
-
-
-labels_certain.shape
-
-
-# In[39]:
-
-
-model.input
-
-
-# In[ ]:
-
-
-model. 
+# model.save(save_path)
 

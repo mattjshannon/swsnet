@@ -52,66 +52,57 @@ metadata = base_dir + 'metadata_step2_culled.pkl'
 # 6. Continuum-free objects but having emission lines
 # 7. Flux-free and/or fatally flawed spectra
 
-# ### Subset 1: all data included (trimmed)
+# ### Subset 1: all data included
 
-# In[5]:
+# In[3]:
 
 
 features, labels = helpers.load_data(base_dir=base_dir, metadata=metadata,
-                                     only_ok_data=False, clean=False, verbose=False,
-                                     cut_28micron=False)
+                                     only_ok_data=False, clean=False, verbose=False)
 
 
-# In[6]:
+# In[4]:
 
 
 print(features.shape)
 print(labels.shape)
 
 
-# ### Subset 2: exclude group 7 (trimmed)
+# ### Subset 2: exclude group 7
 
-# In[7]:
+# In[5]:
 
 
 features_clean, labels_clean =     helpers.load_data(base_dir=base_dir, metadata=metadata,
-                      only_ok_data=False, clean=True, verbose=False,
-                      cut_28micron=False)
+                      only_ok_data=False, clean=True, verbose=False)
 
 
-# In[8]:
+# In[6]:
 
 
 print(features_clean.shape)
 print(labels_clean.shape)
 
 
-# ### Subset 3: exclude group 7, uncertain data (trimmed)
+# ### Subset 3: exclude group 7, uncertain data
 
-# In[9]:
+# In[7]:
 
 
 features_certain, labels_certain =     helpers.load_data(base_dir=base_dir, metadata=metadata,
-                      only_ok_data=True, clean=True, verbose=False,
-                      cut_28micron=False, remove_group=6)
+                      only_ok_data=True, clean=True, verbose=False)
 
 
-# In[10]:
+# In[8]:
 
 
 print(features_certain.shape)
 print(labels_certain.shape)
 
 
-# In[11]:
-
-
-np.unique(labels_certain)
-
-
 # # Testing l2norms
 
-# In[69]:
+# In[10]:
 
 
 def neural(features, labels, test_size=0.3, l2norm=0.01):
@@ -120,11 +111,11 @@ def neural(features, labels, test_size=0.3, l2norm=0.01):
 
     # Sequential model, 7 classes of output.
     model = keras.Sequential()
-    model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm), input_dim=303))
+    model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm), input_dim=359))
     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
-    model.add(keras.layers.Dense(5, activation='softmax'))
+    model.add(keras.layers.Dense(7, activation='softmax'))
 
     # Early stopping condition.
     callback = [tf.keras.callbacks.EarlyStopping(monitor='acc', patience=5, verbose=0)]
@@ -144,28 +135,28 @@ def neural(features, labels, test_size=0.3, l2norm=0.01):
     return model, test_size, accuracy
 
 
-# In[70]:
+# In[20]:
 
 
 # for l2norm in (0.1, 0.01, 0.001, 0.0001, 0.00001):
 #     model, test_size, accuracy = neural(features, labels, l2norm=l2norm)
 
 
-# In[71]:
+# In[17]:
 
 
 # for l2norm in (0.1, 0.01, 0.001, 0.0001, 0.00001):
 #     model, test_size, accuracy = neural(features_clean, labels_clean, l2norm=l2norm)
 
 
-# In[72]:
+# In[23]:
 
 
 # for l2norm in (0.1, 0.01, 0.001, 0.0001, 0.00001):
 #     model, test_size, accuracy = neural(features_certain, labels_certain, l2norm=l2norm)
 
 
-# In[73]:
+# In[24]:
 
 
 # for l2norm in (0.001, 0.0001, 0.00001, 0.000001):
@@ -178,7 +169,7 @@ def neural(features, labels, test_size=0.3, l2norm=0.01):
 
 # Model:
 
-# In[29]:
+# In[9]:
 
 
 def run_NN(input_tuple):
@@ -203,7 +194,9 @@ def run_NN(input_tuple):
     model = keras.Sequential()
     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm), input_dim=359))
     model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
-    model.add(keras.layers.Dense(5, activation='softmax'))
+    model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
+    model.add(keras.layers.Dense(64, activation='relu', kernel_regularizer=keras.regularizers.l2(l2norm)))
+    model.add(keras.layers.Dense(7, activation='softmax'))
 
     # Early stopping condition.
     callback = [tf.keras.callbacks.EarlyStopping(monitor='acc', patience=5, verbose=0)]
@@ -220,16 +213,16 @@ def run_NN(input_tuple):
     accuracy = score[1]
 #     print("Test size, accuracy: ", test_size, accuracy)
 
-    return test_size, accuracy, model
+    return test_size, accuracy
 
 
-# In[24]:
+# In[11]:
 
 
 def run_networks(search_map):
     # Run the networks in parallel.
     start = time()
-    pool = ProcessPoolExecutor(max_workers=7)
+    pool = ProcessPoolExecutor(max_workers=6)
     results = list(pool.map(run_NN, search_map))
     end = time()
     print('Took %.3f seconds' % (end - start))
@@ -249,17 +242,17 @@ def plot_results(run_matrix):
 
 # Search space (training size):
 
-# In[25]:
+# In[31]:
 
 
 # Values of test_size to probe.
-# search_space = np.arange(0.14, 0.60, 0.02)
-search_space = np.arange(0.32, 0.40, 0.04)
+search_space = np.arange(0.14, 0.60, 0.02)
+# search_space = np.arange(0.14, 0.60, 0.04)
 print('Size of test set considered: ', search_space)
 
 # Number of iterations for each test_size value.
-# n_iterations = 20
-n_iterations = 4
+n_iterations = 20
+# n_iterations = 4
 
 # Create a vector to iterate over.
 rx = np.array([search_space] * n_iterations).T
@@ -269,34 +262,30 @@ print('Number of iterations per test_size: ', n_iterations)
 print('Total number of NN iterations required: ', n_iterations * len(search_space))
 
 
-# In[26]:
+# In[32]:
 
 
 # Wrap up tuple inputs for running in parallel.
-# search_map = [(features, labels, x) for x in search_space_full]
-# search_map_clean = [(features_clean, labels_clean, x) for x in search_space_full]
+search_map = [(features, labels, x) for x in search_space_full]
+search_map_clean = [(features_clean, labels_clean, x) for x in search_space_full]
 search_map_certain = [(features_certain, labels_certain, x) for x in search_space_full]
+# search_map_certaintrim = [(features_certaintrim, labels_certaintrim, x) for x in search_space_full]
 
 
-# In[27]:
+# In[33]:
 
 
-# run_matrix = run_networks(search_map)
-# run_matrix_clean = run_networks(search_map_clean)
+run_matrix = run_networks(search_map)
+run_matrix_clean = run_networks(search_map_clean)
 run_matrix_certain = run_networks(search_map_certain)
+# run_matrix_certaintrim = run_networks(search_map_certaintrim)
 
 
-# In[28]:
-
-
-plot_results(run_matrix_certain)
-
-
-# # Results - trimmed wavelength arrays
+# # Results - full wavelength arrays
 
 # ## Full set:
 
-# In[14]:
+# In[35]:
 
 
 plot_results(run_matrix)
@@ -304,21 +293,13 @@ plot_results(run_matrix)
 
 # ## Clean set:
 
-# In[15]:
+# In[36]:
 
 
 plot_results(run_matrix_clean)
 
 
-# ## Certain set: (< 28 µm only)
-
-# In[25]:
-
-
-plot_results(run_matrix_certain)
-
-
-# ## Certain set: (full wavelength array)
+# ## Certain set:
 
 # In[37]:
 
@@ -326,98 +307,19 @@ plot_results(run_matrix_certain)
 plot_results(run_matrix_certain)
 
 
-# In[45]:
-
-
-x, y = run_matrix_certain.T
-z = np.polyfit(x, y, 4)
-p = np.poly1d(z)
-
-
-# In[47]:
-
-
-xp = np.linspace(x[0], x[-1], 100)
-_ = plt.plot(x, y, '.', xp, p(xp), '-', lw=2)
-
-
-# # Remove group 6! only six!
-
-# ## Certain set: (full wavelength array)
-
-# In[31]:
-
-
-plot_results(run_matrix_certain)
-
-
-# In[32]:
-
-
-x, y = run_matrix_certain.T
-z = np.polyfit(x, y, 4)
-p = np.poly1d(z)
-
-
-# In[33]:
-
-
-xp = np.linspace(x[0], x[-1], 100)
-_ = plt.plot(x, y, '.', xp, p(xp), '-', lw=2)
-
-
 # ***
 
 # Based on the above, probably need to do more data preprocessing:
 # - e.g., remove untrustworthy data
 
-# # Run a single time, save to file.
-
-# In[30]:
+# In[21]:
 
 
-# Input for NN:
-in_tuple = (features_certain, labels_certain, 0.35)
-
-# Run and retrieve model.
-test_size, accuracy, model = run_NN(in_tuple)
-print(test_size, accuracy)
+# save_path = '../models/nn_sorted_normalized_culled.h5'
 
 
-# In[34]:
+# In[22]:
 
 
-save_path = '../models/sws_model_01.h5'
-model.save(save_path)
-
-
-# In[38]:
-
-
-save_path_text = '../models/sws_model_01_features.txt'
-np.savetxt(save_path_text, features_certain.T)
-
-
-# In[35]:
-
-
-features_certain.shape
-
-
-# In[36]:
-
-
-labels_certain.shape
-
-
-# In[39]:
-
-
-model.input
-
-
-# In[ ]:
-
-
-model. 
+# model.save(save_path)
 
