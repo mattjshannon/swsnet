@@ -11,8 +11,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from ipdb import set_trace as st
-
 
 data_dir = '../../spectra/'
 pickle_list = np.sort(glob.glob(data_dir + '*.pkl'))
