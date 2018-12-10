@@ -13,13 +13,12 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-from ipdb import set_trace as st
-
 
 def load_model_results(file_path):
     """Returns the model results as an ndarray."""
     file_in = np.loadtxt(file_path, delimiter=',', dtype='str')
     return file_in
+
 
 def query_model_results(aorkey, results):
     """Returns the results for a given aorkey."""
@@ -27,7 +26,7 @@ def query_model_results(aorkey, results):
 
     # Ensure there's only one match for a given AORkey.
     assert aorkey_list.count(aorkey) == 1
-    
+
     # Find result for specific AORkey.
     index_of_aorkey = aorkey_list.index(aorkey)
     results_row = results[index_of_aorkey]
