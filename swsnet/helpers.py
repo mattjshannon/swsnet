@@ -112,7 +112,6 @@ def load_data(base_dir='', metadata='metadata.pkl', clean=False,
 
     # Feature vector, knowing that each sample has a 359-point vector/spectrum.
     features = np.zeros((len(labels), n_samples))
-    print(features.shape)
 
     # Fill the 'spectra' variable with the astronomical data.
     index = 0

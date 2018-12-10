@@ -60,14 +60,23 @@ def save_renorm_figure(plot_dir, classifier, iso_filename, renorm_wave,
 
 def read_spectrum_alt(file_path):
     """Returns an ISO spectrum (wave, flux, etc.) from a pickle."""
-    spectrum = pd.read_pickle(file_path)
+    try:
+        spectrum = pd.read_pickle(file_path)
+    except OSError as e:
+        raise e
 
     wave = spectrum['wavelength']
     flux = spectrum['flux']
-#     specerr = spectrum['spec_error']
-#     normerr = spectrum['norm_error']
-#     fluxerr = specerr + normerr
-    fluxerr = spectrum['uncertainty']
+
+    try:
+        fluxerr = spectrum['uncertainty']
+    except Exception:
+        pass
+
+    try:
+        fluxerr = spectrum['error (RMS+SYS)']
+    except Exception:
+        pass
 
     return wave, flux, fluxerr, spectrum
 
