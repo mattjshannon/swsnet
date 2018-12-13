@@ -8,18 +8,15 @@ Plot the raw, unprocessed spectra.
 import matplotlib
 matplotlib.use('Agg')
 
-from concurrent.futures import ProcessPoolExecutor
-import glob
-import os.path
-from time import time
+from concurrent.futures import ProcessPoolExecutor  # noqa: E402
+import os.path  # noqa: E402
+from time import time  # noqa: E402
 
-import matplotlib.gridspec as gridspec
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import seaborn as sns
-
-from ipdb import set_trace as st
+import matplotlib.gridspec as gridspec  # noqa: E402
+import matplotlib.pyplot as plt  # noqa: E402
+import numpy as np  # noqa: E402
+import pandas as pd  # noqa: E402
+import seaborn as sns  # noqa: E402
 
 
 def load_model_results(file_path):
@@ -36,7 +33,7 @@ def load_model_results(file_path):
     def determine_classifier(row):
         """Determine what group this result belongs to."""
         prob = row[3:].astype(float)
-        
+
         if np.amax(prob) >= 0.80:
             return np.argmax(prob)
         else:
@@ -45,7 +42,7 @@ def load_model_results(file_path):
     def sort_list(sublist, sublist_index=None):
         """Sort the group lists by probability."""
         group_maximums = []
-        
+
         # A bit slow compared to vector operations, but no chance of error.
         # Iterate over rows in each group.
         for row in sublist:
@@ -54,7 +51,7 @@ def load_model_results(file_path):
             # Sanity check, maximum should match group position.
             if sublist_index is not None:
                 assert sublist_index == max_prob_arg
-            
+
             group_maximums.append(max_prob)
 
         # Order by highest probability.
@@ -150,11 +147,10 @@ def plot_row(input_tuple):
 
         return
 
+    # Necessary setup.
     row, output_directory = input_tuple
     row_index = row[0]
     data_dir = '../../../data/cassis/spectra/'
-
-
 
     # Identify aorkey, pickled file.
     aorkey = row[1]
@@ -188,11 +184,11 @@ def main():
             continue
 
         print(' ****  Group: ', key, ' **** ')
-        
+
         # Extract results for a single group.
         group_results = results[key]
         group_len = len(group_results)
-        
+
         # Where to save the PDFs.
         output_directory = 'plots_' + str(key) + '/'
         in_tuple = zip(group_results, [output_directory] * group_len)
