@@ -21,36 +21,7 @@ Premise
 
 Models
 ------
-Models are presented in Jupyter notebooks (see folder ipy_notebooks). Primary focus right now is a neural network. *Please examine most recent notebook first!*
-
-        - Attempt 06: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v06.ipynb
-        
-                - Pure neural network model
-                - Tested the effect of changing test size vs. training size
-                - Tested the effect of including/excluding the ISO group 7 ("fatally flawed/flux free") spectra; see relevant issue (https://github.com/mattjshannon/swsnet/issues/6).
-
-        - Attempt 05: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v05.ipynb
-        
-                - Neural network, k-nearest neighbours, logistic regression
-                - Improved the downsampling of the SWS (high res) data to the Spitzer (low res) wavelength array via https://github.com/ACCarnall/SpectRes. These changes are incorporated into the data pickles contained within unzip_me.zip
-                - Added a cleaning step that excludes the group=7 classified SWS data (flux-free or fatally flawed); may in time wish to skip this, as it may be useful for our neural network to be able to identify these data types. However, as present, this improves the accuracy of logistic regression for this task.
-
-        - Attempt 04: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v04.ipynb
-                
-                - Important bug-fix on the TF nueral network (accidentally trainined on full dataset instead of just training set!)
-                - Updated SGD for k-nearest neighbours and logistic regression attempts in scikit-learn.
-        
-        - Attempt 03: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v03.ipynb
-        
-                - Reduced overfitting by keras.callback.EarlyStopping (based on no accuracy improvement over 4 consecutive NN iterations)
-                - Much more thorough SGD attempt. Improved but stil no match for a neural network here. Will likely drop in seubsequent notebooks.
-
-        - Attempt 02: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v02.ipynb
-                
-                - Accuracy improvement by normalizing the spectra prior to training.
-
-        - Attempt 01: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v01.ipynb        
-
+Models are trained in `training` folder; outputs are saved as `.h5` files in `models` folder.
 
 
 Dataset
@@ -85,3 +56,34 @@ The SWS data have the following labels:
 - Example
         - W Cet has classifier 2.SEa:
         - i.e., "star with dust" (2.), silicate dust emission present (SE), silicate emission at 12-microns (a), uncertain (:)
+
+History
+---------
+
+        - Attempt 06: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v06.ipynb
+        
+                - Pure neural network model
+                - Tested the effect of changing test size vs. training size
+                - Tested the effect of including/excluding the ISO group 7 ("fatally flawed/flux free") spectra; see relevant issue (https://github.com/mattjshannon/swsnet/issues/6).
+
+        - Attempt 05: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v05.ipynb
+        
+                - Neural network, k-nearest neighbours, logistic regression
+                - Improved the downsampling of the SWS (high res) data to the Spitzer (low res) wavelength array via https://github.com/ACCarnall/SpectRes. These changes are incorporated into the data pickles contained within unzip_me.zip
+                - Added a cleaning step that excludes the group=7 classified SWS data (flux-free or fatally flawed); may in time wish to skip this, as it may be useful for our neural network to be able to identify these data types. However, as present, this improves the accuracy of logistic regression for this task.
+
+        - Attempt 04: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v04.ipynb
+                
+                - Important bug-fix on the TF nueral network (accidentally trainined on full dataset instead of just training set!)
+                - Updated SGD for k-nearest neighbours and logistic regression attempts in scikit-learn.
+        
+        - Attempt 03: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v03.ipynb
+        
+                - Reduced overfitting by keras.callback.EarlyStopping (based on no accuracy improvement over 4 consecutive NN iterations)
+                - Much more thorough SGD attempt. Improved but stil no match for a neural network here. Will likely drop in seubsequent notebooks.
+
+        - Attempt 02: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v02.ipynb
+                
+                - Accuracy improvement by normalizing the spectra prior to training.
+
+        - Attempt 01: https://github.com/mattjshannon/swsnet/blob/master/ipy_notebooks/keras_v01.ipynb        
